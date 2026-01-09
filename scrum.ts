@@ -27,7 +27,7 @@ const scrum: ScrumDashboard = {
       id: "PBI-005",
       story: { role: "Obsidianモバイルユーザー", capability: "プラグイン設定をカスタマイズできる", benefit: "自分のワークフローに合わせて調整" },
       acceptance_criteria: [
-        { criterion: "display()で3セクション見出し（フォルダ/動作/UI設定）", verification: "createEl('h2')で各見出し作成" },
+        { criterion: "display()で3セクション見出し（フォルダ/動作/UI設定）", verification: "setHeading()で各見出し作成" },
         { criterion: "7テキストフィールド（5ノートタイプ+テンプレート+デイリー）", verification: "addText()で入力欄作成、DEFAULT_SETTINGS初期値" },
         { criterion: "フォルダパス変更→saveSettings()で永続化", verification: "プラグイン再読み込み後も保持" },
         { criterion: "4トグル（insertLink/suggestStructure/moveOnPromotion/showEmoji）", verification: "addToggle()作成、状態表示" },
@@ -35,7 +35,7 @@ const scrum: ScrumDashboard = {
         { criterion: "ファイル名プレフィックスdropdown（date/zettel-id/none）", verification: "addDropdown()で3オプション" },
         { criterion: "dropdown変更→saveSettings()で永続化", verification: "プラグイン再読み込み後も保持" },
       ],
-      status: "ready",
+      status: "done",
     },
     // Phase 2: 接続管理
     { id: "PBI-006", story: { role: "Zettelkasten実践者", capability: "ノート昇格（Fleeting→Permanent等）", benefit: "アイデアを段階的に成熟" }, acceptance_criteria: [{ criterion: "promoteNote+フロントマター更新+フォルダ移動", verification: "昇格実行確認" }], status: "draft" },
@@ -44,75 +44,7 @@ const scrum: ScrumDashboard = {
     { id: "PBI-008", story: { role: "Zettelkasten実践者", capability: "孤立Permanent Note発見", benefit: "Structure接続漏れ防止" }, acceptance_criteria: [{ criterion: "OrphanDetector+View+接続ボタン", verification: "サイドバー表示確認" }], status: "draft" },
   ],
 
-  sprint: {
-    number: 5,
-    pbi_id: "PBI-005",
-    goal: "設定タブUIを実装し、ユーザーがフォルダパス・動作・UI設定を永続化可能にする",
-    status: "in_progress",
-    subtasks: [
-      {
-        test: "DailyZettelSettingTab.display()で3セクション見出し作成",
-        implementation: "src/settings.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: [
-          "既存src/settings.ts内のdisplay()を拡張",
-          "createEl('h2')でフォルダ設定/動作設定/UI設定の3見出し",
-        ],
-      },
-      {
-        test: "7テキストフィールド（5ノートタイプ+テンプレート+デイリー）でDEFAULT_SETTINGS初期値表示",
-        implementation: "src/settings.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: [
-          "Setting.addText()でtypeFolders各フィールド（fleeting/literature/permanent/structure/index）",
-          "templateFolder/dailyNoteFolderフィールド追加",
-          "入力変更時にthis.plugin.settings更新+saveSettings()呼び出し",
-        ],
-      },
-      {
-        test: "4トグル（insertLink/suggestStructure/moveOnPromotion/showEmoji）でDEFAULT_SETTINGS初期値表示",
-        implementation: "src/settings.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: [
-          "Setting.addToggle()でbehavior.insertLinkAfterExtract",
-          "behavior.suggestStructureOnPermanent",
-          "behavior.moveOnPromotion",
-          "ui.showEmojiInCommands（AC4記載のshowEmojiはui.showEmojiInCommandsに対応）",
-          "トグル変更時にthis.plugin.settings更新+saveSettings()呼び出し",
-        ],
-      },
-      {
-        test: "fileNamePrefixドロップダウン（date/zettel-id/none）でDEFAULT_SETTINGS初期値表示",
-        implementation: "src/settings.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: [
-          "Setting.addDropdown()でbehavior.fileNamePrefix",
-          "addOption()で3値（date/zettel-id/none）",
-          "dropdown変更時にthis.plugin.settings更新+saveSettings()呼び出し",
-        ],
-      },
-      {
-        test: "設定変更後プラグイン再読み込みで全設定値が永続化されている",
-        implementation: "src/settings.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: [
-          "各UI要素のonChange内でsaveSettings()が正しく呼ばれることを確認",
-          "プラグイン再読み込み（Cmd+R）後にloadSettings()でdata.json読み込み確認",
-          "手動E2E検証: フォルダパス変更→再読み込み→値保持",
-        ],
-      },
-    ],
-  },
+  sprint: null,
 
   definition_of_done: {
     checks: [
@@ -127,6 +59,28 @@ const scrum: ScrumDashboard = {
     { number: 2, pbi_id: "PBI-002", goal: "FrontmatterService", status: "done", subtasks: [{ test: "5メソッド", implementation: "src/services/frontmatter-service.ts", type: "behavioral", status: "completed", commits: [{ hash: "0268c21", message: "feat: FrontmatterService", phase: "green" }], notes: [] }] },
     { number: 3, pbi_id: "PBI-003", goal: "選択テキスト→ノート", status: "done", subtasks: [{ test: "Command+Modal", implementation: "src/commands/,src/ui/modals/", type: "behavioral", status: "completed", commits: [{ hash: "527d854", message: "feat: ExtractSelection", phase: "green" }], notes: [] }] },
     { number: 4, pbi_id: "PBI-004", goal: "テンプレートノート作成", status: "done", subtasks: [{ test: "TemplateService+5templates", implementation: "src/services/template-service.ts,Templates/", type: "behavioral", status: "completed", commits: [{ hash: "275b08c", message: "feat: TemplateService", phase: "green" }, { hash: "7813d8b", message: "fix: TFile型ガード", phase: "green" }], notes: [] }] },
+    {
+      number: 5,
+      pbi_id: "PBI-005",
+      goal: "設定タブUIを実装し、ユーザーがフォルダパス・動作・UI設定を永続化可能にする",
+      status: "done",
+      subtasks: [
+        {
+          test: "DailyZettelSettingTab.display()で3セクション見出し+7テキストフィールド+4トグル+dropdown実装",
+          implementation: "src/settings.ts",
+          type: "behavioral",
+          status: "completed",
+          commits: [{ hash: "34e5338", message: "feat(PBI-005): settings tab UI", phase: "green" }],
+          notes: [
+            "setHeading()で3セクション（フォルダ/動作/UI設定）",
+            "addText()で7フィールド（5ノートタイプ+template+daily）",
+            "addToggle()で4設定（insertLink/suggestStructure/moveOnPromotion/showEmoji）",
+            "addDropdown()でfileNamePrefix（date/zettel-id/none）",
+            "全onChange内でsaveSettings()呼び出し→永続化",
+          ],
+        },
+      ],
+    },
   ],
 
   retrospectives: [
