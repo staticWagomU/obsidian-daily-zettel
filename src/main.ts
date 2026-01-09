@@ -2,17 +2,20 @@ import { Editor, MarkdownView, Plugin } from "obsidian";
 import { DEFAULT_SETTINGS, DailyZettelSettingTab } from "./settings";
 import type { DailyZettelSettings } from "./types/settings";
 import { NoteManager } from "./core/note-manager";
+import { ConnectionManager } from "./core/connection-manager";
 import { extractSelection } from "./commands/extract-selection-command";
 
 export default class DailyZettelPlugin extends Plugin {
 	settings: DailyZettelSettings;
 	noteManager: NoteManager;
+	connectionManager: ConnectionManager;
 
 	async onload() {
 		await this.loadSettings();
 
 		// Initialize services
 		this.noteManager = new NoteManager(this.app, this.settings);
+		this.connectionManager = new ConnectionManager(this.app);
 
 		// Register commands
 		this.addCommand({

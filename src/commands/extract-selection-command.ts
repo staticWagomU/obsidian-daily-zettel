@@ -1,6 +1,7 @@
 import { Editor, MarkdownView, Notice } from "obsidian";
 import { NoteType } from "../types/note-types";
 import { NoteTypeModal } from "../ui/modals/note-type-modal";
+import { StructureSuggestModal } from "../ui/modals/structure-suggest-modal";
 import type DailyZettelPlugin from "../main";
 
 export async function extractSelection(
@@ -56,7 +57,19 @@ async function createNoteFromSelection(
 	}
 
 	// 6. Permanent の場合は Structure Note への接続を提案
-	// TODO: Implement StructureSuggestModal
+	if (type === "permanent" && plugin.settings.behavior.suggestStructureOnPermanent) {
+		const structureModal = new StructureSuggestModal(
+			plugin.app,
+			plugin.settings,
+			newFile,
+			async (structureFile) => {
+				if (structureFile) {
+					await plugin.connectionManager.linkPermanentToStructure(newFile, structureFile);
+				}
+			},
+		);
+		structureModal.open();
+	}
 
 	// 7. 新規ノートを開く
 	await plugin.app.workspace.openLinkText(newFile.path, "");
