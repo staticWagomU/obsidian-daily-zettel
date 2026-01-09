@@ -139,7 +139,54 @@ const scrum: ScrumDashboard = {
     },
   ],
 
-  sprint: null,
+  sprint: {
+    number: 2,
+    pbi_id: "PBI-002",
+    goal: "FrontmatterServiceを実装し、フロントマターを通じたノートメタデータの管理機能を提供する",
+    status: "in_progress",
+    subtasks: [
+      {
+        test: "addFrontmatter()がYAML文字列を生成する",
+        implementation: "stringifyYaml()でメタデータをYAML化し---で囲む",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "updateMetadata()が既存フロントマターを保持して部分更新",
+        implementation: "app.fileManager.processFrontMatter経由でObject.assign",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "getNoteType()がキャッシュからtype取得",
+        implementation: "metadataCache.getFileCache().frontmatter.type返却",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "addStructureLink()が重複排除してリンク追加",
+        implementation: "structure_notes配列に未追加のリンクのみpush",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "updateTags()が削除・追加・重複排除を実行",
+        implementation: "tagsToRemove削除後にtagsToAdd追加しSet化",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+    ],
+  },
 
   definition_of_done: {
     checks: [
