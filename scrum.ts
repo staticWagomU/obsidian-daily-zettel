@@ -48,7 +48,7 @@ const scrum: ScrumDashboard = {
     number: 5,
     pbi_id: "PBI-005",
     goal: "設定タブUIを実装し、ユーザーがフォルダパス・動作・UI設定を永続化可能にする",
-    status: "planning",
+    status: "in_progress",
     subtasks: [
       {
         test: "DailyZettelSettingTab.display()で3セクション見出し作成",
