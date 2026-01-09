@@ -152,187 +152,13 @@ const scrum: ScrumDashboard = {
   },
 
   completed: [
-    {
-      number: 1,
-      pbi_id: "PBI-001",
-      goal: "NoteType型定義と設定マップの実装により、5種類のノートタイプを識別可能にする",
-      status: "done",
-      subtasks: [
-        { test: "NoteType/Config/Metadata/Status型、NOTE_TYPE_CONFIG/PROMOTION_PATHS定数、pnpm build", implementation: "src/types/note-types.ts", type: "behavioral", status: "completed", commits: [{ hash: "1eb7e33", message: "feat: implement NoteType type system", phase: "green" }], notes: [] },
-      ],
-    },
-    {
-      number: 2,
-      pbi_id: "PBI-002",
-      goal: "FrontmatterServiceを実装し、フロントマターを通じたノートメタデータの管理機能を提供する",
-      status: "done",
-      subtasks: [
-        { test: "addFrontmatter/updateMetadata/getNoteType/addStructureLink/updateTags", implementation: "src/services/frontmatter-service.ts", type: "behavioral", status: "completed", commits: [{ hash: "0268c21", message: "feat: implement FrontmatterService with all 5 methods", phase: "green" }], notes: [] },
-      ],
-    },
-    {
-      number: 3,
-      pbi_id: "PBI-003",
-      goal: "選択テキストから3タイプ(Fleeting/Literature/Permanent)のノートを作成し、リンク挿入とStructure提案の自動化により、デイリーノートからのアイデア切り出しワークフローを実現する",
-      status: "done",
-      subtasks: [
-      // AC1: エラーハンドリング (テキスト選択なしで警告通知)
-      {
-        test: "ExtractSelectionCommand: 選択テキスト空でNotice表示",
-        implementation: "src/commands/ExtractSelectionCommand.ts - extractSelection() エラーハンドリング部分",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "527d854", message: "feat: implement ExtractSelectionCommand with NoteManager integration", phase: "green" }],
-        notes: [],
-      },
-
-      // AC2: NoteTypeModal (3タイプ選択UI)
-      {
-        test: "NoteTypeModal: getItems()でFleeting/Literature/Permanentの3タイプ返却",
-        implementation: "src/ui/modals/NoteTypeModal.ts - constructor, getItems()",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "fe1949d", message: "feat: implement NoteTypeModal with all UI methods", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "NoteTypeModal: getItemText()でアイコン付きラベル返却",
-        implementation: "src/ui/modals/NoteTypeModal.ts - getItemText()",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "fe1949d", message: "feat: implement NoteTypeModal with all UI methods", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "NoteTypeModal: renderSuggestion()でアイコン・ラベル・説明を表示",
-        implementation: "src/ui/modals/NoteTypeModal.ts - renderSuggestion()",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "fe1949d", message: "feat: implement NoteTypeModal with all UI methods", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "NoteTypeModal: onChooseItem()でコールバック実行",
-        implementation: "src/ui/modals/NoteTypeModal.ts - onChooseItem()",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "fe1949d", message: "feat: implement NoteTypeModal with all UI methods", phase: "green" }],
-        notes: [],
-      },
-
-      // AC3: ノート作成 (フォルダ配置+フロントマター)
-      {
-        test: "ExtractSelectionCommand: NoteTypeModal呼び出しとコールバック設定",
-        implementation: "src/commands/ExtractSelectionCommand.ts - extractSelection() モーダル呼び出し部分",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "527d854", message: "feat: implement ExtractSelectionCommand with NoteManager integration", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "ExtractSelectionCommand: createNoteFromSelection()でタイトル生成",
-        implementation: "src/commands/ExtractSelectionCommand.ts - createNoteFromSelection() タイトル生成部分",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "527d854", message: "feat: implement ExtractSelectionCommand with NoteManager integration", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "ExtractSelectionCommand: NoteManager.createNote()呼び出し",
-        implementation: "src/commands/ExtractSelectionCommand.ts - createNoteFromSelection() ノート作成部分",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "527d854", message: "feat: implement ExtractSelectionCommand with NoteManager integration", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "NoteManager.createNote()でフォルダ確保、ファイル名生成、メタデータ構築、ファイル作成",
-        implementation: "src/core/NoteManager.ts - createNote()",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "527d854", message: "feat: implement ExtractSelectionCommand with NoteManager integration", phase: "green" }],
-        notes: [],
-      },
-
-      // AC4: リンク挿入 (設定ON時に[[リンク]]置換)
-      {
-        test: "ExtractSelectionCommand: insertLinkAfterExtract設定確認とリンク挿入",
-        implementation: "src/commands/ExtractSelectionCommand.ts - createNoteFromSelection() リンク挿入部分",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "527d854", message: "feat: implement ExtractSelectionCommand with NoteManager integration", phase: "green" }],
-        notes: [],
-      },
-
-      // AC5: Structure提案 (Permanent+設定ON時にモーダル)
-      {
-        test: "ExtractSelectionCommand: Permanent選択時のStructureSuggestModal呼び出し条件判定",
-        implementation: "src/commands/ExtractSelectionCommand.ts - createNoteFromSelection() Structure提案部分",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "67af70b", message: "feat: implement StructureSuggestModal with ConnectionManager", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "StructureSuggestModal: suggestStructureNotes()呼び出しと提案読み込み",
-        implementation: "src/ui/modals/StructureSuggestModal.ts - constructor, loadSuggestions()",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "67af70b", message: "feat: implement StructureSuggestModal with ConnectionManager", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "StructureSuggestModal: getItems()でスキップオプション+提案リスト返却",
-        implementation: "src/ui/modals/StructureSuggestModal.ts - getItems()",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "67af70b", message: "feat: implement StructureSuggestModal with ConnectionManager", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "StructureSuggestModal: renderSuggestion()でアイコン・ラベル表示",
-        implementation: "src/ui/modals/StructureSuggestModal.ts - renderSuggestion()",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "67af70b", message: "feat: implement StructureSuggestModal with ConnectionManager", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "StructureSuggestModal: onChooseItem()でスキップまたは選択時の処理",
-        implementation: "src/ui/modals/StructureSuggestModal.ts - onChooseItem()",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "67af70b", message: "feat: implement StructureSuggestModal with ConnectionManager", phase: "green" }],
-        notes: [],
-      },
-
-      // 統合とビルド検証
-      {
-        test: "ExtractSelectionCommand: 新規ノートを開く処理",
-        implementation: "src/commands/ExtractSelectionCommand.ts - createNoteFromSelection() ノートオープン部分",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "67af70b", message: "feat: implement StructureSuggestModal with ConnectionManager", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "commands/index.ts: ExtractSelectionCommandをコマンド登録",
-        implementation: "src/commands/index.ts - registerCommands()",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "f36b189", message: "chore: final integration verification and DoD checks", phase: "green" }],
-        notes: ["Command registered in main.ts directly"],
-      },
-      {
-        test: "pnpm build が成功し、すべての受け入れ基準を満たす",
-        implementation: "ビルド検証とE2Eテスト",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "f36b189", message: "chore: final integration verification and DoD checks", phase: "green" }],
-        notes: [],
-      },
-    ],
-  }],
+    { number: 1, pbi_id: "PBI-001", goal: "NoteType型定義と設定マップ実装", status: "done", subtasks: [{ test: "型定義+定数", implementation: "src/types/note-types.ts", type: "behavioral", status: "completed", commits: [{ hash: "1eb7e33", message: "feat: implement NoteType type system", phase: "green" }], notes: [] }] },
+    { number: 2, pbi_id: "PBI-002", goal: "FrontmatterService実装", status: "done", subtasks: [{ test: "5メソッド", implementation: "src/services/frontmatter-service.ts", type: "behavioral", status: "completed", commits: [{ hash: "0268c21", message: "feat: implement FrontmatterService", phase: "green" }], notes: [] }] },
+    { number: 3, pbi_id: "PBI-003", goal: "選択テキストからノート作成", status: "done", subtasks: [
+      { test: "ExtractSelectionCommand+NoteManager", implementation: "src/commands/, src/core/", type: "behavioral", status: "completed", commits: [{ hash: "527d854", message: "feat: ExtractSelectionCommand", phase: "green" }], notes: [] },
+      { test: "NoteTypeModal+StructureSuggestModal", implementation: "src/ui/modals/", type: "behavioral", status: "completed", commits: [{ hash: "fe1949d", message: "feat: Modals", phase: "green" }, { hash: "67af70b", message: "feat: StructureSuggestModal", phase: "green" }], notes: [] },
+    ] },
+  ],
 
   retrospectives: [
     {
@@ -346,8 +172,15 @@ const scrum: ScrumDashboard = {
     {
       sprint: 2,
       improvements: [
-        { action: "サブタスクをより小さく分割（1メソッド=1コミット粒度）", timing: "sprint", status: "active", outcome: null },
-        { action: "受け入れ基準を振る舞い視点で記述", timing: "sprint", status: "active", outcome: null },
+        { action: "サブタスクをより小さく分割（1メソッド=1コミット粒度）", timing: "sprint", status: "completed", outcome: "Sprint 3で適用。18サブタスクに分割したが実際は3コミットに集約された" },
+        { action: "受け入れ基準を振る舞い視点で記述", timing: "sprint", status: "completed", outcome: "Sprint 3で適用。実装が明確になり初回でDoD通過" },
+      ],
+    },
+    {
+      sprint: 3,
+      improvements: [
+        { action: "サブタスク粒度をコミット単位に調整（論理的に関連する実装をグループ化）", timing: "sprint", status: "active", outcome: null },
+        { action: "複数ファイルにまたがる機能は1サブタスクとして扱う", timing: "sprint", status: "active", outcome: null },
       ],
     },
   ],
