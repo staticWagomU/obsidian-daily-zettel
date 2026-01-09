@@ -5,6 +5,7 @@ import { NoteManager } from "./core/note-manager";
 import { ConnectionManager } from "./core/connection-manager";
 import { PromotionService } from "./services/promotion-service";
 import { extractSelection } from "./commands/extract-selection-command";
+import { promoteNote } from "./commands/promote-note-command";
 
 export default class DailyZettelPlugin extends Plugin {
 	settings: DailyZettelSettings;
@@ -28,6 +29,14 @@ export default class DailyZettelPlugin extends Plugin {
 				: "選択範囲から新規ノート",
 			editorCallback: (editor: Editor, view: MarkdownView) => {
 				void extractSelection(this, editor, view);
+			},
+		});
+
+		this.addCommand({
+			id: "promote-note",
+			name: this.settings.ui.showEmojiInCommands ? "⬆️ ノートを昇格" : "ノートを昇格",
+			callback: () => {
+				void promoteNote(this);
 			},
 		});
 
