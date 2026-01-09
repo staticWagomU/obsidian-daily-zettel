@@ -142,7 +142,40 @@ const scrum: ScrumDashboard = {
     },
   ],
 
-  sprint: null,
+  sprint: {
+    number: 4,
+    pbi_id: "PBI-004",
+    goal: "テンプレートベースのノート作成機能実装",
+    status: "planning",
+    subtasks: [
+      {
+        test: "TemplateService.getProcessedTemplate()基本実装",
+        implementation: "src/services/template-service.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [
+          "テンプレートファイル読み込み",
+          "変数{{title}}, {{content}}, {{date:FORMAT}}の展開",
+          "テンプレート欠損時のフォールバック（contentを返す）",
+        ],
+      },
+      {
+        test: "5タイプ用テンプレートファイル作成",
+        implementation: "Templates/*.md",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [
+          "fleeting-template.md: シンプルな構造",
+          "literature-template.md: 出典情報セクション",
+          "permanent-template.md: 主張・理由・例セクション",
+          "structure-template.md: MOC構造",
+          "index-template.md: トップレベルインデックス",
+        ],
+      },
+    ],
+  },
 
   definition_of_done: {
     checks: [
