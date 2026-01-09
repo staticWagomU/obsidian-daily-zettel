@@ -78,7 +78,7 @@ const scrum: ScrumDashboard = {
         { criterion: "5タイプ(fleeting/literature/permanent/structure/index)それぞれのテンプレートファイルが存在し、対応する構造を持つ", verification: "Templates/フォルダ内に各テンプレートファイルが存在し、タイプ固有のセクション(例: Literature=出典情報、Permanent=主張)を含む" },
         { criterion: "テンプレートが存在しない場合、デフォルトでcontentを返す", verification: "テンプレートファイル欠損時にgetProcessedTemplate()がvariables.contentをフォールバック値として返す" },
       ],
-      status: "ready",
+      status: "done",
     },
     {
       id: "PBI-005",
@@ -146,40 +146,7 @@ const scrum: ScrumDashboard = {
     },
   ],
 
-  sprint: {
-    number: 4,
-    pbi_id: "PBI-004",
-    goal: "テンプレートベースのノート作成機能実装",
-    status: "in_progress",
-    subtasks: [
-      {
-        test: "TemplateService.getProcessedTemplate()基本実装",
-        implementation: "src/services/template-service.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: [
-          "テンプレートファイル読み込み",
-          "変数{{title}}, {{content}}, {{date:FORMAT}}の展開",
-          "テンプレート欠損時のフォールバック（contentを返す）",
-        ],
-      },
-      {
-        test: "5タイプ用テンプレートファイル作成",
-        implementation: "Templates/*.md",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: [
-          "fleeting-template.md: シンプルな構造",
-          "literature-template.md: 出典情報セクション",
-          "permanent-template.md: 主張・理由・例セクション",
-          "structure-template.md: MOC構造",
-          "index-template.md: トップレベルインデックス",
-        ],
-      },
-    ],
-  },
+  sprint: null,
 
   definition_of_done: {
     checks: [
@@ -195,6 +162,13 @@ const scrum: ScrumDashboard = {
     { number: 3, pbi_id: "PBI-003", goal: "選択テキストからノート作成", status: "done", subtasks: [
       { test: "ExtractSelectionCommand+NoteManager", implementation: "src/commands/, src/core/", type: "behavioral", status: "completed", commits: [{ hash: "527d854", message: "feat: ExtractSelectionCommand", phase: "green" }], notes: [] },
       { test: "NoteTypeModal+StructureSuggestModal", implementation: "src/ui/modals/", type: "behavioral", status: "completed", commits: [{ hash: "fe1949d", message: "feat: Modals", phase: "green" }, { hash: "67af70b", message: "feat: StructureSuggestModal", phase: "green" }], notes: [] },
+    ] },
+    { number: 4, pbi_id: "PBI-004", goal: "テンプレートベースのノート作成機能実装", status: "done", subtasks: [
+      { test: "TemplateService+テンプレートファイル", implementation: "src/services/template-service.ts, Templates/*.md", type: "behavioral", status: "completed", commits: [{ hash: "275b08c", message: "feat(PBI-004): implement template-based note creation", phase: "green" }], notes: [
+        "loadTemplate(): テンプレートファイル読み込み",
+        "expandVariables(): {{title}}, {{content}}, {{date:FORMAT}}展開",
+        "5つのテンプレートファイル作成（各タイプ固有セクション）",
+      ] },
     ] },
   ],
 
