@@ -34,9 +34,11 @@ export async function promoteNote(plugin: DailyZettelPlugin): Promise<void> {
 	// 4. NoteTypeModal で昇格先タイプを選択
 	const modal = new NoteTypeModal(
 		plugin.app,
-		async (toType: NoteType) => {
-			await plugin.promotionService.promoteNote(file, currentType, toType);
-			new Notice(`✅ ${currentType} → ${toType} に昇格しました`);
+		(toType: NoteType) => {
+			void (async () => {
+				await plugin.promotionService.promoteNote(file, currentType, toType);
+				new Notice(`✅ ${currentType} → ${toType} に昇格しました`);
+			})();
 		},
 		promotableTo,
 	);

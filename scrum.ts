@@ -58,7 +58,7 @@ const scrum: ScrumDashboard = {
         implementation: "src/main.ts,src/ui/modals/note-type-modal.ts",
         type: "behavioral",
         status: "completed",
-        commits: [{ hash: "TBD", message: "feat(PBI-006): integrate promote-note command into main.ts", phase: "green" }],
+        commits: [{ hash: "2386b15", message: "feat(PBI-006): integrate promote-note command into main.ts", phase: "green" }],
         notes: ["NoteTypeModalは既存のallowedTypesパラメータでModal選択肢を制御済み"],
       },
     ],
