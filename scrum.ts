@@ -31,7 +31,38 @@ const scrum: ScrumDashboard = {
     { id: "PBI-008", story: { role: "Zettelkasten実践者", capability: "孤立Permanent Note発見", benefit: "Structure接続漏れ防止" }, acceptance_criteria: [{ criterion: "OrphanDetectorService.getOrphanPermanentNotes()（type=permanent && structure_notes空/未定義のTFile配列を返す）", verification: "FrontmatterService統合、孤立ノート取得確認" }, { criterion: "OrphanView extends ItemView（サイドバー登録、リスト表示、リフレッシュボタン、OrphanDetectorService呼び出し）", verification: "サイドバーアイコンクリック→孤立ノートリスト表示" }, { criterion: "各リストアイテムに接続ボタン（クリックでStructureSuggestModal起動、接続後ビュー自動更新）", verification: "ボタンクリック→Modal表示→接続完了後リストから削除" }], status: "ready" },
   ],
 
-  sprint: null,
+  sprint: {
+    number: 8,
+    pbi_id: "PBI-008",
+    goal: "孤立Permanent Note発見機能実装",
+    status: "in_progress",
+    subtasks: [
+      {
+        test: "OrphanDetectorService.getOrphanPermanentNotes()（type=permanent && structure_notes空/未定義のTFile配列取得、FrontmatterService統合）",
+        implementation: "src/services/orphan-detector-service.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "OrphanView extends ItemView（サイドバー登録、リスト表示、リフレッシュボタン、OrphanDetectorService呼び出し）",
+        implementation: "src/ui/views/orphan-view.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "各リストアイテムに接続ボタン（クリックでStructureSuggestModal起動、ConnectionManager経由接続、接続後ビュー自動更新）",
+        implementation: "src/ui/views/orphan-view.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+    ],
+  },
 
   definition_of_done: {
     checks: [
