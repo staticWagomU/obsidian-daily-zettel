@@ -26,7 +26,6 @@ export class OrphanDetectorService {
 
 			// structure_notesの存在チェック
 			const cache = this.app.metadataCache.getFileCache(file);
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			const structureNotes = cache?.frontmatter?.structure_notes as string[] | undefined;
 
 			if (!structureNotes || structureNotes.length === 0) {

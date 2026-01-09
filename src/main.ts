@@ -27,7 +27,7 @@ export default class DailyZettelPlugin extends Plugin {
 		this.registerView(VIEW_TYPE_ORPHAN, (leaf) => new OrphanView(leaf, this.settings));
 
 		// Add ribbon icon to open orphan view
-		this.addRibbonIcon("unlink", "孤立 Permanent Notes", () => {
+		this.addRibbonIcon("unlink", "Orphan permanent notes", () => {
 			void this.activateOrphanView();
 		});
 
@@ -65,8 +65,7 @@ export default class DailyZettelPlugin extends Plugin {
 	}
 
 	onunload() {
-		// Detach orphan view leaves
-		this.app.workspace.detachLeavesOfType(VIEW_TYPE_ORPHAN);
+		// Clean up if needed
 	}
 
 	/**
@@ -92,7 +91,7 @@ export default class DailyZettelPlugin extends Plugin {
 
 		// リーフをアクティブにして表示
 		if (leaf) {
-			workspace.revealLeaf(leaf);
+			void workspace.revealLeaf(leaf);
 		}
 	}
 

@@ -58,7 +58,7 @@ const scrum: ScrumDashboard = {
         implementation: "src/ui/views/orphan-view.ts",
         type: "behavioral",
         status: "completed",
-        commits: [],
+        commits: [{ hash: "89e632f", message: "feat(PBI-008): integrate connection button to OrphanView", phase: "green" }],
         notes: [],
       },
     ],

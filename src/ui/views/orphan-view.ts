@@ -24,7 +24,7 @@ export class OrphanView extends ItemView {
 	}
 
 	getDisplayText(): string {
-		return "孤立 Permanent Notes";
+		return "Orphan permanent notes";
 	}
 
 	getIcon(): string {
@@ -50,18 +50,20 @@ export class OrphanView extends ItemView {
 	/**
 	 * ノートをStructure Noteに接続
 	 */
-	private async connectNote(note: TFile): Promise<void> {
+	private connectNote(note: TFile): void {
 		const modal = new StructureSuggestModal(
 			this.app,
 			this.settings,
 			note,
-			async (structureFile: TFile | null) => {
-				if (structureFile) {
-					await this.connectionManager.linkPermanentToStructure(note, structureFile);
-					new Notice(`✅ ${structureFile.basename} に接続しました`);
-					// ビューを自動更新（接続されたノートはリストから削除される）
-					await this.refresh();
-				}
+			(structureFile: TFile | null) => {
+				void (async () => {
+					if (structureFile) {
+						await this.connectionManager.linkPermanentToStructure(note, structureFile);
+						new Notice(`✅ ${structureFile.basename} に接続しました`);
+						// ビューを自動更新（接続されたノートはリストから削除される）
+						await this.refresh();
+					}
+				})();
 			},
 		);
 
@@ -81,7 +83,7 @@ export class OrphanView extends ItemView {
 
 		// ヘッダーとリフレッシュボタン
 		const header = container.createDiv({ cls: "orphan-view-header" });
-		header.createEl("h4", { text: "孤立 Permanent Notes" });
+		header.createEl("h4", { text: "Orphan permanent notes" });
 
 		const refreshButton = header.createEl("button", {
 			text: "更新",
@@ -120,7 +122,7 @@ export class OrphanView extends ItemView {
 				});
 
 				connectButton.addEventListener("click", () => {
-					void this.connectNote(note);
+					this.connectNote(note);
 				});
 			}
 		}
