@@ -164,10 +164,14 @@ const scrum: ScrumDashboard = {
       { test: "NoteTypeModal+StructureSuggestModal", implementation: "src/ui/modals/", type: "behavioral", status: "completed", commits: [{ hash: "fe1949d", message: "feat: Modals", phase: "green" }, { hash: "67af70b", message: "feat: StructureSuggestModal", phase: "green" }], notes: [] },
     ] },
     { number: 4, pbi_id: "PBI-004", goal: "テンプレートベースのノート作成機能実装", status: "done", subtasks: [
-      { test: "TemplateService+テンプレートファイル", implementation: "src/services/template-service.ts, Templates/*.md", type: "behavioral", status: "completed", commits: [{ hash: "275b08c", message: "feat(PBI-004): implement template-based note creation", phase: "green" }], notes: [
-        "loadTemplate(): テンプレートファイル読み込み",
+      { test: "TemplateService+テンプレートファイル", implementation: "src/services/template-service.ts, Templates/*.md", type: "behavioral", status: "completed", commits: [
+        { hash: "275b08c", message: "feat(PBI-004): implement template-based note creation", phase: "green" },
+        { hash: "7813d8b", message: "fix(PBI-004): correct TFile type guard in TemplateService.loadTemplate()", phase: "green" },
+      ], notes: [
+        "loadTemplate(): テンプレートファイル読み込み (TFile型ガード修正)",
         "expandVariables(): {{title}}, {{content}}, {{date:FORMAT}}展開",
         "5つのテンプレートファイル作成（各タイプ固有セクション）",
+        "Sprint Review時に型エラー検出→修正",
       ] },
     ] },
   ],
@@ -191,8 +195,15 @@ const scrum: ScrumDashboard = {
     {
       sprint: 3,
       improvements: [
-        { action: "サブタスク粒度をコミット単位に調整（論理的に関連する実装をグループ化）", timing: "sprint", status: "active", outcome: null },
-        { action: "複数ファイルにまたがる機能は1サブタスクとして扱う", timing: "sprint", status: "active", outcome: null },
+        { action: "サブタスク粒度をコミット単位に調整（論理的に関連する実装をグループ化）", timing: "sprint", status: "completed", outcome: "Sprint 4で有効性確認。1サブタスク=1コミットが実現" },
+        { action: "複数ファイルにまたがる機能は1サブタスクとして扱う", timing: "sprint", status: "completed", outcome: "Sprint 4で有効性確認。TemplateService+5テンプレートファイルを論理的に1単位として扱えた" },
+      ],
+    },
+    {
+      sprint: 4,
+      improvements: [
+        { action: "AC記載のファイル名と実装の整合性を事前確認（例: fleeting vs fleeting-template.md）", timing: "sprint", status: "active", outcome: null },
+        { action: "サブタスクnotesを事前計画として活用（実装前に技術的なアプローチを記載）", timing: "sprint", status: "active", outcome: null },
       ],
     },
   ],
