@@ -1,5 +1,6 @@
 import { App, TFile } from "obsidian";
 import { FrontmatterService } from "./frontmatter-service";
+import type { OrphanStats } from "../types";
 
 export class OrphanDetectorService {
 	private app: App;
@@ -34,5 +35,40 @@ export class OrphanDetectorService {
 		}
 
 		return orphans;
+	}
+
+	/**
+	 * Permanent Noteの接続統計を取得
+	 * @returns OrphanStats オブジェクト（total, orphans, connected, connectionRate）
+	 */
+	async getStats(): Promise<OrphanStats> {
+		const allFiles = this.app.vault.getMarkdownFiles();
+		let totalPermanentNotes = 0;
+
+		// 全permanentノート数を取得
+		for (const file of allFiles) {
+			const noteType = await this.frontmatterService.getNoteType(file);
+			if (noteType === "permanent") {
+				totalPermanentNotes++;
+			}
+		}
+
+		// 孤立ノート数を取得
+		const orphanNotes = await this.getOrphanPermanentNotes();
+		const orphanCount = orphanNotes.length;
+
+		// 接続済みノート数を計算
+		const connectedCount = totalPermanentNotes - orphanCount;
+
+		// 接続率を計算（0除算対応）
+		const connectionRate =
+			totalPermanentNotes === 0 ? 0 : (connectedCount / totalPermanentNotes) * 100;
+
+		return {
+			total: totalPermanentNotes,
+			orphans: orphanCount,
+			connected: connectedCount,
+			connectionRate: connectionRate,
+		};
 	}
 }
