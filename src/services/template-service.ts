@@ -1,4 +1,4 @@
-import { App, moment } from "obsidian";
+import { App, moment, TFile } from "obsidian";
 import { NoteType, NOTE_TYPE_CONFIG } from "../types/note-types";
 import type { DailyZettelSettings } from "../types/settings";
 
@@ -49,7 +49,7 @@ export class TemplateService {
 			}
 
 			// TFileかどうかチェック
-			if (!("extension" in file)) {
+			if (!(file instanceof TFile)) {
 				return null;
 			}
 
