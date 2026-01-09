@@ -145,7 +145,7 @@ const scrum: ScrumDashboard = {
     number: 3,
     pbi_id: "PBI-003",
     goal: "選択テキストから3タイプ(Fleeting/Literature/Permanent)のノートを作成し、リンク挿入とStructure提案の自動化により、デイリーノートからのアイデア切り出しワークフローを実現する",
-    status: "in_progress",
+    status: "review",
     subtasks: [
       // AC1: エラーハンドリング (テキスト選択なしで警告通知)
       {
@@ -291,7 +291,7 @@ const scrum: ScrumDashboard = {
         implementation: "src/commands/index.ts - registerCommands()",
         type: "behavioral",
         status: "completed",
-        commits: [{ hash: "", message: "chore: final integration verification and DoD checks", phase: "green" }],
+        commits: [{ hash: "f36b189", message: "chore: final integration verification and DoD checks", phase: "green" }],
         notes: ["Command registered in main.ts directly"],
       },
       {
@@ -299,7 +299,7 @@ const scrum: ScrumDashboard = {
         implementation: "ビルド検証とE2Eテスト",
         type: "behavioral",
         status: "completed",
-        commits: [{ hash: "", message: "chore: final integration verification and DoD checks", phase: "green" }],
+        commits: [{ hash: "f36b189", message: "chore: final integration verification and DoD checks", phase: "green" }],
         notes: [],
       },
     ],
