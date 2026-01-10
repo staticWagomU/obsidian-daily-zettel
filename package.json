@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
+	"name": "obsidian-page-zettel",
 	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "Zettelkasten workflow support for Obsidian - manage Fleeting, Permanent, and Structure notes with ease.",
 	"main": "main.js",
 	"type": "module",
 	"packageManager": "pnpm@10.24.0",

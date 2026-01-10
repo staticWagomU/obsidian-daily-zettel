@@ -1,16 +1,14 @@
-# Obsidian Sample Plugin
+# Page Zettel
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+Zettelkasten workflow support for Obsidian - manage Fleeting, Permanent, and Structure notes with ease.
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+## Features
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open modal (simple)" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+- **Note Type Management**: Create and manage different types of Zettelkasten notes (Fleeting, Literature, Permanent, Structure, Index)
+- **Note Promotion**: Promote notes through the Zettelkasten hierarchy (Fleeting → Permanent → Structure → Index)
+- **Structure Suggestions**: Intelligent suggestions for connecting Permanent notes to Structure notes
+- **Orphan Detection**: Find and connect Permanent notes that aren't linked to any Structure note
+- **Mobile Optimized**: Designed with mobile-first UI for use on phones and tablets
 
 ## First time developing plugins?
 

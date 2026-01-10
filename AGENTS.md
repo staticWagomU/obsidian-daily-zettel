@@ -1,4 +1,4 @@
-# Obsidian community plugin
+# Page Zettel - Obsidian Plugin
 
 ## Project overview
 

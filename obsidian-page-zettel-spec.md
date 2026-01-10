@@ -1,4 +1,4 @@
-# obsidian-daily-zettel 実装ドキュメント
+# obsidian-page-zettel 実装ドキュメント
 
 ## 目次
 
@@ -22,7 +22,7 @@
 
 ### 1.1 目的
 
-デイリーノートを起点とした Zettelkasten ワークフローを Obsidian で実現するプラグイン。
+ページを起点とした Zettelkasten ワークフローを Obsidian で実現するプラグイン。
 **モバイルメイン使用**を前提に、最小限の操作でノートの切り出し・分類・接続を自動化する。
 
 ### 1.2 解決する課題
@@ -86,7 +86,7 @@
 ## 3. ディレクトリ構造
 
 ```
-obsidian-daily-zettel/
+obsidian-page-zettel/
 ├── src/
 │   ├── main.ts                          # プラグインエントリーポイント
 │   │
@@ -263,7 +263,7 @@ import { NoteType } from './note-types';
 /**
  * プラグイン設定
  */
-export interface DailyZettelSettings {
+export interface PageZettelSettings {
   // フォルダ設定
   folders: FolderSettings;
 
@@ -326,7 +326,7 @@ import {
   NOTE_TYPE_CONFIG,
   PROMOTION_PATHS
 } from '../types/note-types';
-import { DailyZettelSettings } from '../types/settings';
+import { PageZettelSettings } from '../types/settings';
 import { FrontmatterService } from './FrontmatterService';
 import { TemplateService } from '../services/TemplateService';
 import { FolderService } from '../services/FolderService';
@@ -347,12 +347,12 @@ export interface PromoteNoteResult {
 
 export class NoteManager {
   private app: App;
-  private settings: DailyZettelSettings;
+  private settings: PageZettelSettings;
   private frontmatterService: FrontmatterService;
   private templateService: TemplateService;
   private folderService: FolderService;
 
-  constructor(app: App, settings: DailyZettelSettings) {
+  constructor(app: App, settings: PageZettelSettings) {
     this.app = app;
     this.settings = settings;
     this.frontmatterService = new FrontmatterService(app);
@@ -715,7 +715,7 @@ export class ConnectionManager {
 ```typescript
 import { App, TFile } from 'obsidian';
 import { NoteType, NOTE_TYPE_CONFIG } from '../types/note-types';
-import { DailyZettelSettings } from '../types/settings';
+import { PageZettelSettings } from '../types/settings';
 
 export interface TemplateVariables {
   title: string;
@@ -726,9 +726,9 @@ export interface TemplateVariables {
 
 export class TemplateService {
   private app: App;
-  private settings: DailyZettelSettings;
+  private settings: PageZettelSettings;
 
-  constructor(app: App, settings: DailyZettelSettings) {
+  constructor(app: App, settings: PageZettelSettings) {
     this.app = app;
     this.settings = settings;
   }
@@ -817,13 +817,13 @@ export class TemplateService {
 ```typescript
 import { App, TFolder } from 'obsidian';
 import { NoteType, NOTE_TYPE_CONFIG } from '../types/note-types';
-import { DailyZettelSettings } from '../types/settings';
+import { PageZettelSettings } from '../types/settings';
 
 export class FolderService {
   private app: App;
-  private settings: DailyZettelSettings;
+  private settings: PageZettelSettings;
 
-  constructor(app: App, settings: DailyZettelSettings) {
+  constructor(app: App, settings: PageZettelSettings) {
     this.app = app;
     this.settings = settings;
   }
@@ -877,7 +877,7 @@ export class FolderService {
 
 ```typescript
 import { App, TFile, CachedMetadata } from 'obsidian';
-import { DailyZettelSettings } from '../types/settings';
+import { PageZettelSettings } from '../types/settings';
 
 export interface SuggestionScore {
   file: TFile;
@@ -887,9 +887,9 @@ export interface SuggestionScore {
 
 export class SuggestionService {
   private app: App;
-  private settings: DailyZettelSettings;
+  private settings: PageZettelSettings;
 
-  constructor(app: App, settings: DailyZettelSettings) {
+  constructor(app: App, settings: PageZettelSettings) {
     this.app = app;
     this.settings = settings;
   }
@@ -1010,7 +1010,7 @@ export class SuggestionService {
 
 ```typescript
 import { App, TFile } from 'obsidian';
-import { DailyZettelSettings } from '../types/settings';
+import { PageZettelSettings } from '../types/settings';
 
 export interface OrphanStats {
   total: number;
@@ -1020,9 +1020,9 @@ export interface OrphanStats {
 
 export class OrphanDetector {
   private app: App;
-  private settings: DailyZettelSettings;
+  private settings: PageZettelSettings;
 
-  constructor(app: App, settings: DailyZettelSettings) {
+  constructor(app: App, settings: PageZettelSettings) {
     this.app = app;
     this.settings = settings;
   }
@@ -1127,7 +1127,7 @@ export class NoteTypeModal extends FuzzySuggestModal<NoteTypeOption> {
     this.setPlaceholder('ノートタイプを選択...');
 
     // モバイル対応: モーダルのサイズ調整
-    this.modalEl.addClass('daily-zettel-modal');
+    this.modalEl.addClass('page-zettel-modal');
   }
 
   getItems(): NoteTypeOption[] {
@@ -1144,29 +1144,29 @@ export class NoteTypeModal extends FuzzySuggestModal<NoteTypeOption> {
   renderSuggestion(item: { item: NoteTypeOption }, el: HTMLElement): void {
     const option = item.item;
 
-    el.addClass('daily-zettel-type-option');
+    el.addClass('page-zettel-type-option');
 
-    const container = el.createDiv({ cls: 'daily-zettel-type-container' });
+    const container = el.createDiv({ cls: 'page-zettel-type-container' });
 
     // アイコン
     container.createSpan({
       text: option.config.icon,
-      cls: 'daily-zettel-type-icon'
+      cls: 'page-zettel-type-icon'
     });
 
     // テキスト部分
-    const textContainer = container.createDiv({ cls: 'daily-zettel-type-text' });
+    const textContainer = container.createDiv({ cls: 'page-zettel-type-text' });
 
     // ラベル
     textContainer.createDiv({
       text: option.config.label,
-      cls: 'daily-zettel-type-label'
+      cls: 'page-zettel-type-label'
     });
 
     // 説明
     textContainer.createDiv({
       text: option.config.description,
-      cls: 'daily-zettel-type-description'
+      cls: 'page-zettel-type-description'
     });
   }
 
@@ -1181,7 +1181,7 @@ export class NoteTypeModal extends FuzzySuggestModal<NoteTypeOption> {
 ```typescript
 import { App, FuzzySuggestModal, TFile, Notice } from 'obsidian';
 import { SuggestionService } from '../../services/SuggestionService';
-import { DailyZettelSettings } from '../../types/settings';
+import { PageZettelSettings } from '../../types/settings';
 
 interface StructureOption {
   file: TFile | null;
@@ -1197,7 +1197,7 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
 
   constructor(
     app: App,
-    settings: DailyZettelSettings,
+    settings: PageZettelSettings,
     permanentNote: TFile,
     onSelect: (file: TFile | null) => void
   ) {
@@ -1207,7 +1207,7 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
     this.suggestionService = new SuggestionService(app, settings);
 
     this.setPlaceholder('Structure Note を選択（またはスキップ）...');
-    this.modalEl.addClass('daily-zettel-modal');
+    this.modalEl.addClass('page-zettel-modal');
 
     // 提案を非同期で読み込み
     this.loadSuggestions();
@@ -1251,13 +1251,13 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
   renderSuggestion(item: { item: StructureOption }, el: HTMLElement): void {
     const option = item.item;
 
-    el.addClass('daily-zettel-structure-option');
+    el.addClass('page-zettel-structure-option');
 
     if (option.isSkip) {
-      el.addClass('daily-zettel-skip-option');
+      el.addClass('page-zettel-skip-option');
       el.createSpan({ text: option.label });
     } else {
-      el.createSpan({ text: '🗂️ ', cls: 'daily-zettel-structure-icon' });
+      el.createSpan({ text: '🗂️ ', cls: 'page-zettel-structure-icon' });
       el.createSpan({ text: option.label });
     }
   }
@@ -1277,16 +1277,16 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
 
 ```typescript
 import { ItemView, WorkspaceLeaf, TFile } from 'obsidian';
-import DailyZettelPlugin from '../../main';
+import PageZettelPlugin from '../../main';
 import { OrphanDetector } from '../../services/OrphanDetector';
 
-export const VIEW_TYPE_ORPHAN = 'daily-zettel-orphan-view';
+export const VIEW_TYPE_ORPHAN = 'page-zettel-orphan-view';
 
 export class OrphanView extends ItemView {
-  private plugin: DailyZettelPlugin;
+  private plugin: PageZettelPlugin;
   private orphanDetector: OrphanDetector;
 
-  constructor(leaf: WorkspaceLeaf, plugin: DailyZettelPlugin) {
+  constructor(leaf: WorkspaceLeaf, plugin: PageZettelPlugin) {
     super(leaf);
     this.plugin = plugin;
     this.orphanDetector = new OrphanDetector(
@@ -1314,15 +1314,15 @@ export class OrphanView extends ItemView {
   async render(): Promise<void> {
     const container = this.containerEl.children[1];
     container.empty();
-    container.addClass('daily-zettel-orphan-view');
+    container.addClass('page-zettel-orphan-view');
 
     // ヘッダー
-    const header = container.createDiv({ cls: 'daily-zettel-orphan-header' });
+    const header = container.createDiv({ cls: 'page-zettel-orphan-header' });
     header.createEl('h4', { text: '🔗 孤立 Permanent Notes' });
 
     // 統計
     const stats = await this.orphanDetector.getStats();
-    const statsEl = header.createDiv({ cls: 'daily-zettel-orphan-stats' });
+    const statsEl = header.createDiv({ cls: 'page-zettel-orphan-stats' });
     statsEl.createSpan({
       text: `${stats.orphans.length} / ${stats.total} 件が未接続`
     });
@@ -1330,7 +1330,7 @@ export class OrphanView extends ItemView {
     // リフレッシュボタン
     const refreshBtn = header.createEl('button', {
       text: '🔄',
-      cls: 'daily-zettel-refresh-btn',
+      cls: 'page-zettel-refresh-btn',
       attr: { 'aria-label': '更新' }
     });
     refreshBtn.addEventListener('click', () => this.render());
@@ -1339,12 +1339,12 @@ export class OrphanView extends ItemView {
     if (stats.orphans.length === 0) {
       container.createDiv({
         text: '✅ すべての Permanent Notes は Structure Note に接続されています！',
-        cls: 'daily-zettel-orphan-empty'
+        cls: 'page-zettel-orphan-empty'
       });
       return;
     }
 
-    const list = container.createEl('ul', { cls: 'daily-zettel-orphan-list' });
+    const list = container.createEl('ul', { cls: 'page-zettel-orphan-list' });
 
     for (const file of stats.orphans) {
       this.renderOrphanItem(list, file);
@@ -1352,12 +1352,12 @@ export class OrphanView extends ItemView {
   }
 
   private renderOrphanItem(list: HTMLUListElement, file: TFile): void {
-    const item = list.createEl('li', { cls: 'daily-zettel-orphan-item' });
+    const item = list.createEl('li', { cls: 'page-zettel-orphan-item' });
 
     // ファイルリンク
     const link = item.createEl('a', {
       text: file.basename,
-      cls: 'daily-zettel-orphan-link'
+      cls: 'page-zettel-orphan-link'
     });
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -1365,11 +1365,11 @@ export class OrphanView extends ItemView {
     });
 
     // アクションボタン
-    const actions = item.createDiv({ cls: 'daily-zettel-orphan-actions' });
+    const actions = item.createDiv({ cls: 'page-zettel-orphan-actions' });
 
     const linkBtn = actions.createEl('button', {
       text: '🔗 接続',
-      cls: 'daily-zettel-action-btn'
+      cls: 'page-zettel-action-btn'
     });
     linkBtn.addEventListener('click', async () => {
       await this.plugin.linkToStructure(file);
@@ -1387,14 +1387,14 @@ export class OrphanView extends ItemView {
 
 ```typescript
 import { Plugin, Editor, MarkdownView } from 'obsidian';
-import { DailyZettelSettings } from '../types/settings';
+import { PageZettelSettings } from '../types/settings';
 import { extractSelection } from './ExtractSelectionCommand';
 import { promoteNote } from './PromoteNoteCommand';
 import { linkToStructure } from './LinkToStructureCommand';
 
 export function registerCommands(
   plugin: Plugin,
-  settings: DailyZettelSettings
+  settings: PageZettelSettings
 ): void {
   const emoji = settings.ui.showEmojiInCommands;
 
@@ -1450,13 +1450,13 @@ export function registerCommands(
 
 ```typescript
 import { Editor, MarkdownView, Notice, Plugin } from 'obsidian';
-import DailyZettelPlugin from '../main';
+import PageZettelPlugin from '../main';
 import { NoteType } from '../types/note-types';
 import { NoteTypeModal } from '../ui/modals/NoteTypeModal';
 import { StructureSuggestModal } from '../ui/modals/StructureSuggestModal';
 
 export async function extractSelection(
-  plugin: DailyZettelPlugin,
+  plugin: PageZettelPlugin,
   editor: Editor,
   view: MarkdownView
 ): Promise<void> {
@@ -1481,7 +1481,7 @@ export async function extractSelection(
 }
 
 async function createNoteFromSelection(
-  plugin: DailyZettelPlugin,
+  plugin: PageZettelPlugin,
   editor: Editor,
   selection: string,
   type: NoteType
@@ -1535,12 +1535,12 @@ async function createNoteFromSelection(
 
 ```typescript
 import { Notice, TFile } from 'obsidian';
-import DailyZettelPlugin from '../main';
+import PageZettelPlugin from '../main';
 import { NoteType, PROMOTION_PATHS } from '../types/note-types';
 import { NoteTypeModal } from '../ui/modals/NoteTypeModal';
 import { StructureSuggestModal } from '../ui/modals/StructureSuggestModal';
 
-export async function promoteNote(plugin: DailyZettelPlugin): Promise<void> {
+export async function promoteNote(plugin: PageZettelPlugin): Promise<void> {
   // 1. アクティブファイルを取得
   const file = plugin.app.workspace.getActiveFile();
 
@@ -1579,7 +1579,7 @@ export async function promoteNote(plugin: DailyZettelPlugin): Promise<void> {
 }
 
 async function executePromotion(
-  plugin: DailyZettelPlugin,
+  plugin: PageZettelPlugin,
   file: TFile,
   targetType: NoteType
 ): Promise<void> {
@@ -1614,13 +1614,13 @@ async function executePromotion(
 ### 9.1 `src/settings/defaults.ts`
 
 ```typescript
-import { DailyZettelSettings } from '../types/settings';
+import { PageZettelSettings } from '../types/settings';
 import { NOTE_TYPE_CONFIG, NoteType } from '../types/note-types';
 
 /**
  * デフォルト設定値
  */
-export const DEFAULT_SETTINGS: DailyZettelSettings = {
+export const DEFAULT_SETTINGS: PageZettelSettings = {
   folders: {
     typeFolders: {
       fleeting: NOTE_TYPE_CONFIG.fleeting.folder,
@@ -1653,13 +1653,13 @@ export const DEFAULT_SETTINGS: DailyZettelSettings = {
 
 ```typescript
 import { App, PluginSettingTab, Setting } from 'obsidian';
-import DailyZettelPlugin from '../main';
+import PageZettelPlugin from '../main';
 import { NoteType, NOTE_TYPE_CONFIG } from '../types/note-types';
 
-export class DailyZettelSettingsTab extends PluginSettingTab {
-  plugin: DailyZettelPlugin;
+export class PageZettelSettingsTab extends PluginSettingTab {
+  plugin: PageZettelPlugin;
 
-  constructor(app: App, plugin: DailyZettelPlugin) {
+  constructor(app: App, plugin: PageZettelPlugin) {
     super(app, plugin);
     this.plugin = plugin;
   }
@@ -1668,7 +1668,7 @@ export class DailyZettelSettingsTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl('h2', { text: 'Daily Zettel 設定' });
+    containerEl.createEl('h2', { text: 'Page Zettel 設定' });
 
     // =====================================
     // フォルダ設定
@@ -1988,8 +1988,8 @@ await app.workspace.getLeaf('tab').setViewState({
 
 ```bash
 # 1. ディレクトリ作成
-mkdir obsidian-daily-zettel
-cd obsidian-daily-zettel
+mkdir obsidian-page-zettel
+cd obsidian-page-zettel
 
 # 2. npm 初期化
 npm init -y
@@ -2097,7 +2097,7 @@ npm install --save-dev \
 
 ```json
 {
-  "name": "obsidian-daily-zettel",
+  "name": "obsidian-page-zettel",
   "version": "0.1.0",
   "description": "Daily note-based Zettelkasten workflow for Obsidian",
   "main": "main.js",
@@ -2145,8 +2145,8 @@ npm install --save-dev \
 
 ```json
 {
-  "id": "obsidian-daily-zettel",
-  "name": "Daily Zettel",
+  "id": "obsidian-page-zettel",
+  "name": "Page Zettel",
   "version": "0.1.0",
   "minAppVersion": "1.0.0",
   "description": "Daily note-based Zettelkasten workflow",
@@ -2182,11 +2182,11 @@ esbuild.build({
 
 ```css
 /* ================================================
-   Daily Zettel - Mobile-First Styles
+   Page Zettel - Mobile-First Styles
    ================================================ */
 
 /* モーダル基本スタイル */
-.daily-zettel-modal {
+.page-zettel-modal {
   max-width: 90vw;
   max-height: 80vh;
   overflow-y: auto;
@@ -2194,42 +2194,42 @@ esbuild.build({
 }
 
 /* ノートタイプ選択オプション */
-.daily-zettel-type-option {
+.page-zettel-type-option {
   padding: 12px 16px;
   min-height: 48px;
   display: flex;
   align-items: center;
 }
 
-.daily-zettel-type-container {
+.page-zettel-type-container {
   display: flex;
   align-items: center;
   gap: 12px;
   width: 100%;
 }
 
-.daily-zettel-type-icon {
+.page-zettel-type-icon {
   font-size: 1.5em;
   flex-shrink: 0;
 }
 
-.daily-zettel-type-text {
+.page-zettel-type-text {
   flex: 1;
 }
 
-.daily-zettel-type-label {
+.page-zettel-type-label {
   font-weight: 600;
   font-size: 1em;
 }
 
-.daily-zettel-type-description {
+.page-zettel-type-description {
   color: var(--text-muted);
   font-size: 0.85em;
   margin-top: 2px;
 }
 
 /* Structure 提案モーダル */
-.daily-zettel-structure-option {
+.page-zettel-structure-option {
   padding: 12px 16px;
   min-height: 48px;
   display: flex;
@@ -2237,17 +2237,17 @@ esbuild.build({
   gap: 8px;
 }
 
-.daily-zettel-skip-option {
+.page-zettel-skip-option {
   color: var(--text-muted);
   font-style: italic;
 }
 
 /* 孤立ノートビュー */
-.daily-zettel-orphan-view {
+.page-zettel-orphan-view {
   padding: 16px;
 }
 
-.daily-zettel-orphan-header {
+.page-zettel-orphan-header {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2255,17 +2255,17 @@ esbuild.build({
   margin-bottom: 16px;
 }
 
-.daily-zettel-orphan-header h4 {
+.page-zettel-orphan-header h4 {
   margin: 0;
   flex: 1;
 }
 
-.daily-zettel-orphan-stats {
+.page-zettel-orphan-stats {
   color: var(--text-muted);
   font-size: 0.9em;
 }
 
-.daily-zettel-refresh-btn {
+.page-zettel-refresh-btn {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -2274,11 +2274,11 @@ esbuild.build({
   border-radius: 4px;
 }
 
-.daily-zettel-refresh-btn:hover {
+.page-zettel-refresh-btn:hover {
   background: var(--background-modifier-hover);
 }
 
-.daily-zettel-orphan-empty {
+.page-zettel-orphan-empty {
   color: var(--text-success);
   padding: 24px;
   text-align: center;
@@ -2286,13 +2286,13 @@ esbuild.build({
   border-radius: 8px;
 }
 
-.daily-zettel-orphan-list {
+.page-zettel-orphan-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.daily-zettel-orphan-item {
+.page-zettel-orphan-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2301,7 +2301,7 @@ esbuild.build({
   gap: 12px;
 }
 
-.daily-zettel-orphan-link {
+.page-zettel-orphan-link {
   flex: 1;
   color: var(--text-accent);
   text-decoration: none;
@@ -2310,15 +2310,15 @@ esbuild.build({
   white-space: nowrap;
 }
 
-.daily-zettel-orphan-link:hover {
+.page-zettel-orphan-link:hover {
   text-decoration: underline;
 }
 
-.daily-zettel-orphan-actions {
+.page-zettel-orphan-actions {
   flex-shrink: 0;
 }
 
-.daily-zettel-action-btn {
+.page-zettel-action-btn {
   min-width: 44px;
   min-height: 44px;
   padding: 8px 16px;
@@ -2330,27 +2330,27 @@ esbuild.build({
   font-size: 0.9em;
 }
 
-.daily-zettel-action-btn:hover {
+.page-zettel-action-btn:hover {
   background: var(--interactive-accent-hover);
 }
 
-.daily-zettel-action-btn:active {
+.page-zettel-action-btn:active {
   transform: scale(0.98);
 }
 
 /* モバイル対応 */
 @media (max-width: 600px) {
-  .daily-zettel-orphan-item {
+  .page-zettel-orphan-item {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
 
-  .daily-zettel-orphan-actions {
+  .page-zettel-orphan-actions {
     width: 100%;
   }
 
-  .daily-zettel-action-btn {
+  .page-zettel-action-btn {
     width: 100%;
   }
 }
@@ -2362,9 +2362,9 @@ esbuild.build({
 
 ```typescript
 import { Plugin, TFile } from 'obsidian';
-import { DailyZettelSettings } from './types/settings';
+import { PageZettelSettings } from './types/settings';
 import { DEFAULT_SETTINGS } from './settings/defaults';
-import { DailyZettelSettingsTab } from './settings/SettingsTab';
+import { PageZettelSettingsTab } from './settings/SettingsTab';
 import { NoteManager } from './core/NoteManager';
 import { FrontmatterService } from './core/FrontmatterService';
 import { ConnectionManager } from './core/ConnectionManager';
@@ -2372,8 +2372,8 @@ import { registerCommands } from './commands';
 import { OrphanView, VIEW_TYPE_ORPHAN } from './ui/views/OrphanView';
 import { StructureSuggestModal } from './ui/modals/StructureSuggestModal';
 
-export default class DailyZettelPlugin extends Plugin {
-  settings: DailyZettelSettings;
+export default class PageZettelPlugin extends Plugin {
+  settings: PageZettelSettings;
   noteManager: NoteManager;
   frontmatterService: FrontmatterService;
   connectionManager: ConnectionManager;
@@ -2397,18 +2397,18 @@ export default class DailyZettelPlugin extends Plugin {
     );
 
     // リボンアイコン
-    this.addRibbonIcon('brain', 'Daily Zettel', () => {
+    this.addRibbonIcon('brain', 'Page Zettel', () => {
       this.showOrphanView();
     });
 
     // 設定タブ
-    this.addSettingTab(new DailyZettelSettingsTab(this.app, this));
+    this.addSettingTab(new PageZettelSettingsTab(this.app, this));
 
-    console.log('Daily Zettel plugin loaded');
+    console.log('Page Zettel plugin loaded');
   }
 
   onunload(): void {
-    console.log('Daily Zettel plugin unloaded');
+    console.log('Page Zettel plugin unloaded');
   }
 
   async loadSettings(): Promise<void> {
