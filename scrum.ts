@@ -35,7 +35,38 @@ const scrum: ScrumDashboard = {
     { id: "PBI-011", story: { role: "Zettelkasten実践者", capability: "Permanent Note接続率を数値で確認", benefit: "知識ネットワーク健全性の定量把握" }, acceptance_criteria: [{ criterion: "OrphanDetectorService.getStats()（型定義: interface OrphanStats { total: number; orphans: number; connected: number; connectionRate: number; }、全permanentノート数取得→getOrphanPermanentNotes()で孤立数→connected = total - orphans→connectionRate計算）", verification: "メソッド呼び出しでOrphanStatsオブジェクト取得、total/orphans/connected/connectionRate値の整合性確認" }, { criterion: "OrphanView.onOpen()でOrphanDetectorService.getStats()呼び出し、ヘッダーに統計情報表示（\"📊 接続率: X% (Y / Z 件が未接続)\"形式、リフレッシュ時に統計更新）", verification: "サイドバービュー開く→ヘッダー統計表示確認、リフレッシュボタン→統計更新確認" }], status: "done" },
   ],
 
-  sprint: null,
+  sprint: {
+    number: 10,
+    pbi_id: "PBI-009",
+    goal: "ワンタップFleeting Note作成",
+    status: "planning",
+    subtasks: [
+      {
+        test: "QuickCaptureModal (Modal継承、テキストエリア+ボタンUI、Enter/Escapeキーハンドリング)",
+        implementation: "src/ui/modals/quick-capture-modal.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "コマンド登録 (id: quick-fleeting、name絵文字切り替え、QuickCaptureModal起動)",
+        implementation: "src/main.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "E2Eフロー統合 (Modal入力→NoteManager.createNote呼び出し→10-Fleetingフォルダ生成→新規ノートオープン→Modal閉じる)",
+        implementation: "src/ui/modals/quick-capture-modal.ts,src/main.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+    ],
+  },
 
   definition_of_done: {
     checks: [
