@@ -2,14 +2,14 @@ import { App, TFile } from "obsidian";
 import { NoteType } from "../types/note-types";
 import { FrontmatterService } from "./frontmatter-service";
 import { FolderService } from "./folder-service";
-import type { DailyZettelSettings } from "../types/settings";
+import type { PageZettelSettings } from "../types/settings";
 
 export class PromotionService {
 	private app: App;
 	private frontmatterService: FrontmatterService;
 	private folderService: FolderService;
 
-	constructor(app: App, settings: DailyZettelSettings) {
+	constructor(app: App, settings: PageZettelSettings) {
 		this.app = app;
 		this.frontmatterService = new FrontmatterService(app);
 		this.folderService = new FolderService(app, settings);

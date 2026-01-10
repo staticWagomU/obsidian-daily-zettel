@@ -2,11 +2,11 @@ import { Notice, TFile } from "obsidian";
 import { PROMOTION_PATHS } from "../types/note-types";
 import { NoteTypeModal } from "../ui/modals/note-type-modal";
 import { FrontmatterService } from "../services/frontmatter-service";
-import type DailyZettelPlugin from "../main";
+import type PageZettelPlugin from "../main";
 import type { NoteType } from "../types/note-types";
 import { t } from "../i18n";
 
-export async function promoteNote(plugin: DailyZettelPlugin): Promise<void> {
+export async function promoteNote(plugin: PageZettelPlugin): Promise<void> {
 	// 1. 現在のアクティブファイルを取得
 	const file = plugin.app.workspace.getActiveFile();
 

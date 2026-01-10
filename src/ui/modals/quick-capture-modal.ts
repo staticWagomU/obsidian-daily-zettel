@@ -1,13 +1,13 @@
 import { App, Modal, Setting } from "obsidian";
-import type DailyZettelPlugin from "../../main";
+import type PageZettelPlugin from "../../main";
 import { t } from "../../i18n";
 
 export class QuickCaptureModal extends Modal {
-	private plugin: DailyZettelPlugin;
+	private plugin: PageZettelPlugin;
 	private onSubmit: (title: string) => void;
 	private titleInput: HTMLInputElement | null = null;
 
-	constructor(app: App, plugin: DailyZettelPlugin, onSubmit: (title: string) => void) {
+	constructor(app: App, plugin: PageZettelPlugin, onSubmit: (title: string) => void) {
 		super(app);
 		this.plugin = plugin;
 		this.onSubmit = onSubmit;
@@ -17,7 +17,7 @@ export class QuickCaptureModal extends Modal {
 		const { contentEl } = this;
 
 		contentEl.empty();
-		contentEl.addClass("daily-zettel-modal");
+		contentEl.addClass("page-zettel-modal");
 
 		// モーダルタイトル
 		contentEl.createEl("h2", { text: t("modals.quickCapture.title") });

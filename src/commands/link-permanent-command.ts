@@ -1,10 +1,10 @@
 import { Notice, TFile } from "obsidian";
 import { StructureSuggestModal } from "../ui/modals/structure-suggest-modal";
 import { FrontmatterService } from "../services/frontmatter-service";
-import type DailyZettelPlugin from "../main";
+import type PageZettelPlugin from "../main";
 import { t } from "../i18n";
 
-export async function linkPermanent(plugin: DailyZettelPlugin): Promise<void> {
+export async function linkPermanent(plugin: PageZettelPlugin): Promise<void> {
 	// 1. 現在のアクティブファイルを取得
 	const file = plugin.app.workspace.getActiveFile();
 

@@ -2,11 +2,11 @@ import { Editor, MarkdownView, Notice } from "obsidian";
 import { NoteType } from "../types/note-types";
 import { NoteTypeModal } from "../ui/modals/note-type-modal";
 import { StructureSuggestModal } from "../ui/modals/structure-suggest-modal";
-import type DailyZettelPlugin from "../main";
+import type PageZettelPlugin from "../main";
 import { t } from "../i18n";
 
 export async function extractSelection(
-	plugin: DailyZettelPlugin,
+	plugin: PageZettelPlugin,
 	editor: Editor,
 	view: MarkdownView,
 ): Promise<void> {
@@ -31,7 +31,7 @@ export async function extractSelection(
 }
 
 async function createNoteFromSelection(
-	plugin: DailyZettelPlugin,
+	plugin: PageZettelPlugin,
 	editor: Editor,
 	view: MarkdownView,
 	selection: string,

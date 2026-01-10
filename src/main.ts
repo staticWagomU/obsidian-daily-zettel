@@ -1,6 +1,6 @@
 import { Editor, MarkdownView, Plugin, TFile, WorkspaceLeaf } from "obsidian";
-import { DEFAULT_SETTINGS, DailyZettelSettingTab } from "./settings";
-import type { DailyZettelSettings } from "./types/settings";
+import { DEFAULT_SETTINGS, PageZettelSettingTab } from "./settings";
+import type { PageZettelSettings } from "./types/settings";
 import { NoteManager } from "./core/note-manager";
 import { ConnectionManager } from "./core/connection-manager";
 import { PromotionService } from "./services/promotion-service";
@@ -12,8 +12,8 @@ import { OrphanView, VIEW_TYPE_ORPHAN } from "./ui/views/orphan-view";
 import { QuickCaptureModal } from "./ui/modals/quick-capture-modal";
 import { t } from "./i18n";
 
-export default class DailyZettelPlugin extends Plugin {
-	settings: DailyZettelSettings;
+export default class PageZettelPlugin extends Plugin {
+	settings: PageZettelSettings;
 	noteManager: NoteManager;
 	connectionManager: ConnectionManager;
 	promotionService: PromotionService;
@@ -180,7 +180,7 @@ export default class DailyZettelPlugin extends Plugin {
 		);
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new DailyZettelSettingTab(this.app, this));
+		this.addSettingTab(new PageZettelSettingTab(this.app, this));
 	}
 
 	onunload() {
@@ -218,7 +218,7 @@ export default class DailyZettelPlugin extends Plugin {
 		this.settings = Object.assign(
 			{},
 			DEFAULT_SETTINGS,
-			(await this.loadData()) as Partial<DailyZettelSettings>,
+			(await this.loadData()) as Partial<PageZettelSettings>,
 		);
 	}
 

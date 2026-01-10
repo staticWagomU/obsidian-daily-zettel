@@ -1,6 +1,6 @@
 import { App, moment, TFile } from "obsidian";
 import { NoteType, NOTE_TYPE_CONFIG } from "../types/note-types";
-import type { DailyZettelSettings } from "../types/settings";
+import type { PageZettelSettings } from "../types/settings";
 
 export interface TemplateVariables {
 	title: string;
@@ -11,9 +11,9 @@ export interface TemplateVariables {
 
 export class TemplateService {
 	private app: App;
-	private settings: DailyZettelSettings;
+	private settings: PageZettelSettings;
 
-	constructor(app: App, settings: DailyZettelSettings) {
+	constructor(app: App, settings: PageZettelSettings) {
 		this.app = app;
 		this.settings = settings;
 	}

@@ -1,6 +1,6 @@
 import { App, TFile, Notice } from "obsidian";
 import { NoteType, NoteMetadata, NOTE_TYPE_CONFIG } from "../types/note-types";
-import type { DailyZettelSettings } from "../types/settings";
+import type { PageZettelSettings } from "../types/settings";
 import { FrontmatterService } from "../services/frontmatter-service";
 import { TemplateService } from "../services/template-service";
 import { FolderService } from "../services/folder-service";
@@ -16,12 +16,12 @@ export interface CreateNoteOptions {
 
 export class NoteManager {
 	private app: App;
-	private settings: DailyZettelSettings;
+	private settings: PageZettelSettings;
 	private frontmatterService: FrontmatterService;
 	private templateService: TemplateService;
 	private folderService: FolderService;
 
-	constructor(app: App, settings: DailyZettelSettings) {
+	constructor(app: App, settings: PageZettelSettings) {
 		this.app = app;
 		this.settings = settings;
 		this.frontmatterService = new FrontmatterService(app);

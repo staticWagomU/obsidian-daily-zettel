@@ -1,6 +1,6 @@
 import { NoteType } from "./note-types";
 
-export interface DailyZettelSettings {
+export interface PageZettelSettings {
 	// フォルダ設定
 	folders: FolderSettings;
 

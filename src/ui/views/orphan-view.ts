@@ -2,7 +2,7 @@ import { ItemView, WorkspaceLeaf, TFile, Notice } from "obsidian";
 import { OrphanDetectorService } from "../../services/orphan-detector-service";
 import { StructureSuggestModal } from "../modals/structure-suggest-modal";
 import { ConnectionManager } from "../../core/connection-manager";
-import type { DailyZettelSettings } from "../../types/settings";
+import type { PageZettelSettings } from "../../types/settings";
 import type { OrphanStats } from "../../types";
 import { t } from "../../i18n";
 
@@ -13,9 +13,9 @@ export class OrphanView extends ItemView {
 	private connectionManager: ConnectionManager;
 	private orphanNotes: TFile[] = [];
 	private orphanStats: OrphanStats | null = null;
-	private settings: DailyZettelSettings;
+	private settings: PageZettelSettings;
 
-	constructor(leaf: WorkspaceLeaf, settings: DailyZettelSettings) {
+	constructor(leaf: WorkspaceLeaf, settings: PageZettelSettings) {
 		super(leaf);
 		this.settings = settings;
 		this.orphanDetectorService = new OrphanDetectorService(this.app);

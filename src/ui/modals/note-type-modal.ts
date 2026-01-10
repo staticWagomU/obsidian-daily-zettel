@@ -17,7 +17,7 @@ export class NoteTypeModal extends FuzzySuggestModal<NoteTypeOption> {
 		this.allowedTypes = allowedTypes ?? ["fleeting", "literature", "permanent"];
 
 		this.setPlaceholder(t("modals.noteType.placeholder"));
-		this.modalEl.addClass("daily-zettel-modal");
+		this.modalEl.addClass("page-zettel-modal");
 	}
 
 	getItems(): NoteTypeOption[] {
@@ -34,29 +34,29 @@ export class NoteTypeModal extends FuzzySuggestModal<NoteTypeOption> {
 	renderSuggestion(item: { item: NoteTypeOption }, el: HTMLElement): void {
 		const option = item.item;
 
-		el.addClass("daily-zettel-type-option");
+		el.addClass("page-zettel-type-option");
 
-		const container = el.createDiv({ cls: "daily-zettel-type-container" });
+		const container = el.createDiv({ cls: "page-zettel-type-container" });
 
 		// アイコン
 		container.createSpan({
 			text: option.config.icon,
-			cls: "daily-zettel-type-icon",
+			cls: "page-zettel-type-icon",
 		});
 
 		// テキスト部分
-		const textContainer = container.createDiv({ cls: "daily-zettel-type-text" });
+		const textContainer = container.createDiv({ cls: "page-zettel-type-text" });
 
 		// ラベル
 		textContainer.createDiv({
 			text: option.config.label,
-			cls: "daily-zettel-type-label",
+			cls: "page-zettel-type-label",
 		});
 
 		// 説明
 		textContainer.createDiv({
 			text: option.config.description,
-			cls: "daily-zettel-type-description",
+			cls: "page-zettel-type-description",
 		});
 	}
 

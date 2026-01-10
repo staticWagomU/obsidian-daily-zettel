@@ -1,6 +1,6 @@
 import { App, FuzzySuggestModal, TFile, Notice } from "obsidian";
 import { SuggestionService } from "../../services/suggestion-service";
-import type { DailyZettelSettings } from "../../types/settings";
+import type { PageZettelSettings } from "../../types/settings";
 import { t } from "../../i18n";
 
 interface StructureOption {
@@ -17,7 +17,7 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
 
 	constructor(
 		app: App,
-		settings: DailyZettelSettings,
+		settings: PageZettelSettings,
 		permanentNote: TFile,
 		onSelect: (file: TFile | null) => void,
 	) {
@@ -27,7 +27,7 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
 		this.suggestionService = new SuggestionService(app, settings);
 
 		this.setPlaceholder(t("modals.structureSuggest.placeholder"));
-		this.modalEl.addClass("daily-zettel-modal");
+		this.modalEl.addClass("page-zettel-modal");
 
 		// 提案を非同期で読み込み
 		this.loadSuggestions();
@@ -72,13 +72,13 @@ export class StructureSuggestModal extends FuzzySuggestModal<StructureOption> {
 	renderSuggestion(item: { item: StructureOption }, el: HTMLElement): void {
 		const option = item.item;
 
-		el.addClass("daily-zettel-structure-option");
+		el.addClass("page-zettel-structure-option");
 
 		if (option.isSkip) {
-			el.addClass("daily-zettel-skip-option");
+			el.addClass("page-zettel-skip-option");
 			el.createSpan({ text: option.label });
 		} else {
-			el.createSpan({ text: "🗂️ ", cls: "daily-zettel-structure-icon" });
+			el.createSpan({ text: "🗂️ ", cls: "page-zettel-structure-icon" });
 			el.createSpan({ text: option.label });
 		}
 	}

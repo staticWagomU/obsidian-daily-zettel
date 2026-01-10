@@ -1,11 +1,11 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
-import DailyZettelPlugin from "./main";
-import type { DailyZettelSettings } from "./types/settings";
+import PageZettelPlugin from "./main";
+import type { PageZettelSettings } from "./types/settings";
 import { NOTE_TYPE_CONFIG } from "./types/note-types";
 import { FolderSuggest } from "./ui/suggesters/folder-suggest";
 import { t } from "./i18n";
 
-export const DEFAULT_SETTINGS: DailyZettelSettings = {
+export const DEFAULT_SETTINGS: PageZettelSettings = {
 	folders: {
 		typeFolders: {
 			fleeting: NOTE_TYPE_CONFIG.fleeting.folder,
@@ -30,10 +30,10 @@ export const DEFAULT_SETTINGS: DailyZettelSettings = {
 	},
 };
 
-export class DailyZettelSettingTab extends PluginSettingTab {
-	plugin: DailyZettelPlugin;
+export class PageZettelSettingTab extends PluginSettingTab {
+	plugin: PageZettelPlugin;
 
-	constructor(app: App, plugin: DailyZettelPlugin) {
+	constructor(app: App, plugin: PageZettelPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
