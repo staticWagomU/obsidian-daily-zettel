@@ -8,6 +8,7 @@ import { extractSelection } from "./commands/extract-selection-command";
 import { promoteNote } from "./commands/promote-note-command";
 import { linkPermanent } from "./commands/link-permanent-command";
 import { OrphanView, VIEW_TYPE_ORPHAN } from "./ui/views/orphan-view";
+import { QuickCaptureModal } from "./ui/modals/quick-capture-modal";
 
 export default class DailyZettelPlugin extends Plugin {
 	settings: DailyZettelSettings;
@@ -57,6 +58,28 @@ export default class DailyZettelPlugin extends Plugin {
 				: "Structure Note に接続",
 			callback: () => {
 				void linkPermanent(this);
+			},
+		});
+
+		this.addCommand({
+			id: "quick-fleeting",
+			name: this.settings.ui.showEmojiInCommands
+				? "⚡ Quick fleeting note"
+				: "Quick fleeting note",
+			callback: () => {
+				const modal = new QuickCaptureModal(this.app, this, (title: string) => {
+					void (async () => {
+						const file = await this.noteManager.createNote({
+							title,
+							type: "fleeting",
+							content: "",
+						});
+						// 新規ノートを開く
+						const leaf = this.app.workspace.getLeaf(false);
+						await leaf.openFile(file);
+					})();
+				});
+				modal.open();
 			},
 		});
 
