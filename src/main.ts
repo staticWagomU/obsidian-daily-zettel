@@ -90,7 +90,7 @@ export default class DailyZettelPlugin extends Plugin {
 
 		// Register editor context menu
 		this.registerEvent(
-			this.app.workspace.on("editor-menu", (menu, editor, info) => {
+			this.app.workspace.on("editor-menu", (menu, editor, _info) => {
 				if (!this.settings.ui.showContextMenuItems) return;
 
 				// 選択テキストがある場合のみ表示
