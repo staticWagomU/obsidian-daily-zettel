@@ -49,16 +49,20 @@ const scrum: ScrumDashboard = {
         test: "エディタコンテキストメニュー統合（workspace.on('editor-menu')をregisterEvent、選択テキストがある場合「選択範囲から新規ノート」表示、常時「ノートを昇格」「Structure Noteに接続」表示、settings.ui.showContextMenuItemsで表示制御）",
         implementation: "src/main.ts",
         type: "behavioral",
-        status: "green",
-        commits: [],
+        status: "completed",
+        commits: [
+          { hash: "31a755d", message: "feat(PBI-013): implement editor context menu integration", phase: "green" },
+        ],
         notes: [],
       },
       {
         test: "ファイルエクスプローラコンテキストメニュー統合（workspace.on('file-menu')をregisterEvent、.mdファイル右クリック時のみ「ノートを昇格」「Structure Noteに接続」表示）",
         implementation: "src/main.ts",
         type: "behavioral",
-        status: "pending",
-        commits: [],
+        status: "completed",
+        commits: [
+          { hash: "", message: "feat(PBI-013): implement file explorer context menu integration", phase: "green" },
+        ],
         notes: [],
       },
       {

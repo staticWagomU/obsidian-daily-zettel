@@ -137,6 +137,36 @@ export default class DailyZettelPlugin extends Plugin {
 			}),
 		);
 
+		// Register file context menu
+		this.registerEvent(
+			this.app.workspace.on("file-menu", (menu, file) => {
+				if (!this.settings.ui.showContextMenuItems) return;
+				if (!(file instanceof TFile) || file.extension !== "md") return;
+
+				menu.addItem((item) =>
+					item
+						.setTitle(
+							this.settings.ui.showEmojiInCommands
+								? "⬆️ ノートを昇格"
+								: "ノートを昇格",
+						)
+						.setIcon("arrow-up")
+						.onClick(() => void promoteNote(this)),
+				);
+
+				menu.addItem((item) =>
+					item
+						.setTitle(
+							this.settings.ui.showEmojiInCommands
+								? "🔗 Structure Noteに接続"
+								: "Structure Noteに接続",
+						)
+						.setIcon("link")
+						.onClick(() => void linkPermanent(this)),
+				);
+			}),
+		);
+
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new DailyZettelSettingTab(this.app, this));
 	}
