@@ -3,6 +3,7 @@ import DailyZettelPlugin from "./main";
 import type { DailyZettelSettings } from "./types/settings";
 import { NOTE_TYPE_CONFIG } from "./types/note-types";
 import { FolderSuggest } from "./ui/suggesters/folder-suggest";
+import { t } from "./i18n";
 
 export const DEFAULT_SETTINGS: DailyZettelSettings = {
 	folders: {
@@ -43,13 +44,13 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		// フォルダ設定セクション
-		new Setting(containerEl).setName("フォルダ設定").setHeading();
+		new Setting(containerEl).setName(t("settings.folders.heading")).setHeading();
 
 		new Setting(containerEl)
-			.setName("Fleetingノートフォルダ")
-			.setDesc("一時的なアイデアを保存するフォルダ")
+			.setName(t("settings.folders.fleeting.name"))
+			.setDesc(t("settings.folders.fleeting.desc"))
 			.addText((text) => {
-				text.setPlaceholder("00-inbox/fleeting")
+				text.setPlaceholder(t("settings.folders.fleeting.placeholder"))
 					.setValue(this.plugin.settings.folders.typeFolders.fleeting)
 					.onChange(async (value) => {
 						this.plugin.settings.folders.typeFolders.fleeting = value;
@@ -59,10 +60,10 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("Literatureノートフォルダ")
-			.setDesc("文献メモを保存するフォルダ")
+			.setName(t("settings.folders.literature.name"))
+			.setDesc(t("settings.folders.literature.desc"))
 			.addText((text) => {
-				text.setPlaceholder("10-literature")
+				text.setPlaceholder(t("settings.folders.literature.placeholder"))
 					.setValue(this.plugin.settings.folders.typeFolders.literature)
 					.onChange(async (value) => {
 						this.plugin.settings.folders.typeFolders.literature = value;
@@ -72,10 +73,10 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("Permanentノートフォルダ")
-			.setDesc("永続的な知識を保存するフォルダ")
+			.setName(t("settings.folders.permanent.name"))
+			.setDesc(t("settings.folders.permanent.desc"))
 			.addText((text) => {
-				text.setPlaceholder("20-permanent")
+				text.setPlaceholder(t("settings.folders.permanent.placeholder"))
 					.setValue(this.plugin.settings.folders.typeFolders.permanent)
 					.onChange(async (value) => {
 						this.plugin.settings.folders.typeFolders.permanent = value;
@@ -85,10 +86,10 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("Structureノートフォルダ")
-			.setDesc("構造ノートを保存するフォルダ")
+			.setName(t("settings.folders.structure.name"))
+			.setDesc(t("settings.folders.structure.desc"))
 			.addText((text) => {
-				text.setPlaceholder("30-structure")
+				text.setPlaceholder(t("settings.folders.structure.placeholder"))
 					.setValue(this.plugin.settings.folders.typeFolders.structure)
 					.onChange(async (value) => {
 						this.plugin.settings.folders.typeFolders.structure = value;
@@ -98,10 +99,10 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("Indexノートフォルダ")
-			.setDesc("インデックスノートを保存するフォルダ")
+			.setName(t("settings.folders.index.name"))
+			.setDesc(t("settings.folders.index.desc"))
 			.addText((text) => {
-				text.setPlaceholder("40-index")
+				text.setPlaceholder(t("settings.folders.index.placeholder"))
 					.setValue(this.plugin.settings.folders.typeFolders.index)
 					.onChange(async (value) => {
 						this.plugin.settings.folders.typeFolders.index = value;
@@ -111,10 +112,10 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("テンプレートフォルダ")
-			.setDesc("ノート作成時に使用するテンプレートを保存するフォルダ")
+			.setName(t("settings.folders.template.name"))
+			.setDesc(t("settings.folders.template.desc"))
 			.addText((text) => {
-				text.setPlaceholder("Templates")
+				text.setPlaceholder(t("settings.folders.template.placeholder"))
 					.setValue(this.plugin.settings.folders.templateFolder)
 					.onChange(async (value) => {
 						this.plugin.settings.folders.templateFolder = value;
@@ -124,10 +125,10 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("デイリーノートフォルダ")
-			.setDesc("デイリーノートを保存するフォルダ")
+			.setName(t("settings.folders.dailyNote.name"))
+			.setDesc(t("settings.folders.dailyNote.desc"))
 			.addText((text) => {
-				text.setPlaceholder("00-inbox/daily")
+				text.setPlaceholder(t("settings.folders.dailyNote.placeholder"))
 					.setValue(this.plugin.settings.folders.dailyNoteFolder)
 					.onChange(async (value) => {
 						this.plugin.settings.folders.dailyNoteFolder = value;
@@ -137,11 +138,11 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 			});
 
 		// 動作設定セクション
-		new Setting(containerEl).setName("動作設定").setHeading();
+		new Setting(containerEl).setName(t("settings.behavior.heading")).setHeading();
 
 		new Setting(containerEl)
-			.setName("切り出し後にリンクを挿入")
-			.setDesc("選択範囲から新規ノート作成後、元ノートに新規ノートへのリンクを挿入します")
+			.setName(t("settings.behavior.insertLinkAfterExtract.name"))
+			.setDesc(t("settings.behavior.insertLinkAfterExtract.desc"))
 			.addToggle((toggle) =>
 				toggle
 					.setValue(this.plugin.settings.behavior.insertLinkAfterExtract)
@@ -152,8 +153,8 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName("Permanentノート作成時にstructure提案")
-			.setDesc("Permanentノート作成時に関連するstructureノートへの接続を提案します")
+			.setName(t("settings.behavior.suggestStructureOnPermanent.name"))
+			.setDesc(t("settings.behavior.suggestStructureOnPermanent.desc"))
 			.addToggle((toggle) =>
 				toggle
 					.setValue(this.plugin.settings.behavior.suggestStructureOnPermanent)
@@ -164,8 +165,8 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName("昇格時にフォルダ移動")
-			.setDesc("ノート昇格時に自動的に対応するフォルダに移動します")
+			.setName(t("settings.behavior.moveOnPromotion.name"))
+			.setDesc(t("settings.behavior.moveOnPromotion.desc"))
 			.addToggle((toggle) =>
 				toggle
 					.setValue(this.plugin.settings.behavior.moveOnPromotion)
@@ -176,13 +177,13 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName("ファイル名プレフィックス")
-			.setDesc("新規ノート作成時のファイル名のプレフィックス形式を選択します")
+			.setName(t("settings.behavior.fileNamePrefix.name"))
+			.setDesc(t("settings.behavior.fileNamePrefix.desc"))
 			.addDropdown((dropdown) =>
 				dropdown
-					.addOption("date", "日付形式 (yyyymmdd)")
-					.addOption("zettel-id", "Zettelkasten ID形式 (yyyymmddhhmm)")
-					.addOption("none", "なし")
+					.addOption("date", t("settings.behavior.fileNamePrefix.options.date"))
+					.addOption("zettel-id", t("settings.behavior.fileNamePrefix.options.zettelId"))
+					.addOption("none", t("settings.behavior.fileNamePrefix.options.none"))
 					.setValue(this.plugin.settings.behavior.fileNamePrefix)
 					.onChange(async (value: "date" | "zettel-id" | "none") => {
 						this.plugin.settings.behavior.fileNamePrefix = value;
@@ -191,11 +192,11 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 			);
 
 		// UI設定セクション
-		new Setting(containerEl).setName("UI設定").setHeading();
+		new Setting(containerEl).setName(t("settings.ui.heading")).setHeading();
 
 		new Setting(containerEl)
-			.setName("コマンドに絵文字を表示")
-			.setDesc("コマンドパレットに表示されるコマンド名に絵文字を含めます")
+			.setName(t("settings.ui.showEmojiInCommands.name"))
+			.setDesc(t("settings.ui.showEmojiInCommands.desc"))
 			.addToggle((toggle) =>
 				toggle
 					.setValue(this.plugin.settings.ui.showEmojiInCommands)
@@ -206,8 +207,8 @@ export class DailyZettelSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName("コンテキストメニューに表示")
-			.setDesc("右クリックメニューにノート操作を表示します")
+			.setName(t("settings.ui.showContextMenuItems.name"))
+			.setDesc(t("settings.ui.showContextMenuItems.desc"))
 			.addToggle((toggle) =>
 				toggle
 					.setValue(this.plugin.settings.ui.showContextMenuItems)
