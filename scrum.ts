@@ -36,47 +36,10 @@ const scrum: ScrumDashboard = {
     // Phase 5: 設定UX改善
     { id: "PBI-012", story: { role: "Zettelkasten実践者", capability: "設定画面でフォルダをサジェストから選択", benefit: "手入力のタイポ防止・既存フォルダの発見" }, acceptance_criteria: [{ criterion: "FolderSuggest extends AbstractInputSuggest<TFolder>（getSuggestions: vault.getAllLoadedFiles()→TFolderフィルタ→入力文字列で部分一致検索、renderSuggestion: folder.path表示、selectSuggestion: inputEl.valueに設定→close()）", verification: "src/ui/suggesters/folder-suggest.ts存在、pnpm build成功" }, { criterion: "DailyZettelSettingTab内の7つのフォルダ入力テキストボックス（Fleeting/Literature/Permanent/Structure/Index/Template/DailyNote）にFolderSuggestをアタッチ", verification: "設定画面→各フォルダ入力欄で文字入力→既存フォルダがドロップダウン表示" }, { criterion: "サジェスト選択時にonChange発火→settings自動保存", verification: "サジェストから選択→設定タブを閉じて再開→選択値が保持" }], status: "done" },
     // Phase 6: アクセシビリティ改善
-    { id: "PBI-013", story: { role: "Obsidianモバイルユーザー", capability: "右クリックコンテキストメニューからノート操作を実行", benefit: "コマンドパレットを開かずに素早くアクセス" }, acceptance_criteria: [{ criterion: "エディタコンテキストメニュー統合（workspace.on('editor-menu')をregisterEvent、選択テキストがある場合「選択範囲から新規ノート」表示、常時「ノートを昇格」「Structure Noteに接続」表示、menu.addItem()で追加）", verification: "エディタ右クリック→メニュー項目表示確認、選択状態で項目変化確認" }, { criterion: "ファイルエクスプローラコンテキストメニュー統合（workspace.on('file-menu')をregisterEvent、.mdファイル右クリック時「ノートを昇格」「Structure Noteに接続」表示、menu.addItem()で追加）", verification: "ファイルエクスプローラで.mdファイル右クリック→メニュー項目表示確認" }, { criterion: "設定画面でコンテキストメニュー表示ON/OFF切り替え（settings.ui.showContextMenuItemsトグル追加、デフォルト: true、トグルOFF時はregisterEvent呼び出しスキップ）", verification: "設定画面→トグル表示確認、OFF時メニュー非表示、ON時メニュー表示" }], status: "ready" },
+    { id: "PBI-013", story: { role: "Obsidianモバイルユーザー", capability: "右クリックコンテキストメニューからノート操作を実行", benefit: "コマンドパレットを開かずに素早くアクセス" }, acceptance_criteria: [{ criterion: "エディタコンテキストメニュー統合（workspace.on('editor-menu')をregisterEvent、選択テキストがある場合「選択範囲から新規ノート」表示、常時「ノートを昇格」「Structure Noteに接続」表示、menu.addItem()で追加）", verification: "エディタ右クリック→メニュー項目表示確認、選択状態で項目変化確認" }, { criterion: "ファイルエクスプローラコンテキストメニュー統合（workspace.on('file-menu')をregisterEvent、.mdファイル右クリック時「ノートを昇格」「Structure Noteに接続」表示、menu.addItem()で追加）", verification: "ファイルエクスプローラで.mdファイル右クリック→メニュー項目表示確認" }, { criterion: "設定画面でコンテキストメニュー表示ON/OFF切り替え（settings.ui.showContextMenuItemsトグル追加、デフォルト: true、トグルOFF時はregisterEvent呼び出しスキップ）", verification: "設定画面→トグル表示確認、OFF時メニュー非表示、ON時メニュー表示" }], status: "done" },
   ],
 
-  sprint: {
-    number: 13,
-    pbi_id: "PBI-013",
-    goal: "コンテキストメニューからノート操作でアクセシビリティ向上",
-    status: "in_progress",
-    subtasks: [
-      {
-        test: "エディタコンテキストメニュー統合（workspace.on('editor-menu')をregisterEvent、選択テキストがある場合「選択範囲から新規ノート」表示、常時「ノートを昇格」「Structure Noteに接続」表示、settings.ui.showContextMenuItemsで表示制御）",
-        implementation: "src/main.ts",
-        type: "behavioral",
-        status: "completed",
-        commits: [
-          { hash: "31a755d", message: "feat(PBI-013): implement editor context menu integration", phase: "green" },
-        ],
-        notes: [],
-      },
-      {
-        test: "ファイルエクスプローラコンテキストメニュー統合（workspace.on('file-menu')をregisterEvent、.mdファイル右クリック時のみ「ノートを昇格」「Structure Noteに接続」表示）",
-        implementation: "src/main.ts",
-        type: "behavioral",
-        status: "completed",
-        commits: [
-          { hash: "ef716b0", message: "feat(PBI-013): implement file explorer context menu integration", phase: "green" },
-        ],
-        notes: [],
-      },
-      {
-        test: "設定画面UI追加（settings.ui.showContextMenuItemsトグル追加、UI設定セクションに配置、デフォルト: true）",
-        implementation: "src/settings.ts",
-        type: "behavioral",
-        status: "completed",
-        commits: [
-          { hash: "", message: "feat(PBI-013): add showContextMenuItems toggle to settings", phase: "green" },
-        ],
-        notes: [],
-      },
-    ],
-  },
+  sprint: null,
 
   definition_of_done: {
     checks: [
@@ -99,6 +62,7 @@ const scrum: ScrumDashboard = {
     { number: 10, pbi_id: "PBI-009", goal: "ワンタップFleeting Note作成", status: "done", subtasks: [{ test: "QuickCaptureModal+コマンド登録+E2E統合", implementation: "src/ui/modals/quick-capture-modal.ts,src/main.ts", type: "behavioral", status: "completed", commits: [{ hash: "3df2861", message: "feat(PBI-009): implement QuickCaptureModal", phase: "green" }, { hash: "00a260e", message: "feat(PBI-009): register quick-fleeting command", phase: "green" }], notes: [] }] },
     { number: 11, pbi_id: "PBI-010", goal: "初回起動時フォルダ自動生成", status: "done", subtasks: [{ test: "FolderService.initializeAllFolders()+main.ts統合", implementation: "src/services/folder-service.ts,src/main.ts", type: "behavioral", status: "completed", commits: [{ hash: "6562f6c", message: "feat(PBI-010): implement automatic folder structure initialization", phase: "green" }], notes: [] }] },
     { number: 12, pbi_id: "PBI-012", goal: "FolderSuggest機能で設定画面のUX向上", status: "done", subtasks: [{ test: "FolderSuggest extends AbstractInputSuggest<TFolder>（getSuggestions: vault.getAllLoadedFiles()→TFolderフィルタ→入力文字列で部分一致検索、renderSuggestion: folder.path表示、selectSuggestion: inputEl.valueに設定→close()）", implementation: "src/ui/suggesters/folder-suggest.ts", type: "behavioral", status: "completed", commits: [{ hash: "2c1069c", message: "feat(PBI-012): implement FolderSuggest class", phase: "green" }], notes: [] }, { test: "DailyZettelSettingTab内の7つのフォルダ入力テキストボックス（Fleeting/Literature/Permanent/Structure/Index/Template/DailyNote）にFolderSuggestをアタッチ、サジェスト選択時にonChange発火→settings自動保存", implementation: "src/settings.ts", type: "behavioral", status: "completed", commits: [{ hash: "96bc2da", message: "feat(PBI-012): integrate FolderSuggest with settings", phase: "green" }], notes: [] }] },
+    { number: 13, pbi_id: "PBI-013", goal: "コンテキストメニューからノート操作でアクセシビリティ向上", status: "done", subtasks: [{ test: "エディタコンテキストメニュー統合（workspace.on('editor-menu')をregisterEvent、選択テキストがある場合「選択範囲から新規ノート」表示、常時「ノートを昇格」「Structure Noteに接続」表示、settings.ui.showContextMenuItemsで表示制御）", implementation: "src/main.ts", type: "behavioral", status: "completed", commits: [{ hash: "31a755d", message: "feat(PBI-013): implement editor context menu integration", phase: "green" }], notes: [] }, { test: "ファイルエクスプローラコンテキストメニュー統合（workspace.on('file-menu')をregisterEvent、.mdファイル右クリック時のみ「ノートを昇格」「Structure Noteに接続」表示）", implementation: "src/main.ts", type: "behavioral", status: "completed", commits: [{ hash: "ef716b0", message: "feat(PBI-013): implement file explorer context menu integration", phase: "green" }], notes: [] }, { test: "設定画面UI追加（settings.ui.showContextMenuItemsトグル追加、UI設定セクションに配置、デフォルト: true）", implementation: "src/settings.ts", type: "behavioral", status: "completed", commits: [{ hash: "1770f67", message: "feat(PBI-013): add showContextMenuItems toggle to settings", phase: "green" }], notes: [] }] },
   ],
 
   retrospectives: [
