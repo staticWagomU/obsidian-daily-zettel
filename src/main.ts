@@ -10,6 +10,7 @@ import { promoteNote } from "./commands/promote-note-command";
 import { linkPermanent } from "./commands/link-permanent-command";
 import { OrphanView, VIEW_TYPE_ORPHAN } from "./ui/views/orphan-view";
 import { QuickCaptureModal } from "./ui/modals/quick-capture-modal";
+import { t } from "./i18n";
 
 export default class DailyZettelPlugin extends Plugin {
 	settings: DailyZettelSettings;
@@ -33,7 +34,7 @@ export default class DailyZettelPlugin extends Plugin {
 		this.registerView(VIEW_TYPE_ORPHAN, (leaf) => new OrphanView(leaf, this.settings));
 
 		// Add ribbon icon to open orphan view
-		this.addRibbonIcon("unlink", "Orphan permanent notes", () => {
+		this.addRibbonIcon("unlink", t("ribbon.orphanView"), () => {
 			void this.activateOrphanView();
 		});
 
@@ -41,8 +42,8 @@ export default class DailyZettelPlugin extends Plugin {
 		this.addCommand({
 			id: "extract-selection",
 			name: this.settings.ui.showEmojiInCommands
-				? "📝 選択範囲から新規ノート"
-				: "選択範囲から新規ノート",
+				? `📝 ${t("commands.extractSelection")}`
+				: t("commands.extractSelection"),
 			editorCallback: (editor: Editor, view: MarkdownView) => {
 				void extractSelection(this, editor, view);
 			},
@@ -50,7 +51,9 @@ export default class DailyZettelPlugin extends Plugin {
 
 		this.addCommand({
 			id: "promote-note",
-			name: this.settings.ui.showEmojiInCommands ? "⬆️ ノートを昇格" : "ノートを昇格",
+			name: this.settings.ui.showEmojiInCommands
+				? `⬆️ ${t("commands.promoteNote")}`
+				: t("commands.promoteNote"),
 			callback: () => {
 				void promoteNote(this);
 			},
@@ -59,8 +62,8 @@ export default class DailyZettelPlugin extends Plugin {
 		this.addCommand({
 			id: "link-permanent",
 			name: this.settings.ui.showEmojiInCommands
-				? "🔗 Structure Note に接続"
-				: "Structure Note に接続",
+				? `🔗 ${t("commands.linkPermanent")}`
+				: t("commands.linkPermanent"),
 			callback: () => {
 				void linkPermanent(this);
 			},
@@ -69,8 +72,8 @@ export default class DailyZettelPlugin extends Plugin {
 		this.addCommand({
 			id: "quick-fleeting",
 			name: this.settings.ui.showEmojiInCommands
-				? "⚡ Quick fleeting note"
-				: "Quick fleeting note",
+				? `⚡ ${t("commands.quickFleeting")}`
+				: t("commands.quickFleeting"),
 			callback: () => {
 				const modal = new QuickCaptureModal(this.app, this, (title: string) => {
 					void (async () => {
@@ -102,8 +105,8 @@ export default class DailyZettelPlugin extends Plugin {
 							.setSection("page-zettel")
 							.setTitle(
 								this.settings.ui.showEmojiInCommands
-									? "📝 選択範囲から新規ノート"
-									: "選択範囲から新規ノート",
+									? `📝 ${t("commands.extractSelection")}`
+									: t("commands.extractSelection"),
 							)
 							.setIcon("file-plus")
 							.onClick(() => {
@@ -121,8 +124,8 @@ export default class DailyZettelPlugin extends Plugin {
 						.setSection("page-zettel")
 						.setTitle(
 							this.settings.ui.showEmojiInCommands
-								? "⬆️ ノートを昇格"
-								: "ノートを昇格",
+								? `⬆️ ${t("commands.promoteNote")}`
+								: t("commands.promoteNote"),
 						)
 						.setIcon("arrow-up")
 						.onClick(() => void promoteNote(this)),
@@ -133,8 +136,8 @@ export default class DailyZettelPlugin extends Plugin {
 						.setSection("page-zettel")
 						.setTitle(
 							this.settings.ui.showEmojiInCommands
-								? "🔗 Structure Noteに接続"
-								: "Structure Noteに接続",
+								? `🔗 ${t("commands.linkPermanent")}`
+								: t("commands.linkPermanent"),
 						)
 						.setIcon("link")
 						.onClick(() => void linkPermanent(this)),
@@ -155,8 +158,8 @@ export default class DailyZettelPlugin extends Plugin {
 						.setSection("page-zettel")
 						.setTitle(
 							this.settings.ui.showEmojiInCommands
-								? "⬆️ ノートを昇格"
-								: "ノートを昇格",
+								? `⬆️ ${t("commands.promoteNote")}`
+								: t("commands.promoteNote"),
 						)
 						.setIcon("arrow-up")
 						.onClick(() => void promoteNote(this)),
@@ -167,8 +170,8 @@ export default class DailyZettelPlugin extends Plugin {
 						.setSection("page-zettel")
 						.setTitle(
 							this.settings.ui.showEmojiInCommands
-								? "🔗 Structure Noteに接続"
-								: "Structure Noteに接続",
+								? `🔗 ${t("commands.linkPermanent")}`
+								: t("commands.linkPermanent"),
 						)
 						.setIcon("link")
 						.onClick(() => void linkPermanent(this)),
