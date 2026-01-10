@@ -25,6 +25,7 @@ export const DEFAULT_SETTINGS: DailyZettelSettings = {
 	ui: {
 		showEmojiInCommands: true,
 		mobileOptimized: true,
+		showContextMenuItems: true,
 	},
 };
 

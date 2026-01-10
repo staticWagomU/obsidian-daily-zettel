@@ -36,4 +36,6 @@ export interface UISettings {
 	showEmojiInCommands: boolean;
 	/** モバイル最適化UI */
 	mobileOptimized: boolean;
+	/** コンテキストメニューにノート操作を表示 */
+	showContextMenuItems: boolean;
 }
