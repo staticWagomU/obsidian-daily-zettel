@@ -202,7 +202,7 @@ const scrum: ScrumDashboard = {
     number: 16,
     pbi_id: "PBI-016",
     goal: "不要なStructure/Index関連コードを削除し、ノートタイプを3種類に整理",
-    status: "in_progress",
+    status: "done",
     subtasks: [
       {
         test: "connection-manager.ts, structure-suggest-modal.ts, suggestion-service.ts, link-permanent-command.tsの4ファイルが存在しないこと",
@@ -264,8 +264,8 @@ const scrum: ScrumDashboard = {
         test: "pnpm build && pnpm lintが成功すること",
         implementation: "Definition of Done検証実行",
         type: "structural",
-        status: "pending",
-        commits: [],
+        status: "completed",
+        commits: [{ hash: "c26fa4a", message: "refactor(PBI-016): fix build errors - remove Structure references", phase: "green" }],
         notes: []
       }
     ]
