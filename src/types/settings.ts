@@ -1,7 +1,26 @@
 import { NoteType } from "./note-types";
 
+/**
+ * 各ノートタイプの詳細設定
+ */
+export interface NoteTypeSettings {
+	/** フォルダパス */
+	folder: string;
+	/** ファイル名形式 (例: "{{date}}-{{title}}", "{{zettel-id}}-{{title}}") */
+	fileNameFormat: string;
+	/** エイリアス入力を表示するか */
+	showAliasInput: boolean;
+	/** テンプレートファイルパス (フォルダからの相対パス) */
+	templatePath: string;
+}
+
 export interface PageZettelSettings {
-	// フォルダ設定
+	// ノートタイプ別設定
+	fleeting: NoteTypeSettings;
+	literature: NoteTypeSettings;
+	permanent: NoteTypeSettings;
+
+	// 共通フォルダ設定
 	folders: FolderSettings;
 
 	// 動作設定
@@ -12,8 +31,6 @@ export interface PageZettelSettings {
 }
 
 export interface FolderSettings {
-	/** ノートタイプ別フォルダパス */
-	typeFolders: Record<NoteType, string>;
 	/** テンプレートフォルダ */
 	templateFolder: string;
 	/** デイリーノートフォルダ */
