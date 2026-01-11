@@ -1,7 +1,6 @@
 import { Editor, MarkdownView, Notice } from "obsidian";
 import { NoteType } from "../types/note-types";
 import { NoteTypeModal } from "../ui/modals/note-type-modal";
-import { StructureSuggestModal } from "../ui/modals/structure-suggest-modal";
 import type PageZettelPlugin from "../main";
 import { t } from "../i18n";
 
@@ -57,21 +56,6 @@ async function createNoteFromSelection(
 		editor.replaceSelection(link);
 	}
 
-	// 6. Permanent の場合は Structure Note への接続を提案
-	if (type === "permanent" && plugin.settings.behavior.suggestStructureOnPermanent) {
-		const structureModal = new StructureSuggestModal(
-			plugin.app,
-			plugin.settings,
-			newFile,
-			(structureFile) => {
-				if (structureFile) {
-					void plugin.connectionManager.linkPermanentToStructure(newFile, structureFile);
-				}
-			},
-		);
-		structureModal.open();
-	}
-
-	// 7. 新規ノートを開く
+	// 6. 新規ノートを開く
 	await plugin.app.workspace.openLinkText(newFile.path, "");
 }

@@ -208,56 +208,56 @@ const scrum: ScrumDashboard = {
         test: "connection-manager.ts, structure-suggest-modal.ts, suggestion-service.ts, link-permanent-command.tsの4ファイルが存在しないこと",
         implementation: "src/core/connection-manager.ts, src/ui/modals/structure-suggest-modal.ts, src/services/suggestion-service.ts, src/commands/link-permanent-command.tsを削除",
         type: "structural",
-        status: "pending",
-        commits: [],
+        status: "completed",
+        commits: [{ hash: "f72e1d8", message: "refactor(PBI-016): remove Structure Note related files", phase: "green" }],
         notes: []
       },
       {
         test: "main.ts内でConnectionManager|StructureSuggestModal|linkPermanentがgrepで検出されないこと",
         implementation: "src/main.tsからConnectionManager import/初期化/link-permanentコマンド/コンテキストメニュー項目を削除（L5,18,30,68-69,138-143,168-177）",
         type: "structural",
-        status: "pending",
-        commits: [],
+        status: "completed",
+        commits: [{ hash: "906d105", message: "refactor(PBI-016): remove Structure-related code from main.ts", phase: "green" }],
         notes: []
       },
       {
         test: "orphan-view.ts内で接続ボタンが存在せず、StructureSuggestModal|ConnectionManagerがgrepで検出されないこと",
         implementation: "src/ui/views/orphan-view.tsからStructureSuggestModal(L3), ConnectionManager(L4,13,22,65), connectNote(L57-75)を削除",
         type: "structural",
-        status: "pending",
-        commits: [],
+        status: "completed",
+        commits: [{ hash: "2f40134", message: "refactor(PBI-016): remove Structure connection feature from orphan-view.ts", phase: "green" }],
         notes: []
       },
       {
         test: "settings.ts内でindex設定/structure設定/suggestStructureOnPermanent設定が存在しないこと",
         implementation: "src/settings.tsからindex設定(L101-112), structure設定(L88-99), suggestStructureOnPermanent(L155-165)を削除",
         type: "structural",
-        status: "pending",
-        commits: [],
+        status: "completed",
+        commits: [{ hash: "3a16274", message: "refactor(PBI-016): remove Index/Structure settings from settings.ts", phase: "green" }],
         notes: []
       },
       {
         test: "NoteType型が\"fleeting\"|\"literature\"|\"permanent\"のみで、NOTE_TYPE_CONFIG/PROMOTION_PATHSからstructure/indexが削除されていること",
         implementation: "src/types/note-types.tsから'structure'|'index'削除、NOTE_TYPE_CONFIG/PROMOTION_PATHS更新",
         type: "structural",
-        status: "pending",
-        commits: [],
+        status: "completed",
+        commits: [{ hash: "3192980", message: "refactor(PBI-016): update NoteType to 3 types only", phase: "green" }],
         notes: []
       },
       {
         test: "folder-service.tsのnoteTypes配列に'structure', 'index'が存在しないこと",
         implementation: "src/services/folder-service.tsのinitializeAllFolders()から'structure', 'index'削除（L63）",
         type: "structural",
-        status: "pending",
-        commits: [],
+        status: "completed",
+        commits: [{ hash: "b3ce117", message: "refactor(PBI-016): update folder-service.ts to 3 note types", phase: "green" }],
         notes: []
       },
       {
         test: "i18n/locales/*.json内でstructure/index関連翻訳（settings.folders, commands.linkPermanent等）が検出されないこと",
         implementation: "src/i18n/locales/en.json, src/i18n/locales/ja.jsonからstructure/index関連翻訳削除",
         type: "structural",
-        status: "pending",
-        commits: [],
+        status: "completed",
+        commits: [{ hash: "095fd68", message: "refactor(PBI-016): remove structure/index i18n translations", phase: "green" }],
         notes: []
       },
       {

@@ -23,8 +23,6 @@ export interface FolderSettings {
 export interface BehaviorSettings {
 	/** 切り出し後に元ノートにリンクを挿入 */
 	insertLinkAfterExtract: boolean;
-	/** Permanent 作成時に Structure 提案を表示 */
-	suggestStructureOnPermanent: boolean;
 	/** 昇格時に自動でフォルダ移動 */
 	moveOnPromotion: boolean;
 	/** ファイル名のプレフィックス形式 */
