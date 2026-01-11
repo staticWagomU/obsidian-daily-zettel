@@ -39,7 +39,62 @@ const scrum: ScrumDashboard = {
     { id: "PBI-024", story: { role: "Obsidianユーザー", capability: "コンテキストメニューExtract", benefit: "右クリックアクセス" }, acceptance_criteria: [{ criterion: "メニュー表示", verification: "選択時のみ" }, { criterion: "コマンド実行", verification: "E2E" }, { criterion: "ON/OFF設定", verification: "設定連動" }], status: "draft" },
   ],
 
-  sprint: null,
+  sprint: {
+    number: 17,
+    pbi_id: "PBI-017",
+    goal: "各ノートタイプのフォルダ・ファイル名形式・テンプレート設定機能",
+    status: "in_progress",
+    subtasks: [
+      {
+        test: "NoteTypeSettings型定義(folder/fileNameFormat/showAliasInput/templatePath)",
+        implementation: "types/settings.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "PageZettelSettings拡張(fleeting/literature/permanent)+DEFAULT_SETTINGS",
+        implementation: "settings.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "Fleeting設定UI(folder/fileNameFormat/showAliasInput/templatePath)",
+        implementation: "settings.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "Literature設定UI(folder/fileNameFormat/showAliasInput/templatePath)",
+        implementation: "settings.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "Permanent設定UI(folder/fileNameFormat/showAliasInput/templatePath)",
+        implementation: "settings.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+      {
+        test: "設定永続化検証(data.json保存+再読み込み)",
+        implementation: "main.ts",
+        type: "behavioral",
+        status: "pending",
+        commits: [],
+        notes: [],
+      },
+    ],
+  },
 
   definition_of_done: { checks: [{ name: "Build passes", run: "pnpm build" }, { name: "Lint passes", run: "pnpm lint" }, { name: "Format check passes", run: "pnpm format:check" }] },
 
