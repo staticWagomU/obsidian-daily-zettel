@@ -5,15 +5,16 @@
 const userStoryRoles = [
   "Obsidianモバイルユーザー",
   "Zettelkasten実践者",
+  "Obsidianユーザー",
 ] as const satisfies readonly string[];
 
 const scrum: ScrumDashboard = {
   product_goal: {
     statement:
-      "最小限の操作でノートの切り出し・分類・接続を自動化する",
+      "Zettelkasten方式でアイデアを効率的に記録・整理し、知識のネットワークを構築できるようにする",
     success_metrics: [
-      { metric: "ノート作成のタップ数", target: "3タップ以内" },
-      { metric: "Structure Note接続率", target: "80%以上のPermanent Noteが接続済み" },
+      { metric: "ノート作成の操作ステップ数", target: "3ステップ以内" },
+      { metric: "コマンド実行からノート作成完了まで", target: "5秒以内" },
     ],
   },
 
@@ -40,6 +41,145 @@ const scrum: ScrumDashboard = {
     // Phase 7: 国際化対応
     { id: "PBI-014", story: { role: "Obsidianモバイルユーザー", capability: "UIを英語/日本語で表示", benefit: "言語設定に合わせた自然なUI体験" }, acceptance_criteria: [{ criterion: "i18n基盤構築（src/i18n/index.ts: t()関数・getCurrentLocale()実装、src/i18n/locales/en.json: 英語翻訳JSON、src/i18n/locales/ja.json: 日本語翻訳JSON、getLanguage() APIでObsidianのロケールを検出、デフォルトjaにフォールバック）", verification: "t('commands.extractSelection')等の呼び出しでlocaleに応じた文字列取得、pnpm build成功" }, { criterion: "コマンド・コンテキストメニューのi18n化（main.ts: 4つのaddCommand().name・3つのeditor-menu setTitle()・2つのfile-menu setTitle()をt()で置換、絵文字設定対応維持）", verification: "Obsidian言語設定en/ja切り替え→コマンドパレット・コンテキストメニューの表示言語切り替え確認" }, { criterion: "設定画面のi18n化（settings.ts: 3セクションヘッディング・12項目のsetName()/setDesc()/setPlaceholder()をt()で置換、dropdownのaddOption()ラベルもi18n化）", verification: "Obsidian言語設定en/ja切り替え→設定画面の全テキスト表示言語切り替え確認" }, { criterion: "モーダル・ビュー・Noticeのi18n化（QuickCaptureModal: 3箇所、StructureSuggestModal: 2箇所、NoteTypeModal: 1箇所、OrphanView: 5箇所、Notice messages: 9箇所、NoteManager: 1箇所、ribbon icon: 1箇所をt()で置換）", verification: "Obsidian言語設定en/ja切り替え→Modal・View・Notice・ribbon iconの全テキスト表示言語切り替え確認" }], status: "done" },
     { id: "PBI-015", story: { role: "Obsidianモバイルユーザー", capability: "コンテキストメニューでプラグインコマンドをグルーピング表示", benefit: "視覚的に整理されたメニューで操作性向上" }, acceptance_criteria: [{ criterion: "エディタコンテキストメニューグルーピング（menu.addItem().setSection('page-zettel')使用、セクション内に「選択範囲から新規ノート」「ノートを昇格」「Structure Noteに接続」を配置、menu.addSeparator()でセクション前後を視覚的分離）", verification: "エディタ右クリック→セパレーターで区切られたPage Zettelセクション表示→各コマンド選択可能" }, { criterion: "ファイルエクスプローラコンテキストメニューグルーピング（menu.addItem().setSection('page-zettel')使用、セクション内に「ノートを昇格」「Structure Noteに接続」を配置、menu.addSeparator()でセクション前後を視覚的分離）", verification: "ファイルエクスプローラ.md右クリック→セパレーターで区切られたPage Zettelセクション表示→各コマンド選択可能" }, { criterion: "絵文字設定対応維持（settings.ui.showEmojiInCommandsに応じてメニュー項目の絵文字表示切り替え）", verification: "絵文字ON時は「📝 選択範囲から新規ノート」等、OFF時は絵文字なし表示" }], status: "done" },
+    // ============================================================
+    // Phase: 新設計リファクタリング (DESIGN.md準拠)
+    // ============================================================
+    // Phase 1: 基盤整理
+    {
+      id: "PBI-016",
+      story: {
+        role: "Obsidianユーザー",
+        capability: "不要なコード・ファイルを削除し、ノートタイプを3種類のみに整理できる",
+        benefit: "コードベースがシンプルになり、新設計の実装がしやすくなる",
+      },
+      acceptance_criteria: [
+        { criterion: "Structure Note関連コード削除（PromotionService, ConnectionManager, StructureSuggestModal, SuggestionService）", verification: "grepで'structure'が関連機能として検出されないことを確認" },
+        { criterion: "Index Note関連コード削除", verification: "grepで'index'が関連機能として検出されないことを確認" },
+        { criterion: "NoteType型がfleeting, literature, permanentの3種類のみ", verification: "src/types.tsでNoteType型を確認" },
+        { criterion: "ビルドとlintが通る", verification: "pnpm build && pnpm lint" },
+      ],
+      status: "draft",
+    },
+    {
+      id: "PBI-017",
+      story: {
+        role: "Obsidianユーザー",
+        capability: "設定画面で各ノートタイプのフォルダ・ファイル名形式・テンプレートを設定できる",
+        benefit: "自分のワークフローに合わせたZettelkasten環境を構築できる",
+      },
+      acceptance_criteria: [
+        { criterion: "フォルダ設定（Fleeting/Literature/Permanent/Template）が4項目存在", verification: "設定画面で4つのフォルダ設定項目を確認" },
+        { criterion: "各ノートタイプにファイル名形式オプション（yyyyMMddHHmmss/yyyy-MM-dd-HHmmss/カスタム）", verification: "dropdown選択可能" },
+        { criterion: "各ノートタイプにエイリアス入力表示のON/OFFトグル", verification: "トグル切り替え可能" },
+        { criterion: "各ノートタイプにテンプレートファイルパス設定", verification: "テキスト入力可能" },
+      ],
+      status: "draft",
+    },
+    // Phase 2: コア機能実装
+    {
+      id: "PBI-018",
+      story: {
+        role: "Obsidianユーザー",
+        capability: "NoteTypeSelectModalとAliasInputModalでノート作成フローを統一できる",
+        benefit: "一貫したUI体験でノートタイプ選択とエイリアス入力ができる",
+      },
+      acceptance_criteria: [
+        { criterion: "NoteTypeSelectModalでFleeting/Literature/Permanent（3種類）を選択", verification: "モーダル表示+3選択肢確認" },
+        { criterion: "AliasInputModalでエイリアス名入力+共通インデント削除チェックボックス（Extract時のみ表示）", verification: "DESIGN.mdのモーダル設計通り" },
+        { criterion: "設定に応じてAliasInputModalの表示/非表示を制御", verification: "設定連動確認" },
+      ],
+      status: "draft",
+    },
+    {
+      id: "PBI-019",
+      story: {
+        role: "Obsidianユーザー",
+        capability: "TemplateServiceでプレースホルダーを展開してノートを作成できる",
+        benefit: "カスタマイズ可能なテンプレートで一貫したノートフォーマットを維持",
+      },
+      acceptance_criteria: [
+        { criterion: "{{content}}プレースホルダー対応（選択範囲テキスト/空）", verification: "Extract時=選択範囲、Create時=空" },
+        { criterion: "{{date}}{{time}}{{datetime}}プレースホルダー対応（YYYY-MM-DD/HH:mm:ss/YYYY-MM-DD HH:mm:ss形式）", verification: "日時プレースホルダー展開確認" },
+        { criterion: "{{title}}{{alias}}プレースホルダー対応（ファイル名/エイリアス名）", verification: "タイトル・エイリアスプレースホルダー展開確認" },
+        { criterion: "テンプレートが空/未設定の場合は{{content}}のみ挿入", verification: "フォールバック動作確認" },
+      ],
+      status: "draft",
+    },
+    {
+      id: "PBI-020",
+      story: {
+        role: "Obsidianユーザー",
+        capability: "NoteCreatorServiceでノート作成ロジックを統一できる",
+        benefit: "Create/Extractの両方で同じサービスを使い、コードの重複を防ぐ",
+      },
+      acceptance_criteria: [
+        { criterion: "NoteCreatorService.createNote(type, content, alias)でノート作成", verification: "サービスクラス実装確認" },
+        { criterion: "設定に応じたファイル名形式（yyyyMMddHHmmss/yyyy-MM-dd-HHmmss/カスタム）", verification: "ファイル名形式設定連動確認" },
+        { criterion: "設定に応じたフォルダ配置", verification: "フォルダ設定連動確認" },
+        { criterion: "TemplateService統合でテンプレート展開", verification: "テンプレート適用確認" },
+      ],
+      status: "draft",
+    },
+    // Phase 3: コマンド実装
+    {
+      id: "PBI-021",
+      story: {
+        role: "Obsidianユーザー",
+        capability: "コマンドパレットからCreate New Noteを実行し、新規ノートを作成できる",
+        benefit: "素早くアイデアを記録し始められる",
+      },
+      acceptance_criteria: [
+        { criterion: "Create New Noteコマンド登録", verification: "コマンドパレットで表示確認" },
+        { criterion: "NoteTypeSelectModal→AliasInputModal→ノート作成→オープンのフロー", verification: "E2E動作確認" },
+        { criterion: "NoteCreatorService統合", verification: "サービス経由でノート作成" },
+      ],
+      status: "draft",
+    },
+    {
+      id: "PBI-022",
+      story: {
+        role: "Obsidianユーザー",
+        capability: "選択したテキストを新規ノートに切り出し、元の場所にマークダウンリンクを残せる",
+        benefit: "既存のメモからアトミックなノートを抽出できる",
+      },
+      acceptance_criteria: [
+        { criterion: "Extract to Noteコマンド登録", verification: "コマンドパレットで表示確認" },
+        { criterion: "選択範囲がノートタイプ選択後に新規ノートの{{content}}に挿入", verification: "テンプレート展開確認" },
+        { criterion: "元の選択範囲がマークダウンリンク[エイリアス](フォルダ/ファイル名.md)に置換", verification: "リンク形式確認" },
+        { criterion: "共通インデント削除オプション（ネストしたリスト切り出し時にインデント正規化）", verification: "AliasInputModalのチェックボックス動作確認" },
+        { criterion: "Extract後にノートを開くオプション（設定で制御）", verification: "設定連動確認" },
+      ],
+      status: "draft",
+    },
+    // Phase 4: UI改善
+    {
+      id: "PBI-023",
+      story: {
+        role: "Obsidianユーザー",
+        capability: "孤立したPermanent Noteをマークダウンリンクベースで確認できる",
+        benefit: "リンクされていないノートを発見し、知識ネットワークに統合できる",
+      },
+      acceptance_criteria: [
+        { criterion: "OrphanViewがマークダウンリンク[...](...)で参照されていないPermanent Noteを検出", verification: "リンクベース孤立検出確認" },
+        { criterion: "Structure Note接続機能を削除し、リンク確認のみに簡素化", verification: "接続ボタン非表示確認" },
+        { criterion: "リストからノートを開ける", verification: "クリックで該当ノート遷移確認" },
+      ],
+      status: "draft",
+    },
+    {
+      id: "PBI-024",
+      story: {
+        role: "Obsidianユーザー",
+        capability: "コンテキストメニューからExtract to Noteを実行できる",
+        benefit: "右クリックで素早くノート切り出しにアクセスできる",
+      },
+      acceptance_criteria: [
+        { criterion: "エディタコンテキストメニューに「Extract to Note」表示（選択テキストがある場合のみ）", verification: "右クリックメニュー表示確認" },
+        { criterion: "メニュー項目クリックでExtract to Noteコマンド実行", verification: "E2E動作確認" },
+        { criterion: "設定画面でコンテキストメニュー表示ON/OFF切り替え", verification: "設定連動確認" },
+      ],
+      status: "draft",
+    },
   ],
 
   sprint: null,
