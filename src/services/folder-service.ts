@@ -15,7 +15,7 @@ export class FolderService {
 	 * ノートタイプに対応するフォルダパスを取得
 	 */
 	getFolderPath(type: NoteType): string {
-		return this.settings.folders.typeFolders[type] || NOTE_TYPE_CONFIG[type].folder;
+		return this.settings[type].folder || NOTE_TYPE_CONFIG[type].folder;
 	}
 
 	/**

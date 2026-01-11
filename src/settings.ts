@@ -6,12 +6,25 @@ import { FolderSuggest } from "./ui/suggesters/folder-suggest";
 import { t } from "./i18n";
 
 export const DEFAULT_SETTINGS: PageZettelSettings = {
+	fleeting: {
+		folder: NOTE_TYPE_CONFIG.fleeting.folder,
+		fileNameFormat: "{{date}}-{{title}}",
+		showAliasInput: false,
+		templatePath: NOTE_TYPE_CONFIG.fleeting.template,
+	},
+	literature: {
+		folder: NOTE_TYPE_CONFIG.literature.folder,
+		fileNameFormat: "{{date}}-{{title}}",
+		showAliasInput: true,
+		templatePath: NOTE_TYPE_CONFIG.literature.template,
+	},
+	permanent: {
+		folder: NOTE_TYPE_CONFIG.permanent.folder,
+		fileNameFormat: "{{zettel-id}}-{{title}}",
+		showAliasInput: true,
+		templatePath: NOTE_TYPE_CONFIG.permanent.template,
+	},
 	folders: {
-		typeFolders: {
-			fleeting: NOTE_TYPE_CONFIG.fleeting.folder,
-			literature: NOTE_TYPE_CONFIG.literature.folder,
-			permanent: NOTE_TYPE_CONFIG.permanent.folder,
-		},
 		templateFolder: "Templates",
 		dailyNoteFolder: "00-Inbox/Daily",
 	},
@@ -40,47 +53,8 @@ export class PageZettelSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		// フォルダ設定セクション
+		// 共通フォルダ設定セクション
 		new Setting(containerEl).setName(t("settings.folders.heading")).setHeading();
-
-		new Setting(containerEl)
-			.setName(t("settings.folders.fleeting.name"))
-			.setDesc(t("settings.folders.fleeting.desc"))
-			.addText((text) => {
-				text.setPlaceholder(t("settings.folders.fleeting.placeholder"))
-					.setValue(this.plugin.settings.folders.typeFolders.fleeting)
-					.onChange(async (value) => {
-						this.plugin.settings.folders.typeFolders.fleeting = value;
-						await this.plugin.saveSettings();
-					});
-				new FolderSuggest(this.app, text.inputEl);
-			});
-
-		new Setting(containerEl)
-			.setName(t("settings.folders.literature.name"))
-			.setDesc(t("settings.folders.literature.desc"))
-			.addText((text) => {
-				text.setPlaceholder(t("settings.folders.literature.placeholder"))
-					.setValue(this.plugin.settings.folders.typeFolders.literature)
-					.onChange(async (value) => {
-						this.plugin.settings.folders.typeFolders.literature = value;
-						await this.plugin.saveSettings();
-					});
-				new FolderSuggest(this.app, text.inputEl);
-			});
-
-		new Setting(containerEl)
-			.setName(t("settings.folders.permanent.name"))
-			.setDesc(t("settings.folders.permanent.desc"))
-			.addText((text) => {
-				text.setPlaceholder(t("settings.folders.permanent.placeholder"))
-					.setValue(this.plugin.settings.folders.typeFolders.permanent)
-					.onChange(async (value) => {
-						this.plugin.settings.folders.typeFolders.permanent = value;
-						await this.plugin.saveSettings();
-					});
-				new FolderSuggest(this.app, text.inputEl);
-			});
 
 		new Setting(containerEl)
 			.setName(t("settings.folders.template.name"))
