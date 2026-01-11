@@ -60,7 +60,7 @@ export class FolderService {
 	 */
 	async initializeAllFolders(): Promise<void> {
 		// 全NoteTypeに対してフォルダを作成
-		const noteTypes: NoteType[] = ["fleeting", "literature", "permanent", "structure", "index"];
+		const noteTypes: NoteType[] = ["fleeting", "literature", "permanent"];
 
 		for (const type of noteTypes) {
 			await this.ensureFolderExists(type);
