@@ -2,7 +2,8 @@
 	"commands": {
 		"extractSelection": "選択範囲から新規ノート",
 		"promoteNote": "ノートを昇格",
-		"quickFleeting": "Quick fleeting note"
+		"quickFleeting": "Quick fleeting note",
+		"createNewNote": "新規ノートを作成"
 	},
 	"settings": {
 		"folders": {

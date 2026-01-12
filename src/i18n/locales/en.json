@@ -2,7 +2,8 @@
 	"commands": {
 		"extractSelection": "Extract selection to new note",
 		"promoteNote": "Promote note",
-		"quickFleeting": "Quick fleeting note"
+		"quickFleeting": "Quick fleeting note",
+		"createNewNote": "Create new note"
 	},
 	"settings": {
 		"folders": {
