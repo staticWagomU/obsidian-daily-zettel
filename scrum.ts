@@ -33,68 +33,13 @@ const scrum: ScrumDashboard = {
     { id: "PBI-018", story: { role: "Obsidianユーザー", capability: "NoteTypeSelectModalとAliasInputModalでノート作成フローを統一できる", benefit: "一貫したUI体験" }, acceptance_criteria: [{ criterion: "NoteTypeModal拡張: FuzzySuggestModal継承+3ノートタイプ表示(icon/label/description)+選択コールバック", verification: "既存note-type-modal.ts動作確認" }, { criterion: "AliasInputModal新規作成: Modal継承+テキスト入力+Enterキー対応+チェックボックス(Extract時のみ表示)+作成/キャンセルボタン", verification: "QuickCaptureModalパターン適用+DESIGN.md L65-77準拠" }, { criterion: "設定連動: showAliasInput=falseの場合AliasInputModalスキップ+ファイル名をデフォルトエイリアスとして使用", verification: "各ノートタイプ設定(fleeting/literature/permanent)のshowAliasInputフラグで表示制御" }, { criterion: "i18n対応: modals.aliasInput配下に翻訳キー追加(title/inputName/inputDesc/inputPlaceholder/removeIndent/createButton/cancelButton)", verification: "ja.json+en.json追加" }], status: "done" },
     { id: "PBI-019", story: { role: "Obsidianユーザー", capability: "TemplateServiceでプレースホルダーを展開", benefit: "一貫したフォーマット" }, acceptance_criteria: [{ criterion: "{{content}}展開: variables.content || \"\"をテンプレートに挿入", verification: "Extract時=選択範囲/Create時=空文字" }, { criterion: "{{date}}展開: YYYY-MM-DD固定形式で現在日付を挿入", verification: "moment().format(\"YYYY-MM-DD\")" }, { criterion: "{{time}}展開: HH:mm:ss固定形式で現在時刻を挿入", verification: "moment().format(\"HH:mm:ss\")" }, { criterion: "{{datetime}}展開: YYYY-MM-DD HH:mm:ss固定形式で現在日時を挿入", verification: "moment().format(\"YYYY-MM-DD HH:mm:ss\")" }, { criterion: "{{title}}展開: variables.titleをテンプレートに挿入", verification: "ファイル名（拡張子なし）" }, { criterion: "{{alias}}展開: variables.alias || \"\"をテンプレートに挿入", verification: "エイリアス入力時のみ値を持つ" }, { criterion: "{{date:FORMAT}}展開: 既存のカスタムフォーマット機能を維持", verification: "moment().format(FORMAT)" }, { criterion: "テンプレート未設定時のフォールバック: variables.content || \"\"を返す", verification: "loadTemplateがnull時" }], status: "done" },
     { id: "PBI-020", story: { role: "Obsidianユーザー", capability: "NoteCreatorServiceでノート作成統一", benefit: "コード重複防止" }, acceptance_criteria: [{ criterion: "NoteCreatorService実装: createNote(type,content,alias)メソッド+constructor(app,settings,folderService,templateService,frontmatterService)", verification: "services/note-creator-service.ts作成" }, { criterion: "ファイル名形式展開: settings[type].fileNameFormatをプレースホルダー展開({{date}}/{{time}}/{{datetime}}/{{zettel-id}}/{{title}})", verification: "generateFileName()メソッド実装" }, { criterion: "フォルダ配置: settings[type].folderから取得+folderService.ensureFolderExistsByPath()でフォルダ作成", verification: "NoteManager.createNote()のfolderService統合パターン踏襲" }, { criterion: "テンプレート統合: settings[type].templatePathから取得+templateService.getProcessedTemplate()でプレースホルダー展開(content/alias/title/date/time/datetime)", verification: "TemplateVariables{content,alias,title}を渡す" }, { criterion: "フロントマター統合: frontmatterService.addFrontmatter()でメタデータ追加", verification: "NoteManager.createNote()パターン踏襲" }, { criterion: "ファイル作成+Notice通知: app.vault.create()+new Notice()", verification: "NoteManager.createNote()パターン踏襲" }], status: "done" },
-    { id: "PBI-021", story: { role: "Obsidianユーザー", capability: "Create New Noteコマンド", benefit: "素早く記録開始" }, acceptance_criteria: [{ criterion: "i18n翻訳キー追加: commands.createNewNote配下に日英翻訳キーを追加", verification: "i18n/locales/ja.json+en.json" }, { criterion: "コマンド登録: addCommand({id:\"create-new-note\",name:絵文字設定連動,callback})", verification: "main.ts+t(\"commands.createNewNote\")+settings.ui.showEmojiInCommands" }, { criterion: "NoteTypeModal表示: NoteTypeModal(app,onSelect,[\"fleeting\",\"literature\",\"permanent\"])", verification: "extract-selection-commandパターン踏襲" }, { criterion: "AliasInputModal表示: settings[type].showAliasInput=trueの場合のみ表示+showRemoveIndent=false", verification: "removeIndentチェックボックス非表示" }, { criterion: "NoteCreatorService統合: noteCreatorService.createNote(type,\"\",alias)+作成後openLinkText()でノートを開く", verification: "content=\"\"でテンプレートのみ展開+DESIGN.md L46準拠" }, { criterion: "main.tsにNoteCreatorService初期化: constructor(app,settings,folderService,templateService,frontmatterService)", verification: "既存サービス注入パターン踏襲" }], status: "ready" },
+    { id: "PBI-021", story: { role: "Obsidianユーザー", capability: "Create New Noteコマンド", benefit: "素早く記録開始" }, acceptance_criteria: [{ criterion: "i18n翻訳キー追加: commands.createNewNote配下に日英翻訳キーを追加", verification: "i18n/locales/ja.json+en.json" }, { criterion: "コマンド登録: addCommand({id:\"create-new-note\",name:絵文字設定連動,callback})", verification: "main.ts+t(\"commands.createNewNote\")+settings.ui.showEmojiInCommands" }, { criterion: "NoteTypeModal表示: NoteTypeModal(app,onSelect,[\"fleeting\",\"literature\",\"permanent\"])", verification: "extract-selection-commandパターン踏襲" }, { criterion: "AliasInputModal表示: settings[type].showAliasInput=trueの場合のみ表示+showRemoveIndent=false", verification: "removeIndentチェックボックス非表示" }, { criterion: "NoteCreatorService統合: noteCreatorService.createNote(type,\"\",alias)+作成後openLinkText()でノートを開く", verification: "content=\"\"でテンプレートのみ展開+DESIGN.md L46準拠" }, { criterion: "main.tsにNoteCreatorService初期化: constructor(app,settings,folderService,templateService,frontmatterService)", verification: "既存サービス注入パターン踏襲" }], status: "done" },
     { id: "PBI-022", story: { role: "Obsidianユーザー", capability: "Extract to Note", benefit: "アトミックノート抽出" }, acceptance_criteria: [{ criterion: "コマンド登録", verification: "パレット表示" }, { criterion: "{{content}}挿入", verification: "テンプレート展開" }, { criterion: "リンク置換", verification: "[alias](path)" }, { criterion: "インデント削除", verification: "チェックボックス" }, { criterion: "Extract後オープン", verification: "設定連動" }], status: "draft" },
     { id: "PBI-023", story: { role: "Obsidianユーザー", capability: "孤立Permanent検出(リンクベース)", benefit: "ネットワーク統合" }, acceptance_criteria: [{ criterion: "マークダウンリンク検出", verification: "リンクベース" }, { criterion: "接続機能削除", verification: "ボタン非表示" }, { criterion: "ノートを開く", verification: "クリック遷移" }], status: "draft" },
     { id: "PBI-024", story: { role: "Obsidianユーザー", capability: "コンテキストメニューExtract", benefit: "右クリックアクセス" }, acceptance_criteria: [{ criterion: "メニュー表示", verification: "選択時のみ" }, { criterion: "コマンド実行", verification: "E2E" }, { criterion: "ON/OFF設定", verification: "設定連動" }], status: "draft" },
   ],
 
-  sprint: {
-    number: 21,
-    pbi_id: "PBI-021",
-    goal: "Create New Noteコマンドの実装",
-    status: "planning",
-    subtasks: [
-      {
-        test: "i18n翻訳キー追加: commands.createNewNote配下に日英翻訳キー追加",
-        implementation: "i18n/locales/ja.json, i18n/locales/en.json",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: ["AC1対応", "Sprint 18のi18n実装パターン踏襲"],
-      },
-      {
-        test: "NoteCreatorService初期化: main.ts内でNoteCreatorService初期化（app, settings, folderService, templateService, frontmatterService注入）",
-        implementation: "main.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: ["AC6対応", "既存サービス注入パターン踏襲（Sprint 20参照）"],
-      },
-      {
-        test: "コマンド登録基本構造: addCommand({id:\"create-new-note\", name:絵文字設定連動, callback})",
-        implementation: "main.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: ["AC2対応", "settings.ui.showEmojiInCommandsフラグでアイコン表示制御"],
-      },
-      {
-        test: "NoteTypeModal表示統合: NoteTypeModal(app, onSelect, [\"fleeting\", \"literature\", \"permanent\"])呼び出し",
-        implementation: "main.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: ["AC3対応", "extract-selection-commandパターン踏襲"],
-      },
-      {
-        test: "AliasInputModal条件表示: settings[type].showAliasInput=trueの場合のみAliasInputModal表示 + showRemoveIndent=false",
-        implementation: "main.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: ["AC4対応", "removeIndentチェックボックス非表示"],
-      },
-      {
-        test: "NoteCreatorService統合 + ノートオープン: noteCreatorService.createNote(type, \"\", alias) + openLinkText()でノートを開く",
-        implementation: "main.ts",
-        type: "behavioral",
-        status: "pending",
-        commits: [],
-        notes: ["AC5対応", "content=\"\"でテンプレートのみ展開", "DESIGN.md L46準拠"],
-      },
-    ],
-  },
+  sprint: null,
 
   definition_of_done: { checks: [{ name: "Build passes", run: "pnpm build" }, { name: "Lint passes", run: "pnpm lint" }, { name: "Format check passes", run: "pnpm format:check" }] },
 
@@ -119,6 +64,7 @@ const scrum: ScrumDashboard = {
     { number: 18, pbi_id: "PBI-018", goal: "ノート作成フローの統一UI実装", status: "done", subtasks: [{ test: "i18n翻訳キー", implementation: "i18n/locales/", type: "behavioral", status: "completed", commits: [{ hash: "f3a6552", message: "feat(i18n): add aliasInput modal translation keys", phase: "green" }], notes: [] }, { test: "AliasInputModal基本+チェックボックス", implementation: "ui/modals/alias-input-modal.ts", type: "behavioral", status: "completed", commits: [{ hash: "8a2abb6", message: "feat(ui): implement AliasInputModal basic structure", phase: "green" }, { hash: "7760064", message: "feat(ui): add removeIndent checkbox to AliasInputModal", phase: "green" }], notes: [] }, { test: "NoteTypeModal動作確認", implementation: "ui/modals/note-type-modal.ts", type: "behavioral", status: "completed", commits: [{ hash: "16a80a6", message: "docs(ui): verify NoteTypeModal meets AC1 requirements", phase: "green" }], notes: [] }, { test: "設定連動", implementation: "commands/extract-selection-command.ts", type: "behavioral", status: "completed", commits: [{ hash: "42f39f4", message: "feat(commands): integrate AliasInputModal with settings", phase: "green" }], notes: [] }] },
     { number: 19, pbi_id: "PBI-019", goal: "テンプレートプレースホルダー展開機能の完成", status: "done", subtasks: [{ test: "{{date}}/{{time}}/{{datetime}}固定形式展開", implementation: "services/template-service.ts", type: "behavioral", status: "completed", commits: [{ hash: "214a77b", message: "feat(template): add fixed format date/time/datetime placeholders", phase: "green" }], notes: ["AC2: {{date}}をYYYY-MM-DD形式で展開", "AC3: {{time}}をHH:mm:ss形式で展開", "AC4: {{datetime}}をYYYY-MM-DD HH:mm:ss形式で展開", "既存の{{date:FORMAT}}と統合性確認"] }, { test: "TemplateVariables型拡張（alias追加）", implementation: "services/template-service.ts", type: "behavioral", status: "completed", commits: [{ hash: "5eccb0b", message: "feat(template): extend TemplateVariables with alias field", phase: "green" }], notes: ["TemplateVariablesインターフェースにalias?: stringを追加", "型定義のみのため即座にGreen"] }, { test: "{{alias}}展開: variables.alias || \"\"", implementation: "services/template-service.ts", type: "behavioral", status: "completed", commits: [{ hash: "a053600", message: "feat(template): add {{alias}} placeholder expansion", phase: "green" }], notes: ["AC6: variables.alias || \"\"で展開", "エイリアス入力時のみ値を持つ"] }, { test: "既存機能統合検証（{{content}}/{{date:FORMAT}}/フォールバック）", implementation: "services/template-service.ts", type: "behavioral", status: "completed", commits: [], notes: ["AC1: {{content}}展開が正常動作（Line 74）", "AC5: {{title}}展開が正常動作（Line 71）", "AC7: {{date:FORMAT}}カスタムフォーマット維持（Line 80-86）", "AC8: テンプレート未設定時のフォールバック確認（Line 30-31）", "Definition of Done（build/lint/format）全てパス"] }] },
     { number: 20, pbi_id: "PBI-020", goal: "ノート作成サービスの統一実装", status: "done", subtasks: [{ test: "NoteCreatorService基本構造", implementation: "services/note-creator-service.ts", type: "behavioral", status: "completed", commits: [{ hash: "c7a7456", message: "feat(services): add NoteCreatorService basic structure", phase: "green" }], notes: ["AC1: constructor(app,settings,folderService,templateService,frontmatterService)", "依存サービスの注入パターン適用", "NoteManager.createNote()パターン踏襲"] }, { test: "ファイル名形式展開", implementation: "services/note-creator-service.ts", type: "behavioral", status: "completed", commits: [{ hash: "d30576c", message: "feat(services): add generateFileName method with placeholder expansion", phase: "green" }], notes: ["AC2: settings[type].fileNameFormatをプレースホルダー展開", "{{date}}/{{time}}/{{datetime}}/{{zettel-id}}/{{title}}/{{alias}}全対応"] }, { test: "フォルダ配置+テンプレート+フロントマター+ファイル作成統合", implementation: "services/note-creator-service.ts", type: "behavioral", status: "completed", commits: [{ hash: "3f2430b", message: "feat(services): add folder placement with ensureFolderExistsByPath", phase: "green" }], notes: ["AC3: ensureFolderExistsByPath()でフォルダ作成", "AC4: templateService.getProcessedTemplate()でテンプレート展開", "AC5: frontmatterService.addFrontmatter()でメタデータ追加", "AC6: app.vault.create() + new Notice()でファイル作成+通知", "createNote()メソッドで全機能統合完了"] }] },
+    { number: 21, pbi_id: "PBI-021", goal: "Create New Noteコマンドの実装", status: "done", subtasks: [{ test: "i18n翻訳キー追加: commands.createNewNote配下に日英翻訳キー追加", implementation: "i18n/locales/ja.json, i18n/locales/en.json", type: "behavioral", status: "completed", commits: [{ hash: "3539430", message: "feat(i18n): add createNewNote command translation keys", phase: "green" }], notes: ["AC1対応", "Sprint 18のi18n実装パターン踏襲"] }, { test: "NoteCreatorService初期化: main.ts内でNoteCreatorService初期化（app, settings, folderService, templateService, frontmatterService注入）", implementation: "main.ts", type: "behavioral", status: "completed", commits: [{ hash: "a7a2bc7", message: "feat(services): initialize NoteCreatorService in main.ts", phase: "green" }], notes: ["AC6対応", "既存サービス注入パターン踏襲（Sprint 20参照）"] }, { test: "コマンド登録基本構造: addCommand({id:\"create-new-note\", name:絵文字設定連動, callback})", implementation: "main.ts", type: "behavioral", status: "completed", commits: [{ hash: "d0b4026", message: "feat(commands): add create-new-note command registration", phase: "green" }], notes: ["AC2対応", "settings.ui.showEmojiInCommandsフラグでアイコン表示制御"] }, { test: "NoteTypeModal表示統合: NoteTypeModal(app, onSelect, [\"fleeting\", \"literature\", \"permanent\"])呼び出し", implementation: "main.ts", type: "behavioral", status: "completed", commits: [{ hash: "861cc61", message: "feat(commands): integrate NoteTypeModal in create-new-note", phase: "green" }], notes: ["AC3対応", "extract-selection-commandパターン踏襲"] }, { test: "AliasInputModal条件表示: settings[type].showAliasInput=trueの場合のみAliasInputModal表示 + showRemoveIndent=false", implementation: "main.ts", type: "behavioral", status: "completed", commits: [{ hash: "b62c10e", message: "feat(commands): complete create-new-note command implementation", phase: "green" }], notes: ["AC4対応", "removeIndentチェックボックス非表示"] }, { test: "NoteCreatorService統合 + ノートオープン: noteCreatorService.createNote(type, \"\", alias) + openLinkText()でノートを開く", implementation: "main.ts", type: "behavioral", status: "completed", commits: [{ hash: "b62c10e", message: "feat(commands): complete create-new-note command implementation", phase: "green" }], notes: ["AC5対応", "content=\"\"でテンプレートのみ展開", "DESIGN.md L46準拠"] }] },
   ],
 
   retrospectives: [
