@@ -129,6 +129,15 @@
 		},
 		"noteType": {
 			"placeholder": "ノートタイプを選択..."
+		},
+		"aliasInput": {
+			"title": "エイリアス名を入力",
+			"inputName": "エイリアス",
+			"inputDesc": "ノートの表示名を入力してください",
+			"inputPlaceholder": "エイリアス名を入力...",
+			"removeIndent": "共通インデントを削除",
+			"createButton": "作成",
+			"cancelButton": "キャンセル"
 		}
 	},
 	"views": {

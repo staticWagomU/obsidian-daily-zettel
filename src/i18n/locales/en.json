@@ -129,6 +129,15 @@
 		},
 		"noteType": {
 			"placeholder": "Select note type..."
+		},
+		"aliasInput": {
+			"title": "Enter Alias Name",
+			"inputName": "Alias",
+			"inputDesc": "Enter the display name for the note",
+			"inputPlaceholder": "Enter alias...",
+			"removeIndent": "Remove common indentation",
+			"createButton": "Create",
+			"cancelButton": "Cancel"
 		}
 	},
 	"views": {
