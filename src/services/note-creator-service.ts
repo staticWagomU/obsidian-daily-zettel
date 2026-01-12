@@ -162,10 +162,7 @@ export class NoteCreatorService {
 		fileName = fileName.replace(/\{\{time\}\}/g, moment().format("HH:mm:ss"));
 
 		// {{datetime}} -> YYYY-MM-DD HH:mm:ss
-		fileName = fileName.replace(
-			/\{\{datetime\}\}/g,
-			moment().format("YYYY-MM-DD HH:mm:ss"),
-		);
+		fileName = fileName.replace(/\{\{datetime\}\}/g, moment().format("YYYY-MM-DD HH:mm:ss"));
 
 		// {{zettel-id}} -> YYYYMMDDHHmmss (ISO形式から変換)
 		fileName = fileName.replace(/\{\{zettel-id\}\}/g, moment().format("YYYYMMDDHHmmss"));
