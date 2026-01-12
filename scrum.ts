@@ -39,62 +39,7 @@ const scrum: ScrumDashboard = {
     { id: "PBI-024", story: { role: "Obsidianユーザー", capability: "コンテキストメニューExtract", benefit: "右クリックアクセス" }, acceptance_criteria: [{ criterion: "メニュー表示", verification: "選択時のみ" }, { criterion: "コマンド実行", verification: "E2E" }, { criterion: "ON/OFF設定", verification: "設定連動" }], status: "draft" },
   ],
 
-  sprint: {
-    number: 17,
-    pbi_id: "PBI-017",
-    goal: "各ノートタイプのフォルダ・ファイル名形式・テンプレート設定機能",
-    status: "review",
-    subtasks: [
-      {
-        test: "NoteTypeSettings型定義(folder/fileNameFormat/showAliasInput/templatePath)",
-        implementation: "types/settings.ts",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "6d046a7", message: "feat(settings): add NoteTypeSettings type definition", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "PageZettelSettings拡張(fleeting/literature/permanent)+DEFAULT_SETTINGS",
-        implementation: "settings.ts",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "d9b4a0c", message: "feat(settings): extend PageZettelSettings with NoteTypeSettings", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "Fleeting設定UI(folder/fileNameFormat/showAliasInput/templatePath)",
-        implementation: "settings.ts",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "6d08280", message: "feat(settings): add Fleeting note settings UI", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "Literature設定UI(folder/fileNameFormat/showAliasInput/templatePath)",
-        implementation: "settings.ts",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "b5e8a5f", message: "feat(settings): add Literature note settings UI", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "Permanent設定UI(folder/fileNameFormat/showAliasInput/templatePath)",
-        implementation: "settings.ts",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "26c639f", message: "feat(settings): add Permanent note settings UI", phase: "green" }],
-        notes: [],
-      },
-      {
-        test: "設定永続化検証(data.json保存+再読み込み)",
-        implementation: "main.ts",
-        type: "behavioral",
-        status: "completed",
-        commits: [{ hash: "5d70f14", message: "chore: fix lint warnings and format code", phase: "green" }],
-        notes: ["loadSettings/saveSettingsはObsidian標準API使用", "DEFAULT_SETTINGSとObject.assignで後方互換性確保", "各onChangeでsaveSettings()呼び出し"],
-      },
-    ],
-  },
+  sprint: null,
 
   definition_of_done: { checks: [{ name: "Build passes", run: "pnpm build" }, { name: "Lint passes", run: "pnpm lint" }, { name: "Format check passes", run: "pnpm format:check" }] },
 
@@ -115,6 +60,7 @@ const scrum: ScrumDashboard = {
     { number: 14, pbi_id: "PBI-015", goal: "メニューグルーピング", status: "done", subtasks: [{ test: "setSection+addSeparator", implementation: "main.ts", type: "behavioral", status: "completed", commits: [{ hash: "8df2157", message: "feat: menu grouping", phase: "green" }], notes: [] }] },
     { number: 15, pbi_id: "PBI-014", goal: "i18n国際化", status: "done", subtasks: [{ test: "t()+翻訳JSON", implementation: "i18n/,main.ts,settings.ts", type: "behavioral", status: "completed", commits: [{ hash: "65d7639", message: "feat: i18n", phase: "green" }], notes: [] }] },
     { number: 16, pbi_id: "PBI-016", goal: "3ノートタイプ化", status: "done", subtasks: [{ test: "Structure/Index削除", implementation: "4ファイル削除+10ファイル更新", type: "structural", status: "completed", commits: [{ hash: "f72e1d8", message: "refactor: remove Structure files", phase: "green" }, { hash: "c26fa4a", message: "refactor: fix build", phase: "green" }], notes: [] }] },
+    { number: 17, pbi_id: "PBI-017", goal: "ノートタイプ別設定機能", status: "done", subtasks: [{ test: "NoteTypeSettings型+PageZettelSettings拡張+3ノートタイプUI+永続化", implementation: "types/settings.ts,settings.ts", type: "behavioral", status: "completed", commits: [{ hash: "6d046a7", message: "feat: NoteTypeSettings", phase: "green" }, { hash: "5d70f14", message: "feat: settings UI", phase: "green" }], notes: [] }] },
   ],
 
   retrospectives: [
@@ -133,7 +79,8 @@ const scrum: ScrumDashboard = {
     { sprint: 13, improvements: [{ action: "型定義事前確認継続", timing: "sprint", status: "completed", outcome: "Sprint14でsetSection採用" }] },
     { sprint: 14, improvements: [{ action: "obsidian.d.ts確認必須化", timing: "sprint", status: "completed", outcome: "Sprint15でgetLanguage活用" }] },
     { sprint: 15, improvements: [{ action: "tsconfig.json更新確認", timing: "sprint", status: "active", outcome: null }] },
-    { sprint: 16, improvements: [{ action: "大規模削除時grep網羅性向上", timing: "sprint", status: "active", outcome: null }, { action: "型依存関係の明示的リストアップ", timing: "sprint", status: "active", outcome: "PBI-017 Refinementで適用: NoteTypeSettings新規→PageZettelSettings拡張→settings.ts→main.ts" }] },
+    { sprint: 16, improvements: [{ action: "大規模削除時grep網羅性向上", timing: "sprint", status: "active", outcome: null }, { action: "型依存関係の明示的リストアップ", timing: "sprint", status: "completed", outcome: "PBI-017で適用: NoteTypeSettings型→PageZettelSettings拡張→UI実装→永続化検証の順で進行、コンパイルエラーなし" }] },
+    { sprint: 17, improvements: [{ action: "設定UI共通コンポーネント抽出パターン確立", timing: "sprint", status: "active", outcome: null }, { action: "UI実装前のi18n翻訳キー事前設計", timing: "sprint", status: "active", outcome: null }] },
   ],
 };
 
