@@ -55,7 +55,7 @@ export class FolderService {
 	}
 
 	/**
-	 * 全ノートタイプとテンプレートフォルダを初期化
+	 * 全ノートタイプのフォルダを初期化
 	 * プラグイン初回起動時にフォルダ構造を自動生成
 	 */
 	async initializeAllFolders(): Promise<void> {
@@ -65,9 +65,5 @@ export class FolderService {
 		for (const type of noteTypes) {
 			await this.ensureFolderExists(type);
 		}
-
-		// テンプレートフォルダを作成
-		const templateFolder = this.settings.folders.templateFolder;
-		await this.ensureFolderExistsByPath(templateFolder);
 	}
 }

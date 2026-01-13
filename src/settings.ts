@@ -3,6 +3,7 @@ import PageZettelPlugin from "./main";
 import type { PageZettelSettings } from "./types/settings";
 import { NOTE_TYPE_CONFIG } from "./types/note-types";
 import { FolderSuggest } from "./ui/suggesters/folder-suggest";
+import { FileSuggest } from "./ui/suggesters/file-suggest";
 import { t } from "./i18n";
 
 export const DEFAULT_SETTINGS: PageZettelSettings = {
@@ -10,23 +11,19 @@ export const DEFAULT_SETTINGS: PageZettelSettings = {
 		folder: NOTE_TYPE_CONFIG.fleeting.folder,
 		fileNameFormat: "{{date}}-{{title}}",
 		showAliasInput: false,
-		templatePath: NOTE_TYPE_CONFIG.fleeting.template,
+		templatePath: "",
 	},
 	literature: {
 		folder: NOTE_TYPE_CONFIG.literature.folder,
 		fileNameFormat: "{{date}}-{{title}}",
 		showAliasInput: true,
-		templatePath: NOTE_TYPE_CONFIG.literature.template,
+		templatePath: "",
 	},
 	permanent: {
 		folder: NOTE_TYPE_CONFIG.permanent.folder,
 		fileNameFormat: "{{zettel-id}}-{{title}}",
 		showAliasInput: true,
-		templatePath: NOTE_TYPE_CONFIG.permanent.template,
-	},
-	folders: {
-		templateFolder: "Templates",
-		dailyNoteFolder: "00-Inbox/Daily",
+		templatePath: "",
 	},
 	behavior: {
 		insertLinkAfterExtract: true,
@@ -98,15 +95,15 @@ export class PageZettelSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName(t("settings.noteTypes.fleeting.templatePath.name"))
 			.setDesc(t("settings.noteTypes.fleeting.templatePath.desc"))
-			.addText((text) =>
-				text
-					.setPlaceholder(t("settings.noteTypes.fleeting.templatePath.placeholder"))
+			.addText((text) => {
+				text.setPlaceholder(t("settings.noteTypes.fleeting.templatePath.placeholder"))
 					.setValue(this.plugin.settings.fleeting.templatePath)
 					.onChange(async (value) => {
 						this.plugin.settings.fleeting.templatePath = value;
 						await this.plugin.saveSettings();
-					}),
-			);
+					});
+				new FileSuggest(this.app, text.inputEl);
+			});
 
 		// Literature設定セクション
 		new Setting(containerEl).setName(t("settings.noteTypes.literature.heading")).setHeading();
@@ -152,15 +149,15 @@ export class PageZettelSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName(t("settings.noteTypes.literature.templatePath.name"))
 			.setDesc(t("settings.noteTypes.literature.templatePath.desc"))
-			.addText((text) =>
-				text
-					.setPlaceholder(t("settings.noteTypes.literature.templatePath.placeholder"))
+			.addText((text) => {
+				text.setPlaceholder(t("settings.noteTypes.literature.templatePath.placeholder"))
 					.setValue(this.plugin.settings.literature.templatePath)
 					.onChange(async (value) => {
 						this.plugin.settings.literature.templatePath = value;
 						await this.plugin.saveSettings();
-					}),
-			);
+					});
+				new FileSuggest(this.app, text.inputEl);
+			});
 
 		// Permanent設定セクション
 		new Setting(containerEl).setName(t("settings.noteTypes.permanent.heading")).setHeading();
@@ -206,43 +203,14 @@ export class PageZettelSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName(t("settings.noteTypes.permanent.templatePath.name"))
 			.setDesc(t("settings.noteTypes.permanent.templatePath.desc"))
-			.addText((text) =>
-				text
-					.setPlaceholder(t("settings.noteTypes.permanent.templatePath.placeholder"))
+			.addText((text) => {
+				text.setPlaceholder(t("settings.noteTypes.permanent.templatePath.placeholder"))
 					.setValue(this.plugin.settings.permanent.templatePath)
 					.onChange(async (value) => {
 						this.plugin.settings.permanent.templatePath = value;
 						await this.plugin.saveSettings();
-					}),
-			);
-
-		// 共通フォルダ設定セクション
-		new Setting(containerEl).setName(t("settings.folders.heading")).setHeading();
-
-		new Setting(containerEl)
-			.setName(t("settings.folders.template.name"))
-			.setDesc(t("settings.folders.template.desc"))
-			.addText((text) => {
-				text.setPlaceholder(t("settings.folders.template.placeholder"))
-					.setValue(this.plugin.settings.folders.templateFolder)
-					.onChange(async (value) => {
-						this.plugin.settings.folders.templateFolder = value;
-						await this.plugin.saveSettings();
 					});
-				new FolderSuggest(this.app, text.inputEl);
-			});
-
-		new Setting(containerEl)
-			.setName(t("settings.folders.dailyNote.name"))
-			.setDesc(t("settings.folders.dailyNote.desc"))
-			.addText((text) => {
-				text.setPlaceholder(t("settings.folders.dailyNote.placeholder"))
-					.setValue(this.plugin.settings.folders.dailyNoteFolder)
-					.onChange(async (value) => {
-						this.plugin.settings.folders.dailyNoteFolder = value;
-						await this.plugin.saveSettings();
-					});
-				new FolderSuggest(this.app, text.inputEl);
+				new FileSuggest(this.app, text.inputEl);
 			});
 
 		// 動作設定セクション

@@ -8,7 +8,7 @@ export interface NoteTypeSettings {
 	fileNameFormat: string;
 	/** エイリアス入力を表示するか */
 	showAliasInput: boolean;
-	/** テンプレートファイルパス (フォルダからの相対パス) */
+	/** テンプレートファイルパス（絶対パス） */
 	templatePath: string;
 }
 
@@ -18,21 +18,11 @@ export interface PageZettelSettings {
 	literature: NoteTypeSettings;
 	permanent: NoteTypeSettings;
 
-	// 共通フォルダ設定
-	folders: FolderSettings;
-
 	// 動作設定
 	behavior: BehaviorSettings;
 
 	// UI設定
 	ui: UISettings;
-}
-
-export interface FolderSettings {
-	/** テンプレートフォルダ */
-	templateFolder: string;
-	/** デイリーノートフォルダ */
-	dailyNoteFolder: string;
 }
 
 export interface BehaviorSettings {

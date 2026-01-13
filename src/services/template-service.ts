@@ -1,5 +1,5 @@
 import { App, moment, TFile } from "obsidian";
-import { NoteType, NOTE_TYPE_CONFIG } from "../types/note-types";
+import type { NoteType } from "../types/note-types";
 import type { PageZettelSettings } from "../types/settings";
 
 export interface TemplateVariables {
@@ -39,9 +39,12 @@ export class TemplateService {
 	 * テンプレートファイルを読み込む
 	 */
 	private async loadTemplate(type: NoteType): Promise<string | null> {
-		const templateFolder = this.settings.folders.templateFolder;
-		const templateFileName = NOTE_TYPE_CONFIG[type].template;
-		const templatePath = `${templateFolder}/${templateFileName}`;
+		const templatePath = this.settings[type].templatePath;
+
+		// テンプレートパスが未設定の場合
+		if (!templatePath) {
+			return null;
+		}
 
 		try {
 			const file = this.app.vault.getAbstractFileByPath(templatePath);
