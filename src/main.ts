@@ -7,7 +7,7 @@ import { FolderService } from "./services/folder-service";
 import { TemplateService } from "./services/template-service";
 import { FrontmatterService } from "./services/frontmatter-service";
 import { NoteCreatorService } from "./services/note-creator-service";
-import { extractSelection } from "./commands/extract-selection-command";
+import { extractSelection, extractSelectionToType } from "./commands/extract-selection-command";
 import { promoteNote } from "./commands/promote-note-command";
 import { OrphanView, VIEW_TYPE_ORPHAN } from "./ui/views/orphan-view";
 import { QuickCaptureModal } from "./ui/modals/quick-capture-modal";
@@ -137,24 +137,45 @@ export default class PageZettelPlugin extends Plugin {
 
 				menu.addSeparator();
 
-				// 選択テキストがある場合のみ表示
+				// 選択テキストがある場合のみ表示（各ノートタイプに直接切り出す）
 				if (editor.getSelection()) {
-					menu.addItem((item) =>
-						item
-							.setSection("page-zettel")
-							.setTitle(
-								this.settings.ui.showEmojiInCommands
-									? `📝 ${t("commands.extractToNote")}`
-									: t("commands.extractToNote"),
-							)
-							.setIcon("file-plus")
-							.onClick(() => {
-								const view = this.app.workspace.getActiveViewOfType(MarkdownView);
-								if (view) {
-									void extractSelection(this, editor, view);
-								}
-							}),
-					);
+					const noteTypes: { type: NoteType; icon: string; translationKey: string }[] = [
+						{
+							type: "fleeting",
+							icon: "💡",
+							translationKey: "commands.extractToFleeting",
+						},
+						{
+							type: "literature",
+							icon: "📚",
+							translationKey: "commands.extractToLiterature",
+						},
+						{
+							type: "permanent",
+							icon: "💎",
+							translationKey: "commands.extractToPermanent",
+						},
+					];
+
+					for (const { type, icon, translationKey } of noteTypes) {
+						menu.addItem((item) =>
+							item
+								.setSection("page-zettel")
+								.setTitle(
+									this.settings.ui.showEmojiInCommands
+										? `${icon} ${t(translationKey)}`
+										: t(translationKey),
+								)
+								.setIcon("file-plus")
+								.onClick(() => {
+									const view =
+										this.app.workspace.getActiveViewOfType(MarkdownView);
+									if (view) {
+										void extractSelectionToType(this, editor, view, type);
+									}
+								}),
+						);
+					}
 				}
 
 				// 常時表示
