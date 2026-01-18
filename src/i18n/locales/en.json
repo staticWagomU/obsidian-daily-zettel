@@ -8,6 +8,9 @@
 		"quickFleeting": "Quick fleeting note",
 		"createNewNote": "Create new note"
 	},
+	"contextMenu": {
+		"extractTo": "Page Zettel"
+	},
 	"settings": {
 		"folders": {
 			"heading": "Folder Settings",

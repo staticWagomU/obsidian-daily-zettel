@@ -1,4 +1,4 @@
-import { Editor, MarkdownView, Plugin, TFile, WorkspaceLeaf } from "obsidian";
+import { Editor, MarkdownView, Menu, MenuItem, Platform, Plugin, TFile, WorkspaceLeaf } from "obsidian";
 import { DEFAULT_SETTINGS, PageZettelSettingTab } from "./settings";
 import type { PageZettelSettings } from "./types/settings";
 import { NoteManager } from "./core/note-manager";
@@ -143,7 +143,7 @@ export default class PageZettelPlugin extends Plugin {
 
 				menu.addSeparator();
 
-				// 選択テキストがある場合のみ表示（各ノートタイプに直接切り出す）
+				// 選択テキストがある場合のみ表示（各ノートタイプに切り出す）
 				if (editor.getSelection()) {
 					const noteTypes: { type: NoteType; icon: string; translationKey: string }[] = [
 						{
@@ -163,24 +163,46 @@ export default class PageZettelPlugin extends Plugin {
 						},
 					];
 
-					for (const { type, icon, translationKey } of noteTypes) {
-						menu.addItem((item) =>
+					// サブメニューに項目を追加するヘルパー関数
+					const addExtractItems = (targetMenu: Menu) => {
+						for (const { type, icon, translationKey } of noteTypes) {
+							targetMenu.addItem((item) =>
+								item
+									.setTitle(
+										this.settings.ui.showEmojiInCommands
+											? `${icon} ${t(translationKey)}`
+											: t(translationKey),
+									)
+									.setIcon("file-plus")
+									.onClick(() => {
+										const view =
+											this.app.workspace.getActiveViewOfType(MarkdownView);
+										if (view) {
+											void extractSelectionToType(this, editor, view, type);
+										}
+									}),
+							);
+						}
+					};
+
+					// デスクトップではサブメニュー、モバイルではフラットメニュー
+					if (Platform.isDesktop) {
+						menu.addItem((item) => {
 							item
 								.setSection("page-zettel")
 								.setTitle(
 									this.settings.ui.showEmojiInCommands
-										? `${icon} ${t(translationKey)}`
-										: t(translationKey),
+										? `📝 ${t("contextMenu.extractTo")}`
+										: t("contextMenu.extractTo"),
 								)
-								.setIcon("file-plus")
-								.onClick(() => {
-									const view =
-										this.app.workspace.getActiveViewOfType(MarkdownView);
-									if (view) {
-										void extractSelectionToType(this, editor, view, type);
-									}
-								}),
-						);
+								.setIcon("scissors");
+							// setSubmenu() は undocumented API なので型アサーションが必要
+							const submenu = (item as MenuItem & { setSubmenu: () => Menu }).setSubmenu();
+							addExtractItems(submenu);
+						});
+					} else {
+						// モバイルではフラットに展開（サブメニューがタッチ操作で使いづらいため）
+						addExtractItems(menu);
 					}
 				}
 
