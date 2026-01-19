@@ -74,7 +74,7 @@ const scrum: ScrumDashboard = {
         test: "AC2+AC5: QuickAddWidget実装(HTMLElement.createDiv()でFAB作成) + 位置設定連動(CSS left/right切替)",
         implementation: "ui/widgets/quick-add-widget.ts",
         type: "behavioral",
-        status: "pending",
+        status: "green",
         commits: [],
         notes: [
           "QuickAddWidgetクラス作成",
