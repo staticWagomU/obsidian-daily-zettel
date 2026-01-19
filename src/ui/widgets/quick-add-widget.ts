@@ -1,3 +1,4 @@
+import { setIcon } from "obsidian";
 import type { App, Workspace } from "obsidian";
 import type { PageZettelSettings } from "../../types/settings";
 
@@ -25,24 +26,21 @@ export class QuickAddWidget {
 			return; // Already visible
 		}
 
-		// Create FAB container
+		// Create FAB container with position class
 		this.containerEl = document.body.createDiv({
-			cls: "page-zettel-quick-add-widget",
+			cls: this.getContainerClasses(),
 		});
-
-		// Apply position styles
-		this.applyPositionStyles();
 
 		// Create FAB button
 		const button = this.containerEl.createEl("button", {
 			cls: "page-zettel-fab-button",
 			attr: {
-				"aria-label": "Quick Add Fleeting Note",
+				"aria-label": "Quick add fleeting note",
 			},
 		});
 
-		// Add icon (lightning bolt for quick action)
-		button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
+		// Add icon using Obsidian's setIcon API
+		setIcon(button, "zap");
 
 		// Click event
 		button.addEventListener("click", (e) => {
@@ -50,9 +48,22 @@ export class QuickAddWidget {
 			e.stopPropagation();
 			this.onClick();
 		});
+	}
 
-		// Apply styles
-		this.applyStyles();
+	/**
+	 * コンテナのCSSクラスを取得
+	 */
+	private getContainerClasses(): string[] {
+		const classes = ["page-zettel-quick-add-widget"];
+		const position = this.settings.ui.quickAddWidgetPosition;
+
+		if (position === "bottom-left") {
+			classes.push("position-bottom-left");
+		} else {
+			classes.push("position-bottom-right");
+		}
+
+		return classes;
 	}
 
 	/**
@@ -78,7 +89,7 @@ export class QuickAddWidget {
 	updateSettings(settings: PageZettelSettings): void {
 		this.settings = settings;
 		if (this.containerEl) {
-			this.applyPositionStyles();
+			this.applyPositionClasses();
 		}
 	}
 
@@ -94,76 +105,21 @@ export class QuickAddWidget {
 	}
 
 	/**
-	 * 位置スタイルを適用
+	 * 位置クラスを適用
 	 */
-	private applyPositionStyles(): void {
+	private applyPositionClasses(): void {
 		if (!this.containerEl) return;
 
 		const position = this.settings.ui.quickAddWidgetPosition;
 
-		// Reset position styles
-		this.containerEl.style.left = "";
-		this.containerEl.style.right = "";
+		// Remove existing position classes
+		this.containerEl.removeClass("position-bottom-right", "position-bottom-left");
 
-		// Apply position based on setting
+		// Apply new position class
 		if (position === "bottom-left") {
-			this.containerEl.style.left = "20px";
+			this.containerEl.addClass("position-bottom-left");
 		} else {
-			// Default: bottom-right
-			this.containerEl.style.right = "20px";
-		}
-	}
-
-	/**
-	 * CSSスタイルを適用（インラインスタイル + CSS変数を使用）
-	 */
-	private applyStyles(): void {
-		if (!this.containerEl) return;
-
-		// Container styles
-		Object.assign(this.containerEl.style, {
-			position: "fixed",
-			bottom: "20px",
-			zIndex: "1000",
-		});
-
-		// Button styles
-		const button = this.containerEl.querySelector(".page-zettel-fab-button") as HTMLElement;
-		if (button) {
-			Object.assign(button.style, {
-				width: "56px",
-				height: "56px",
-				borderRadius: "50%",
-				border: "none",
-				backgroundColor: "var(--interactive-accent)",
-				color: "var(--text-on-accent)",
-				cursor: "pointer",
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "center",
-				boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
-				transition: "transform 0.2s ease, box-shadow 0.2s ease",
-			});
-
-			// Hover effect
-			button.addEventListener("mouseenter", () => {
-				button.style.transform = "scale(1.1)";
-				button.style.boxShadow = "0 6px 16px rgba(0, 0, 0, 0.4)";
-			});
-
-			button.addEventListener("mouseleave", () => {
-				button.style.transform = "scale(1)";
-				button.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.3)";
-			});
-
-			// Active effect
-			button.addEventListener("mousedown", () => {
-				button.style.transform = "scale(0.95)";
-			});
-
-			button.addEventListener("mouseup", () => {
-				button.style.transform = "scale(1.1)";
-			});
+			this.containerEl.addClass("position-bottom-right");
 		}
 	}
 
@@ -178,10 +134,13 @@ export class QuickAddWidget {
 		const isRightSidebarCollapsed = rightSplit?.collapsed ?? true;
 
 		// Hide FAB when right sidebar is expanded (only for bottom-right position)
-		if (this.settings.ui.quickAddWidgetPosition === "bottom-right" && !isRightSidebarCollapsed) {
-			this.containerEl.style.display = "none";
+		if (
+			this.settings.ui.quickAddWidgetPosition === "bottom-right" &&
+			!isRightSidebarCollapsed
+		) {
+			this.containerEl.addClass("is-hidden");
 		} else {
-			this.containerEl.style.display = "";
+			this.containerEl.removeClass("is-hidden");
 		}
 	}
 }

@@ -117,7 +117,7 @@ const scrum: ScrumDashboard = {
         test: "AC7+AC9: 設定UI追加(FAB表示トグル+位置選択ドロップダウン) + プラグインライフサイクル統合(onload/onunload)",
         implementation: "settings.ts, main.ts",
         type: "behavioral",
-        status: "pending",
+        status: "green",
         commits: [],
         notes: [
           "UIセクションにFAB表示トグル追加(showContextMenuItemsパターン踏襲)",

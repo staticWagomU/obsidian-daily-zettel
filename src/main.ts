@@ -1,4 +1,13 @@
-import { Editor, MarkdownView, Menu, MenuItem, Platform, Plugin, TFile, WorkspaceLeaf } from "obsidian";
+import {
+	Editor,
+	MarkdownView,
+	Menu,
+	MenuItem,
+	Platform,
+	Plugin,
+	TFile,
+	WorkspaceLeaf,
+} from "obsidian";
 import { DEFAULT_SETTINGS, PageZettelSettingTab } from "./settings";
 import type { PageZettelSettings } from "./types/settings";
 import { NoteManager } from "./core/note-manager";
@@ -190,8 +199,7 @@ export default class PageZettelPlugin extends Plugin {
 					// デスクトップではサブメニュー、モバイルではフラットメニュー
 					if (Platform.isDesktop) {
 						menu.addItem((item) => {
-							item
-								.setSection("page-zettel")
+							item.setSection("page-zettel")
 								.setTitle(
 									this.settings.ui.showEmojiInCommands
 										? `📝 ${t("contextMenu.extractTo")}`
@@ -199,7 +207,9 @@ export default class PageZettelPlugin extends Plugin {
 								)
 								.setIcon("scissors");
 							// setSubmenu() は undocumented API なので型アサーションが必要
-							const submenu = (item as MenuItem & { setSubmenu: () => Menu }).setSubmenu();
+							const submenu = (
+								item as MenuItem & { setSubmenu: () => Menu }
+							).setSubmenu();
 							addExtractItems(submenu);
 						});
 					} else {

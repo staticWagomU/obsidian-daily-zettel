@@ -47,3 +47,46 @@ If your plugin does not need CSS, delete this file.
 	font-size: 1.2em;
 	text-align: center;
 }
+
+/* Quick Add Widget (FAB) Styles */
+.page-zettel-quick-add-widget {
+	position: fixed;
+	bottom: 20px;
+	z-index: 1000;
+}
+
+.page-zettel-quick-add-widget.position-bottom-right {
+	right: 20px;
+}
+
+.page-zettel-quick-add-widget.position-bottom-left {
+	left: 20px;
+}
+
+.page-zettel-quick-add-widget.is-hidden {
+	display: none;
+}
+
+.page-zettel-fab-button {
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	border: none;
+	background-color: var(--interactive-accent);
+	color: var(--text-on-accent);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.page-zettel-fab-button:hover {
+	transform: scale(1.1);
+	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.page-zettel-fab-button:active {
+	transform: scale(0.95);
+}

@@ -348,6 +348,40 @@ export class PageZettelSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					}),
 			);
+
+		new Setting(containerEl)
+			.setName(t("settings.ui.showQuickAddWidget.name"))
+			.setDesc(t("settings.ui.showQuickAddWidget.desc"))
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.ui.showQuickAddWidget)
+					.onChange(async (value) => {
+						this.plugin.settings.ui.showQuickAddWidget = value;
+						await this.plugin.saveSettings();
+						this.plugin.updateQuickAddWidget();
+					}),
+			);
+
+		new Setting(containerEl)
+			.setName(t("settings.ui.quickAddWidgetPosition.name"))
+			.setDesc(t("settings.ui.quickAddWidgetPosition.desc"))
+			.addDropdown((dropdown) =>
+				dropdown
+					.addOption(
+						"bottom-right",
+						t("settings.ui.quickAddWidgetPositionOptions.bottomRight"),
+					)
+					.addOption(
+						"bottom-left",
+						t("settings.ui.quickAddWidgetPositionOptions.bottomLeft"),
+					)
+					.setValue(this.plugin.settings.ui.quickAddWidgetPosition)
+					.onChange(async (value: "bottom-right" | "bottom-left") => {
+						this.plugin.settings.ui.quickAddWidgetPosition = value;
+						await this.plugin.saveSettings();
+						this.plugin.updateQuickAddWidget();
+					}),
+			);
 	}
 
 	/**

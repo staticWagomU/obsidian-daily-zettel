@@ -34,9 +34,7 @@ export class EmojiSuggest extends AbstractInputSuggest<EmojiItem> {
 			}
 
 			// キーワードで検索
-			return item.keywords.some((keyword) =>
-				keyword.toLowerCase().includes(normalizedQuery),
-			);
+			return item.keywords.some((keyword) => keyword.toLowerCase().includes(normalizedQuery));
 		});
 	}
 
