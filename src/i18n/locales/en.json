@@ -166,6 +166,18 @@
 				"bottomRight": "Bottom Right",
 				"bottomLeft": "Bottom Left"
 			}
+		},
+		"hotkeys": {
+			"heading": "Hotkey Settings",
+			"description": "Assign hotkeys to Page Zettel's main commands for quick access.",
+			"openHotkeysButton": "Open Obsidian Hotkey Settings",
+			"commandIdLabel": "Command ID",
+			"commands": {
+				"createNewNote": "Create new note",
+				"extractToNote": "Extract to note",
+				"promoteNote": "Promote note",
+				"quickFleeting": "Quick fleeting note"
+			}
 		}
 	},
 	"modals": {
