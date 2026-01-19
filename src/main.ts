@@ -16,12 +16,14 @@ import { AliasInputModal } from "./ui/modals/alias-input-modal";
 import { NoteType } from "./types/note-types";
 import { t } from "./i18n";
 import { getIconForNoteType } from "./utils/icon-helper";
+import { QuickAddWidget } from "./ui/widgets/quick-add-widget";
 
 export default class PageZettelPlugin extends Plugin {
 	settings: PageZettelSettings;
 	noteManager: NoteManager;
 	promotionService: PromotionService;
 	noteCreatorService: NoteCreatorService;
+	private quickAddWidget: QuickAddWidget | null = null;
 
 	async onload() {
 		await this.loadSettings();
@@ -245,10 +247,88 @@ export default class PageZettelPlugin extends Plugin {
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new PageZettelSettingTab(this.app, this));
+
+		// Initialize Quick Add Widget (FAB)
+		this.initializeQuickAddWidget();
+
+		// Register layout change event for FAB visibility
+		this.registerEvent(
+			this.app.workspace.on("layout-change", () => {
+				if (this.quickAddWidget) {
+					this.quickAddWidget.handleLayoutChange(this.app.workspace);
+				}
+			}),
+		);
 	}
 
 	onunload() {
-		// Clean up if needed
+		// Clean up Quick Add Widget
+		if (this.quickAddWidget) {
+			this.quickAddWidget.remove();
+			this.quickAddWidget = null;
+		}
+	}
+
+	/**
+	 * Quick Add Widget (FAB) を初期化
+	 * モバイルではデフォルト表示、デスクトップでは設定に応じて表示
+	 */
+	private initializeQuickAddWidget(): void {
+		// Create widget with QuickCaptureModal callback
+		this.quickAddWidget = new QuickAddWidget(this.app, this.settings, () => {
+			const modal = new QuickCaptureModal(this.app, this, (title: string) => {
+				void (async () => {
+					const file = await this.noteManager.createNote({
+						title,
+						type: "fleeting",
+						content: "",
+					});
+					// 新規ノートを開く
+					const leaf = this.app.workspace.getLeaf(false);
+					await leaf.openFile(file);
+				})();
+			});
+			modal.open();
+		});
+
+		// Determine visibility based on platform and settings
+		const shouldShow = this.shouldShowQuickAddWidget();
+
+		if (shouldShow) {
+			this.quickAddWidget.show();
+		}
+	}
+
+	/**
+	 * Quick Add Widget を表示すべきかどうかを判定
+	 * モバイル: デフォルトで表示（設定で無効化可能）
+	 * デスクトップ: デフォルトで非表示（設定で有効化可能）
+	 */
+	private shouldShowQuickAddWidget(): boolean {
+		// 設定で明示的に無効化されている場合は非表示
+		if (!this.settings.ui.showQuickAddWidget) {
+			return false;
+		}
+
+		// モバイルでは表示、デスクトップでも設定がtrueなら表示
+		// デフォルト設定値がtrueなので、モバイル・デスクトップ両方で表示される
+		// ユーザーが設定で無効化できる
+		return true;
+	}
+
+	/**
+	 * Quick Add Widget の表示/非表示を更新
+	 * 設定変更時に呼び出される
+	 */
+	updateQuickAddWidget(): void {
+		if (!this.quickAddWidget) return;
+
+		const shouldShow = this.shouldShowQuickAddWidget();
+		this.quickAddWidget.toggle(shouldShow);
+
+		if (shouldShow) {
+			this.quickAddWidget.updateSettings(this.settings);
+		}
 	}
 
 	/**

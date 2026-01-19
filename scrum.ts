@@ -90,7 +90,7 @@ const scrum: ScrumDashboard = {
         test: "AC3+AC6: FABクリックイベント(QuickCaptureModal起動) + レイアウト変更連動(workspace.on('layout-change')でサイドバー展開検出)",
         implementation: "ui/widgets/quick-add-widget.ts, main.ts",
         type: "behavioral",
-        status: "pending",
+        status: "green",
         commits: [],
         notes: [
           "FABクリック時にQuickCaptureModal起動(main.ts L86-98パターン踏襲)",
@@ -104,7 +104,7 @@ const scrum: ScrumDashboard = {
         test: "AC4: プラットフォーム条件分岐(Platform.isMobileでデフォルト表示切替 + settings.ui.showQuickAddWidgetで手動制御)",
         implementation: "main.ts, ui/widgets/quick-add-widget.ts",
         type: "behavioral",
-        status: "pending",
+        status: "green",
         commits: [],
         notes: [
           "Platform.isMobileでプラットフォーム判定(main.ts L189パターン踏襲)",
