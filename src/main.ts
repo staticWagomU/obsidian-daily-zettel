@@ -21,7 +21,7 @@ import { promoteNote } from "./commands/promote-note-command";
 import { OrphanView, VIEW_TYPE_ORPHAN } from "./ui/views/orphan-view";
 import { QuickCaptureModal } from "./ui/modals/quick-capture-modal";
 import { NoteTypeModal } from "./ui/modals/note-type-modal";
-import { AliasInputModal } from "./ui/modals/alias-input-modal";
+import { TitleInputModal } from "./ui/modals/title-input-modal";
 import { NoteType } from "./types/note-types";
 import { t } from "./i18n";
 import { getIconForNoteType } from "./utils/icon-helper";
@@ -121,25 +121,25 @@ export default class PageZettelPlugin extends Plugin {
 					this.app,
 					this.settings,
 					(type: NoteType) => {
-						// 設定確認: showAliasInputフラグ
-						const showAliasInput = this.settings[type].showAliasInput;
+						// 設定確認: showTitleInputフラグ
+						const showTitleInput = this.settings[type].showTitleInput;
 
-						if (!showAliasInput) {
-							// showAliasInput=falseの場合、AliasInputModalをスキップしてノート作成
+						if (!showTitleInput) {
+							// showTitleInput=falseの場合、TitleInputModalをスキップしてノート作成
 							void this.createNoteAndOpen(type, "");
 							return;
 						}
 
-						// showAliasInput=trueの場合、AliasInputModalを表示
-						const aliasModal = new AliasInputModal(
+						// showTitleInput=trueの場合、TitleInputModalを表示
+						const titleModal = new TitleInputModal(
 							this.app,
 							this,
 							(result) => {
-								void this.createNoteAndOpen(type, result.alias);
+								void this.createNoteAndOpen(type, result.title);
 							},
 							false, // showRemoveIndent=false（Create時なのでインデント削除チェックボックス非表示）
 						);
-						aliasModal.open();
+						titleModal.open();
 					},
 					["fleeting", "literature", "permanent"],
 				);

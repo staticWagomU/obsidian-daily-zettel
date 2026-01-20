@@ -2,22 +2,22 @@ import { App, Modal, Setting } from "obsidian";
 import type PageZettelPlugin from "../../main";
 import { t } from "../../i18n";
 
-export interface AliasInputResult {
-	alias: string;
+export interface TitleInputResult {
+	title: string;
 	removeIndent: boolean;
 }
 
-export class AliasInputModal extends Modal {
+export class TitleInputModal extends Modal {
 	private plugin: PageZettelPlugin;
-	private onSubmit: (result: AliasInputResult) => void;
-	private aliasInput: HTMLInputElement | null = null;
+	private onSubmit: (result: TitleInputResult) => void;
+	private titleInput: HTMLInputElement | null = null;
 	private showRemoveIndent: boolean;
 	private removeIndentValue = false;
 
 	constructor(
 		app: App,
 		plugin: PageZettelPlugin,
-		onSubmit: (result: AliasInputResult) => void,
+		onSubmit: (result: TitleInputResult) => void,
 		showRemoveIndent = false,
 	) {
 		super(app);
@@ -33,15 +33,15 @@ export class AliasInputModal extends Modal {
 		contentEl.addClass("page-zettel-modal");
 
 		// モーダルタイトル
-		contentEl.createEl("h2", { text: t("modals.aliasInput.title") });
+		contentEl.createEl("h2", { text: t("modals.titleInput.title") });
 
-		// エイリアス入力
+		// タイトル入力
 		new Setting(contentEl)
-			.setName(t("modals.aliasInput.inputName"))
-			.setDesc(t("modals.aliasInput.inputDesc"))
+			.setName(t("modals.titleInput.inputName"))
+			.setDesc(t("modals.titleInput.inputDesc"))
 			.addText((text) => {
-				this.aliasInput = text.inputEl;
-				text.setPlaceholder(t("modals.aliasInput.inputPlaceholder"))
+				this.titleInput = text.inputEl;
+				text.setPlaceholder(t("modals.titleInput.inputPlaceholder"))
 					.onChange(() => {
 						// 入力値の変更を監視
 					})
@@ -57,14 +57,14 @@ export class AliasInputModal extends Modal {
 
 				// モーダルが開いたときにフォーカス
 				setTimeout(() => {
-					this.aliasInput?.focus();
+					this.titleInput?.focus();
 				}, 10);
 			});
 
 		// チェックボックス（Extract時のみ表示）
 		if (this.showRemoveIndent) {
 			new Setting(contentEl)
-				.setName(t("modals.aliasInput.removeIndent"))
+				.setName(t("modals.titleInput.removeIndent"))
 				.addToggle((toggle) => {
 					toggle.setValue(this.removeIndentValue).onChange((value) => {
 						this.removeIndentValue = value;
@@ -76,14 +76,14 @@ export class AliasInputModal extends Modal {
 		new Setting(contentEl)
 			.addButton((btn) =>
 				btn
-					.setButtonText(t("modals.aliasInput.createButton"))
+					.setButtonText(t("modals.titleInput.createButton"))
 					.setCta()
 					.onClick(() => {
 						this.handleSubmit();
 					}),
 			)
 			.addButton((btn) =>
-				btn.setButtonText(t("modals.aliasInput.cancelButton")).onClick(() => {
+				btn.setButtonText(t("modals.titleInput.cancelButton")).onClick(() => {
 					this.close();
 				}),
 			);
@@ -95,10 +95,10 @@ export class AliasInputModal extends Modal {
 	}
 
 	private handleSubmit(): void {
-		const alias = this.aliasInput?.value.trim() || "";
+		const title = this.titleInput?.value.trim() || "";
 
 		this.onSubmit({
-			alias,
+			title,
 			removeIndent: this.removeIndentValue,
 		});
 		this.close();

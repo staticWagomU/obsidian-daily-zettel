@@ -70,6 +70,7 @@ export interface NoteMetadata {
 	tags: string[];
 
 	// オプショナル
+	title?: string; // ノートのタイトル（ユーザー入力時のみ）
 	source_notes?: string[]; // 元ノートへのリンク
 	structure_notes?: string[]; // 所属 Structure Note
 	status?: NoteStatus;

@@ -12,21 +12,21 @@ export const DEFAULT_SETTINGS: PageZettelSettings = {
 	fleeting: {
 		folder: "",
 		fileNameFormat: "{{date}}-{{title}}",
-		showAliasInput: false,
+		showTitleInput: false,
 		templatePath: "",
 		icon: "💭",
 	},
 	literature: {
 		folder: "",
 		fileNameFormat: "{{date}}-{{title}}",
-		showAliasInput: true,
+		showTitleInput: true,
 		templatePath: "",
 		icon: "📚",
 	},
 	permanent: {
 		folder: "",
 		fileNameFormat: "{{zettel-id}}-{{title}}",
-		showAliasInput: true,
+		showTitleInput: true,
 		templatePath: "",
 		icon: "💎",
 	},
@@ -88,13 +88,13 @@ export class PageZettelSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName(t("settings.noteTypes.fleeting.showAliasInput.name"))
-			.setDesc(t("settings.noteTypes.fleeting.showAliasInput.desc"))
+			.setName(t("settings.noteTypes.fleeting.showTitleInput.name"))
+			.setDesc(t("settings.noteTypes.fleeting.showTitleInput.desc"))
 			.addToggle((toggle) =>
 				toggle
-					.setValue(this.plugin.settings.fleeting.showAliasInput)
+					.setValue(this.plugin.settings.fleeting.showTitleInput)
 					.onChange(async (value) => {
-						this.plugin.settings.fleeting.showAliasInput = value;
+						this.plugin.settings.fleeting.showTitleInput = value;
 						await this.plugin.saveSettings();
 					}),
 			);
@@ -158,13 +158,13 @@ export class PageZettelSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName(t("settings.noteTypes.literature.showAliasInput.name"))
-			.setDesc(t("settings.noteTypes.literature.showAliasInput.desc"))
+			.setName(t("settings.noteTypes.literature.showTitleInput.name"))
+			.setDesc(t("settings.noteTypes.literature.showTitleInput.desc"))
 			.addToggle((toggle) =>
 				toggle
-					.setValue(this.plugin.settings.literature.showAliasInput)
+					.setValue(this.plugin.settings.literature.showTitleInput)
 					.onChange(async (value) => {
-						this.plugin.settings.literature.showAliasInput = value;
+						this.plugin.settings.literature.showTitleInput = value;
 						await this.plugin.saveSettings();
 					}),
 			);
@@ -228,13 +228,13 @@ export class PageZettelSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName(t("settings.noteTypes.permanent.showAliasInput.name"))
-			.setDesc(t("settings.noteTypes.permanent.showAliasInput.desc"))
+			.setName(t("settings.noteTypes.permanent.showTitleInput.name"))
+			.setDesc(t("settings.noteTypes.permanent.showTitleInput.desc"))
 			.addToggle((toggle) =>
 				toggle
-					.setValue(this.plugin.settings.permanent.showAliasInput)
+					.setValue(this.plugin.settings.permanent.showTitleInput)
 					.onChange(async (value) => {
-						this.plugin.settings.permanent.showAliasInput = value;
+						this.plugin.settings.permanent.showTitleInput = value;
 						await this.plugin.saveSettings();
 					}),
 			);

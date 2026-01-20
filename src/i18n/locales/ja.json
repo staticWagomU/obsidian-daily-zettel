@@ -38,9 +38,9 @@
 					"desc": "プレースホルダーを使用したファイル名形式: {{date}}, {{zettel-id}}, {{title}}, {{alias}}",
 					"placeholder": "{{date}}-{{title}}"
 				},
-				"showAliasInput": {
-					"name": "エイリアス入力を表示",
-					"desc": "ノート作成時にエイリアス入力フィールドを表示します"
+				"showTitleInput": {
+					"name": "タイトル入力を表示",
+					"desc": "ノート作成時にタイトル入力フィールドを表示します"
 				},
 				"templatePath": {
 					"name": "テンプレートファイル",
@@ -69,9 +69,9 @@
 					"desc": "プレースホルダーを使用したファイル名形式: {{date}}, {{zettel-id}}, {{title}}, {{alias}}",
 					"placeholder": "{{date}}-{{title}}"
 				},
-				"showAliasInput": {
-					"name": "エイリアス入力を表示",
-					"desc": "ノート作成時にエイリアス入力フィールドを表示します"
+				"showTitleInput": {
+					"name": "タイトル入力を表示",
+					"desc": "ノート作成時にタイトル入力フィールドを表示します"
 				},
 				"templatePath": {
 					"name": "テンプレートファイル",
@@ -100,9 +100,9 @@
 					"desc": "プレースホルダーを使用したファイル名形式: {{date}}, {{zettel-id}}, {{title}}, {{alias}}",
 					"placeholder": "{{zettel-id}}-{{title}}"
 				},
-				"showAliasInput": {
-					"name": "エイリアス入力を表示",
-					"desc": "ノート作成時にエイリアス入力フィールドを表示します"
+				"showTitleInput": {
+					"name": "タイトル入力を表示",
+					"desc": "ノート作成時にタイトル入力フィールドを表示します"
 				},
 				"templatePath": {
 					"name": "テンプレートファイル",
@@ -192,11 +192,11 @@
 		"noteType": {
 			"placeholder": "ノートタイプを選択..."
 		},
-		"aliasInput": {
-			"title": "エイリアス名を入力",
-			"inputName": "エイリアス",
-			"inputDesc": "ノートの表示名を入力してください",
-			"inputPlaceholder": "エイリアス名を入力...",
+		"titleInput": {
+			"title": "タイトルを入力",
+			"inputName": "タイトル",
+			"inputDesc": "ノートのタイトルを入力してください",
+			"inputPlaceholder": "タイトルを入力...",
 			"removeIndent": "共通インデントを削除",
 			"createButton": "作成",
 			"cancelButton": "キャンセル"

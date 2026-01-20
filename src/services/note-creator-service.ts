@@ -36,25 +36,25 @@ export class NoteCreatorService {
 	 * ノートを作成
 	 * @param type ノートタイプ
 	 * @param content ノート本文（オプショナル）
-	 * @param alias エイリアス（オプショナル）
+	 * @param inputTitle ユーザー入力タイトル（オプショナル）
 	 * @param sourceFile 元ノート（オプショナル）
 	 * @returns 作成されたTFile
 	 */
 	async createNote(
 		type: NoteType,
 		content?: string,
-		alias?: string,
+		inputTitle?: string,
 		sourceFile?: TFile,
 	): Promise<TFile> {
-		// 1. タイトルを決定（aliasがある場合はalias、なければファイル名形式から生成）
-		const title = alias || moment().format("YYYYMMDDHHmmss");
+		// 1. タイトルを決定（inputTitleがある場合はinputTitle、なければタイムスタンプ）
+		const title = inputTitle || moment().format("YYYYMMDDHHmmss");
 
 		// 2. フォルダ配置: settings[type].folderから取得+folderService.ensureFolderExistsByPath()
 		const folderPath = this.settings[type].folder;
 		await this.ensureFolderExistsByPath(folderPath);
 
 		// 3. ファイル名を生成
-		const fileName = this.generateFileName(type, title, alias);
+		const fileName = this.generateFileName(type, title, inputTitle);
 		const filePath = `${folderPath}/${fileName}`;
 
 		// 4. テンプレート処理（フロントマター分離）
@@ -63,7 +63,7 @@ export class NoteCreatorService {
 			{
 				title,
 				content: content || "",
-				alias,
+				alias: inputTitle,
 				date: new Date().toISOString(),
 			},
 		);
@@ -74,6 +74,11 @@ export class NoteCreatorService {
 			created: new Date().toISOString(),
 			tags: [type],
 		};
+
+		// タイトルが入力された場合、フロントマターにtitleを追加
+		if (inputTitle) {
+			defaultMetadata.title = inputTitle;
+		}
 
 		if (sourceFile) {
 			defaultMetadata.source_notes = [`[[${sourceFile.basename}]]`];

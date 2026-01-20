@@ -1,7 +1,7 @@
 import { Editor, MarkdownView, Notice } from "obsidian";
 import { NoteType } from "../types/note-types";
 import { NoteTypeModal } from "../ui/modals/note-type-modal";
-import { AliasInputModal } from "../ui/modals/alias-input-modal";
+import { TitleInputModal } from "../ui/modals/title-input-modal";
 import type PageZettelPlugin from "../main";
 import { t } from "../i18n";
 
@@ -23,7 +23,7 @@ export async function extractSelection(
 		plugin.app,
 		plugin.settings,
 		(type: NoteType) => {
-			void showAliasInputOrCreate(plugin, editor, view, selection, type);
+			void showTitleInputOrCreate(plugin, editor, view, selection, type);
 		},
 		["fleeting", "literature", "permanent"], // 切り出し時の選択肢
 	);
@@ -49,28 +49,28 @@ export async function extractSelectionToType(
 		return;
 	}
 
-	// 直接showAliasInputOrCreateへ（NoteTypeModalをスキップ）
-	await showAliasInputOrCreate(plugin, editor, view, selection, type);
+	// 直接showTitleInputOrCreateへ（NoteTypeModalをスキップ）
+	await showTitleInputOrCreate(plugin, editor, view, selection, type);
 }
 
-async function showAliasInputOrCreate(
+async function showTitleInputOrCreate(
 	plugin: PageZettelPlugin,
 	editor: Editor,
 	view: MarkdownView,
 	selection: string,
 	type: NoteType,
 ): Promise<void> {
-	// 設定確認: showAliasInputフラグ
-	const showAliasInput = plugin.settings[type].showAliasInput;
+	// 設定確認: showTitleInputフラグ
+	const showTitleInput = plugin.settings[type].showTitleInput;
 
-	if (!showAliasInput) {
-		// showAliasInput=falseの場合、AliasInputModalをスキップしてノート作成
+	if (!showTitleInput) {
+		// showTitleInput=falseの場合、TitleInputModalをスキップしてノート作成
 		await createNoteFromSelection(plugin, editor, view, selection, type, "", false);
 		return;
 	}
 
-	// showAliasInput=trueの場合、AliasInputModalを表示
-	const aliasModal = new AliasInputModal(
+	// showTitleInput=trueの場合、TitleInputModalを表示
+	const titleModal = new TitleInputModal(
 		plugin.app,
 		plugin,
 		(result) => {
@@ -80,14 +80,14 @@ async function showAliasInputOrCreate(
 				view,
 				selection,
 				type,
-				result.alias,
+				result.title,
 				result.removeIndent,
 			);
 		},
 		true, // Extract時なのでremoveIndentチェックボックスを表示
 	);
 
-	aliasModal.open();
+	titleModal.open();
 }
 
 async function createNoteFromSelection(

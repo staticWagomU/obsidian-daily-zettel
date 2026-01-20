@@ -6,8 +6,8 @@ export interface NoteTypeSettings {
 	folder: string;
 	/** ファイル名形式 (例: "{{date}}-{{title}}", "{{zettel-id}}-{{title}}") */
 	fileNameFormat: string;
-	/** エイリアス入力を表示するか */
-	showAliasInput: boolean;
+	/** タイトル入力を表示するか */
+	showTitleInput: boolean;
 	/** テンプレートファイルパス（絶対パス） */
 	templatePath: string;
 	/** カスタムアイコン（絵文字） */

@@ -38,9 +38,9 @@
 					"desc": "File name format with placeholders: {{date}}, {{zettel-id}}, {{title}}, {{alias}}",
 					"placeholder": "{{date}}-{{title}}"
 				},
-				"showAliasInput": {
-					"name": "Show alias input",
-					"desc": "Show alias input field when creating note"
+				"showTitleInput": {
+					"name": "Show title input",
+					"desc": "Show title input field when creating note"
 				},
 				"templatePath": {
 					"name": "Template file",
@@ -69,9 +69,9 @@
 					"desc": "File name format with placeholders: {{date}}, {{zettel-id}}, {{title}}, {{alias}}",
 					"placeholder": "{{date}}-{{title}}"
 				},
-				"showAliasInput": {
-					"name": "Show alias input",
-					"desc": "Show alias input field when creating note"
+				"showTitleInput": {
+					"name": "Show title input",
+					"desc": "Show title input field when creating note"
 				},
 				"templatePath": {
 					"name": "Template file",
@@ -100,9 +100,9 @@
 					"desc": "File name format with placeholders: {{date}}, {{zettel-id}}, {{title}}, {{alias}}",
 					"placeholder": "{{zettel-id}}-{{title}}"
 				},
-				"showAliasInput": {
-					"name": "Show alias input",
-					"desc": "Show alias input field when creating note"
+				"showTitleInput": {
+					"name": "Show title input",
+					"desc": "Show title input field when creating note"
 				},
 				"templatePath": {
 					"name": "Template file",
@@ -192,11 +192,11 @@
 		"noteType": {
 			"placeholder": "Select note type..."
 		},
-		"aliasInput": {
-			"title": "Enter Alias Name",
-			"inputName": "Alias",
-			"inputDesc": "Enter the display name for the note",
-			"inputPlaceholder": "Enter alias...",
+		"titleInput": {
+			"title": "Enter Title",
+			"inputName": "Title",
+			"inputDesc": "Enter the title for the note",
+			"inputPlaceholder": "Enter title...",
 			"removeIndent": "Remove common indentation",
 			"createButton": "Create",
 			"cancelButton": "Cancel"
